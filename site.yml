@@ -1,0 +1,7 @@
+---
+- name: configure common settings for all hosts
+  hosts: all
+  remote_user: root
+  roles:
+    - common
+    - sshd

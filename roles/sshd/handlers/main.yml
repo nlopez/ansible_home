@@ -1,0 +1,6 @@
+---
+- name: restart sshd
+  service: name=sshd state=restarted
+
+- name: reload sshd
+  service: name=sshd state=reloaded
