@@ -9,5 +9,5 @@
   with_file:
     - public_keys/nlopez
 
-- name: Start the sshd process
+- name: Ensure the SSH daemon is started and enabled
   service: name=sshd state=started enabled=yes
