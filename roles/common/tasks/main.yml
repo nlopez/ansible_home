@@ -1,0 +1,3 @@
+---
+- name: Ensure the router solicitation daemon is running and enabled
+  service: name=rtsold state=started enabled=yes
