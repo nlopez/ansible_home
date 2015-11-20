@@ -1,0 +1,14 @@
+---
+- name: Ensure nginx stable isn't installed
+  portinstall: name=nginx state=absent
+
+- name: Configure nginx compilation options
+  file:
+    src=options dest=/var/db/ports/www_nginx-devel/options
+    owner=root group=wheel mode=0644
+
+- name: Install nginx mainline from ports
+  portinstall: name=nginx-devel state=present use_packages=False
+
+- name: Ensure nginx is started and enabled
+  service: name=nginx state=started enabled=yes

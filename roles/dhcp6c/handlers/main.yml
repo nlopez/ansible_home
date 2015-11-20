@@ -1,0 +1,3 @@
+---
+- name: restart dhcp6c
+  service: name=dhcp6c state=restarted

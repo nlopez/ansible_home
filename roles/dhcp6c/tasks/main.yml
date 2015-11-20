@@ -1,0 +1,19 @@
+---
+- name: Ensure the DHCPv6 client is installed
+  pkgng: name=dhcp6 state=present
+
+- name: Configure the DHCPv6 client
+  template: src=dhcp6c.conf.j2 dest=/usr/local/etc/dhcp6c.conf
+  notify: restart dhcp6c
+
+- name: Enable the DHCPv6 client on particular interfaces
+  lineinfile:
+    dest=/etc/rc.conf.local
+    line="dhcp6c_interfaces=\"{{ ansible_default_ipv6.device }}\""
+    owner=root
+    group=wheel
+    mode=0644
+  notify: restart dhcp6c
+
+- name: Ensure the DHCPv6 client is running and enabled
+  service: name=dhcp6c state=started enabled=yes

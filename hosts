@@ -2,7 +2,9 @@
 couchpotato.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 deluge.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 elk.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
-nginx.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 owncloud.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 plexmediaserver.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 sonarr.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
+[nginx]
+nginx.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
