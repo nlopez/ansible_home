@@ -10,5 +10,4 @@
 - name: configure nginx hosts
   hosts: nginx
   roles:
-    - common
     - nginx
