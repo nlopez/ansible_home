@@ -8,3 +8,6 @@ sonarr.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 
 [nginx]
 nginx.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
+[stud]
+stud.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7

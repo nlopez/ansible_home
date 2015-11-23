@@ -13,6 +13,7 @@
     owner=root
     group=wheel
     mode=0644
+    create=yes
   notify: restart dhcp6c
 
 - name: Ensure the DHCPv6 client is running and enabled
