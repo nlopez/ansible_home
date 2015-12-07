@@ -1,4 +1,4 @@
-interface {{ ansible_default_ipv6.device }} {
+interface {{ ansible_default_ipv4.device }} {
      send ia-pd 1;
      send ia-na 1;
 };
@@ -7,6 +7,6 @@ id-assoc na 1 {
 };
 
 id-assoc pd 1 {
-  prefix-interface {{ ansible_default_ipv6.device }} {
+  prefix-interface {{ ansible_default_ipv4.device }} {
   };
 };

@@ -9,7 +9,7 @@
 - name: Enable the DHCPv6 client on particular interfaces
   lineinfile:
     dest=/etc/rc.conf.local
-    line="dhcp6c_interfaces=\"{{ ansible_default_ipv6.device }}\""
+    line="dhcp6c_interfaces=\"{{ ansible_default_ipv4.device }}\""
     owner=root
     group=wheel
     mode=0644
