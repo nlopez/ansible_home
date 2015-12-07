@@ -10,5 +10,14 @@
 - name: Install nginx mainline from ports
   portinstall: name=nginx-devel state=present use_packages=False
 
+- name: Install main nginx config file
+  template:
+    src=nginx.conf.j2
+    dest=/usr/local/etc/nginx/nginx.conf
+    owner=www
+    group=www
+    mode=444
+  notify: reload nginx
+
 - name: Ensure nginx is started and enabled
   service: name=nginx state=started enabled=yes
