@@ -3,7 +3,9 @@
   pkgng: name=dhcp6 state=present
 
 - name: Configure the DHCPv6 client
-  template: src=dhcp6c.conf.j2 dest=/usr/local/etc/dhcp6c.conf
+  template:
+    src: dhcp6c.conf.j2
+    dest: /usr/local/etc/dhcp6c.conf
   notify: restart dhcp6c
 
 - name: Removing existing DHCPv6 interfaces lines
@@ -14,12 +16,12 @@
 
 - name: Enable the DHCPv6 client on particular interfaces
   lineinfile:
-    dest=/etc/rc.conf.local
-    line="dhcp6c_interfaces=\"{{ ansible_default_ipv4.device }}\""
-    owner=root
-    group=wheel
-    mode=0644
-    create=yes
+    dest: /etc/rc.conf.local
+    line: "dhcp6c_interfaces=\"{{ ansible_default_ipv4.device }}\""
+    owner: root
+    group: wheel
+    mode: 0644
+    create: yes
   notify: restart dhcp6c
 
 - name: Ensure the DHCPv6 client is running and enabled
