@@ -6,6 +6,12 @@
   template: src=dhcp6c.conf.j2 dest=/usr/local/etc/dhcp6c.conf
   notify: restart dhcp6c
 
+- name: Removing existing DHCPv6 interfaces lines
+  lineinfile:
+    dest: /etc/rc.conf.local
+    regexp: "^dhcp6c_interfaces="
+    state: absent
+
 - name: Enable the DHCPv6 client on particular interfaces
   lineinfile:
     dest=/etc/rc.conf.local
