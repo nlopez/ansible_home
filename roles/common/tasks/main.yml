@@ -8,6 +8,6 @@
   when: ansible_os_family == "FreeBSD"
 
 - name: Set locale to en_us.UTF-8
-  file: src=login.conf dest=/etc/login.conf owner=root group=wheel mode=0644
+  copy: src=login.conf dest=/etc/login.conf owner=root group=wheel mode=0644
   notify: rebuild capabilities database for login.conf
   when: ansible_os_family == "FreeBSD"
