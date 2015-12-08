@@ -1,0 +1,17 @@
+set $ngo_client_id "{{ngo_client_id}}";
+set $ngo_client_secret "{{ngo_client_secret}}";
+set $ngo_token_secret "{{ngo_token_secret}}";
+set $ngo_secure_cookies "true";
+set $ngo_whitelist "{{ngo_whitelist}}";
+set $ngo_email_as_user 1;
+
+set $require_auth 1;
+
+if ($allowed_ranges) {
+  set $require_auth 0;
+}
+
+#if ($require_auth) {
+  access_by_lua_file "access.lua";
+#}
+

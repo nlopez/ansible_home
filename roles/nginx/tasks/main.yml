@@ -1,23 +1,54 @@
 ---
+- include_vars: secret.yml
+
 - name: Ensure nginx stable isn't installed
   portinstall: name=nginx state=absent
 
 - name: Configure nginx compilation options
   file:
-    src=options dest=/var/db/ports/www_nginx-devel/options
-    owner=root group=wheel mode=0644
+    src: options
+    dest: /var/db/ports/www_nginx-devel/options
+    owner: root
+    group: wheel
+    mode: 0644
 
 - name: Install nginx mainline from ports
   portinstall: name=nginx-devel state=present use_packages=False
 
-- name: Install main nginx config file
+- name: Install main nginx config files
   template:
-    src=nginx.conf.j2
-    dest=/usr/local/etc/nginx/nginx.conf
-    owner=www
-    group=www
-    mode=444
+    src: "{{item}}.j2"
+    dest: "{{nginx_conf_root}}/{{item}}"
+    owner: www
+    group: www
+    mode: 0444
+  with_items:
+    - nginx.conf
+    - proxy.conf
+    - auth.conf
   notify: reload nginx
+
+- name: Create nginx virtual hosts directory
+  file:
+    path: "{{nginx_conf_root}}/vhosts"
+    state: directory
+
+- name: Populate virtual hosts configurations
+  template:
+    src: "vhosts/{{item}}.conf.j2"
+    dest: "{{nginx_conf_root}}/vhosts/{{item}}.conf"
+  with_items:
+    - couchpotato.desertbluffs.com
+    - deluge.desertbluffs.com
+    - freenas.desertbluffs.com
+    - kibana.desertbluffs.com
+    - nzbget.desertbluffs.com
+    - owncloud.desertbluffs.com
+    - plexpy.desertbluffs.com
+    - router.desertbluffs.com
+    - smokeping.desertbluffs.com
+    - sonarr.desertbluffs.com
+  notify: reload
 
 - name: Ensure nginx is started and enabled
   service: name=nginx state=started enabled=yes
