@@ -12,8 +12,8 @@
   notify: rebuild capabilities database for login.conf
   when: ansible_os_family == "FreeBSD"
 
-- name: Install bash
-  pkgng: name=bash state=present
+- name: Install common packages for FreeBSD hosts
+  pkgng: name=bash,sudo state=present
   when: ansible_os_family == "FreeBSD"
 
 - name: Set root's shell to bash

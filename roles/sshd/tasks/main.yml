@@ -3,12 +3,5 @@
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config validate='sshd -T -f %s'
   notify: reload sshd
 
-
-- name: Setup Nick's key(s) for root
-  authorized_key: user=root key="{{ item }}" state=present exclusive=yes
-
-  with_file:
-    - public_keys/nlopez
-
 - name: Ensure the SSH daemon is started and enabled
   service: name=sshd state=started enabled=yes
