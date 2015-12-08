@@ -59,7 +59,7 @@
     - router.desertbluffs.com
     - smokeping.desertbluffs.com
     - sonarr.desertbluffs.com
-  notify: reload
+  notify: reload nginx
 
 - name: Ensure nginx is started and enabled
   service: name=nginx state=started enabled=yes
