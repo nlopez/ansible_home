@@ -10,10 +10,21 @@
     dest: /var/db/ports/www_nginx-devel/options
     owner: root
     group: wheel
-    mode: 0644
+    mode: 0444
 
 - name: Install nginx mainline from ports
   portinstall: name=nginx-devel state=present use_packages=False
+
+- name: Install nginx static (non-template) config files
+  file:
+    src: "{{item}}"
+    dest: "{{nginx_conf_root}}/{{item}}"
+    owner: root
+    group: wheel
+    mode: 0444
+  with_items:
+    - access.lua
+    - mime.types
 
 - name: Install main nginx config files
   template:
