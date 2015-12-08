@@ -11,3 +11,30 @@
   copy: src=login.conf dest=/etc/login.conf owner=root group=wheel mode=0644
   notify: rebuild capabilities database for login.conf
   when: ansible_os_family == "FreeBSD"
+
+- name: Install bash
+  pkgng: name=bash state=present
+  when: ansible_os_family == "FreeBSD"
+
+- name: Set root's shell to bash
+  user: name=root shell=/usr/local/bin/bash
+
+- name: Add Nick's group
+  group: name=nlopez state=present
+
+- name: Add Nick's superuser
+  user:
+    name: nlopez
+    uid: 2015
+    shell: /usr/local/bin/bash
+    group: nlopez
+    groups: wheel
+    createhome: True
+
+- name: Setup Nick's keys
+  authorized_key: user=nlopez key={{ item }} state=present
+  with_file:
+    - public_keys/nlopez
+
+- name: Allow members of group wheel to run all commands without a password
+  copy: src=sudoers dest=/usr/local/etc/sudoers validate='visudo -cf %s'
