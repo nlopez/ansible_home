@@ -1,6 +1,13 @@
 ---
 - name: disable pkg_ commands
   action: shell chmod -x /usr/sbin/pkg_*
+  when: ansible_os_family == "FreeBSD"
 
 - name: Ensure the router solicitation daemon is running and enabled
   service: name=rtsold state=started enabled=yes
+  when: ansible_os_family == "FreeBSD"
+
+- name: Set locale to en_us.UTF-8
+  file: src=login.conf dest=/etc/login.conf owner=root group=wheel mode=0644
+  notify: rebuild capabilities database for login.conf
+  when: ansible_os_family == "FreeBSD"
