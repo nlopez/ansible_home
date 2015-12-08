@@ -5,7 +5,7 @@
   portinstall: name=nginx state=absent
 
 - name: Configure nginx compilation options
-  file:
+  copy:
     src: options
     dest: /var/db/ports/www_nginx-devel/options
     owner: root
@@ -16,7 +16,7 @@
   portinstall: name=nginx-devel state=present use_packages=False
 
 - name: Install nginx static (non-template) config files
-  file:
+  copy:
     src: "{{item}}"
     dest: "{{nginx_conf_root}}/{{item}}"
     owner: root
