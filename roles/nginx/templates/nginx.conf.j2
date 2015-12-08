@@ -131,15 +131,15 @@ http {
     }
 
     location /kibana {
-      rewrite ^/kibana(.*)$ https://kibana.desertbluffs.com$1;
+      rewrite ^/kibana(.*)$ https://kibana.desertbluffs.com$1 permanent;
     }
 
     location /owncloud {
-      rewrite ^/owncloud(.*)$ https://owncloud.desertbluffs.com$1;
+      rewrite ^/owncloud(.*)$ https://owncloud.desertbluffs.com$1 permanent;
     }
 
     location /smokeping/ {
-      rewrite ^/smokeping(.*)$ https://smokeping.desertbluffs.com$1;
+      rewrite ^/smokeping(.*)$ https://smokeping.desertbluffs.com$1 permanent;
     }
   }
 }
