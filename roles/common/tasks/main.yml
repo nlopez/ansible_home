@@ -32,7 +32,7 @@
     createhome: True
 
 - name: Setup Nick's keys
-  authorized_key: user=nlopez key={{ item }} state=present
+  authorized_key: user=nlopez key="{{ item }}" state=present
   with_file:
     - public_keys/nlopez
 
