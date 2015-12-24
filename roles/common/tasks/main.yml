@@ -13,7 +13,7 @@
   when: ansible_os_family == "FreeBSD"
 
 - name: Install common packages for FreeBSD hosts
-  pkgng: name=bash,sudo state=present
+  pkgng: name=bash,sudo,rsync,ca_root_nss,curl,wget state=present
   when: ansible_os_family == "FreeBSD"
 
 - name: Set root's shell to bash
