@@ -11,3 +11,4 @@ nginx.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 
 [nzbget]
 nzbget.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7 
+nzbget_2.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7 
