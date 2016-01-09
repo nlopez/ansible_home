@@ -59,6 +59,8 @@
     - router.desertbluffs.com
     - smokeping.desertbluffs.com
     - sonarr.desertbluffs.com
+    - plex.desertbluffs.com
+    - revoked.desertbluffs.com
   notify: reload nginx
 
 - name: Ensure nginx is started and enabled
