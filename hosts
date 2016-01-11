@@ -1,18 +1,30 @@
-[freenas]
-couchpotato.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
-deluge.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
-owncloud.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
-plexmediaserver.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
-
-
 [nginx]
 nginx.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 
-[nzbget]
-nzbget.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7 
+[deluge]
+deluge.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
+[owncloud]
+owncloud.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
+[smokeping]
+smokeping.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
+[plexmediaserver]
+plexmediaserver.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 
 [admin]
-admin.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7 
+admin.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 
 [sonarr]
 sonarr.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
+[jackett]
+jackett.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
+[couchpotato]
+couchpotato.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
+[nzbget]
+nzbget.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+
