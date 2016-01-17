@@ -19,9 +19,6 @@ admin.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 [sonarr]
 sonarr.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 
-[jackett]
-jackett.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
-
 [couchpotato]
 couchpotato.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
 
