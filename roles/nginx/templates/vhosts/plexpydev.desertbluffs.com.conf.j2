@@ -6,7 +6,8 @@ server {
   location / {
     include auth.conf;
     include proxy.conf;
-    proxy_pass http://192.168.239.123:8181/;
+    proxy_ssl_name plexpydev.radoncanyon.com;
+    proxy_pass https://192.168.239.123:8181/;
   }
 
   location /_oauth {
