@@ -1,0 +1,15 @@
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  server_name plexpydev.desertbluffs.com;
+
+  location / {
+    include auth.conf;
+    include proxy.conf;
+    proxy_pass http://192.168.239.123:8181/;
+  }
+
+  location /_oauth {
+    include auth.conf;
+  }
+}
