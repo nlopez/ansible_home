@@ -1,2 +1,5 @@
 ---
 nginx_conf_root: /usr/local/etc/nginx
+nginx_log_dir: /var/log/nginx
+nginx_user: www
+nginx_group: www
