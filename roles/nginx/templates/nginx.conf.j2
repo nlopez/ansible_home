@@ -57,6 +57,10 @@ http {
     fe80::/64 1;
   }
 
+  # logging paths and params
+  access_log off;
+  error_log logs/error.log error;
+
   include vhosts/*.conf;
 
   # https www to non-www redirect
