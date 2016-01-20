@@ -1,4 +1,6 @@
 worker_processes auto;
+# Syntax: user user [group];
+user {{ nginx_user }} {{ nginx_group }};
 
 events {
   use kqueue;
