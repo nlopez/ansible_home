@@ -35,3 +35,7 @@
 - file: name={{ item }} state=directory owner=dockerfs group=dockerfs recurse=true
   with_items:
   - /dockerfs/nzbget/config
+  - /dockerfs/deluge/config
+  - /dockerfs/couchpotato/config
+  - /dockerfs/sonarr/config
+  - /dockerfs/plexpy/config
