@@ -1,6 +1,11 @@
 ---
-- name: configure common settings for all hosts
-  hosts: all
+# talk to all hosts just so we can learn about them
+- hosts: all
+  tasks:
+   - group_by: key=os_{{ ansible_distribution }}
+
+- name: configure common settings for FreeBSD hosts
+  hosts: os_FreeBSD
   roles:
     - common
     - sshd
@@ -10,3 +15,7 @@
   hosts: nginx
   roles:
     - nginx
+
+- hosts: dockerd
+  roles:
+  - dockerd

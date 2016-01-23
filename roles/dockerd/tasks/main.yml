@@ -1,0 +1,37 @@
+---
+- name: Install Docker
+  package: name=docker state=present
+
+- file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
+
+- name: Configure Docker listening port
+  template:
+    src: docker.conf.j2
+    dest: /etc/systemd/system/docker.service.d/docker.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+  - Reload systemd manager configuration
+  - Restart Docker
+
+- name: Enable and start Docker daemon
+  service: name=docker enabled=yes state=running
+
+- name: Install CIFS utils
+  package: name=cifs-utils state=present
+
+- name: Mount media share
+  mount:
+    name: /media
+    src: //freenas.radoncanyon.com/media
+    fstype: cifs
+    state: mounted
+    opts: noperm,vers=3.0,username=guest,password=guest
+
+- group: name=dockerfs
+- user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
+
+- file: name={{ item }} state=directory owner=dockerfs group=dockerfs recurse=true
+  with_items:
+  - /dockerfs/nzbget/config
