@@ -1,9 +1,5 @@
 ---
-- name: Load Open vSwitch module at boot
-  copy: src=ovs.conf dest=/etc/modules-load.d/ovs.conf
-
-- name: Ensure Open vSwitch module is loaded
-  modprobe: name=openvswitch state=present
+- include: tasks/ovs.yml
 
 - name: Install Docker
   package: name=docker state=present

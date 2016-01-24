@@ -1,0 +1,15 @@
+---
+- name: Load Open vSwitch module at boot
+  copy: src=ovs.conf dest=/etc/modules-load.d/ovs.conf
+
+- name: Ensure Open vSwitch module is loaded
+  modprobe: name=openvswitch state=present
+
+- name: Install OVS
+  package: name=openvswitch state=present
+
+- name: Start and enable OVS services
+  service: name={{ item }} state=running enabled=yes
+  with_items:
+  - ovsdb-server
+  - ovs-vswitchd
