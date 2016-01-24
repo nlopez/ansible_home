@@ -1,0 +1,14 @@
+---
+- name: Install CIFS utils
+  package: name=cifs-utils state=present
+
+- name: Mount media share
+  mount:
+    name: /media
+    src: //freenas.radoncanyon.com/media
+    fstype: cifs
+    state: mounted
+    opts: noperm,vers=3.0,username=guest,password=guest
+
+- name: Wait for network on boot
+  service: name=systemd-networkd-wait-online enabled=yes

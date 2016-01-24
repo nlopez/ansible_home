@@ -1,5 +1,6 @@
 ---
-- include: tasks/ovs.yml
+- include: tasks/ovs.yml # Open vSwitch setup
+- include: tasks/smb.yml # SMB mounts setup
 
 - name: Install Docker
   package: name=docker state=present
@@ -19,17 +20,6 @@
 
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=running
-
-- name: Install CIFS utils
-  package: name=cifs-utils state=present
-
-- name: Mount media share
-  mount:
-    name: /media
-    src: //freenas.radoncanyon.com/media
-    fstype: cifs
-    state: mounted
-    opts: noperm,vers=3.0,username=guest,password=guest
 
 - group: name=dockerfs
 - user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
