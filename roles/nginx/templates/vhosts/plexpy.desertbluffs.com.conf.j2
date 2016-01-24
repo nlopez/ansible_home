@@ -6,8 +6,7 @@ server {
   location / {
     include auth.conf;
     include proxy.conf;
-    proxy_ssl_name plexmediaserver.radoncanyon.com;
-    proxy_pass https://192.168.239.17:8181/;
+    proxy_pass http://192.168.239.6:8181/;
   }
 
   location /_oauth {

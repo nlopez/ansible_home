@@ -6,8 +6,7 @@ server {
   location / {
     include auth.conf;
     include proxy.conf;
-    proxy_pass https://192.168.239.19:5050;
-    proxy_ssl_name couchpotato.radoncanyon.com;
+    proxy_pass http://192.168.239.6:5050;
   }
 
   location /_oauth {

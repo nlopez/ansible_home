@@ -6,8 +6,7 @@ server {
   location / {
     include auth.conf;
     include proxy.conf;
-    proxy_pass http://sonarr.radoncanyon.com:8989/;
-#    proxy_ssl_name sonarr.radoncanyon.com;
+    proxy_pass http://192.168.239.6:8989/;
   }
 
   location /_oauth {

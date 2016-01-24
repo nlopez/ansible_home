@@ -6,8 +6,7 @@ server {
   location / {
     include auth.conf;
     include proxy.conf;
-    proxy_pass https://192.168.239.4:8112/;
-    proxy_ssl_name deluge.radoncanyon.com;
+    proxy_pass http://192.168.239.6:8112/;
   }
 
   location /_oauth {
