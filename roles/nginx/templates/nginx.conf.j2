@@ -111,40 +111,5 @@ http {
       include auth.conf;
     }
 
-    location /sonarr {
-      rewrite ^/sonarr(.*)$ https://sonarr.desertbluffs.com$1 permanent;
-    }
-
-    location /couchpotato {
-      rewrite ^/couchpotato(.*)$ https://couchpotato.desertbluffs.com$1 permanent;
-    }
-
-    location /nzbget {
-      rewrite ^/nzbget(.*)$ https://nzbget.desertbluffs.com$1 permanent;
-    }
-
-    location /deluge {
-      rewrite ^/deluge(.*)$ https://deluge.desertbluffs.com$1 permanent;
-    }
-
-    location /router {
-      rewrite ^/router(.*)$ https://router.desertbluffs.com$1 permanent;
-    }
-
-    location /plexpy {
-      rewrite ^/plexpy(.*)$ https://plexpy.desertbluffs.com$1 permanent;
-    }
-
-    location /kibana {
-      rewrite ^/kibana(.*)$ https://kibana.desertbluffs.com$1 permanent;
-    }
-
-    location /owncloud {
-      rewrite ^/owncloud(.*)$ https://owncloud.desertbluffs.com$1 permanent;
-    }
-
-    location /smokeping/ {
-      rewrite ^/smokeping(.*)$ https://smokeping.desertbluffs.com$1 permanent;
-    }
   }
 }
