@@ -1,5 +1,5 @@
 ---
-- include: tasks/ovs.yml
+# - include: tasks/ovs.yml
 
 - name: Install Docker
   package: name=docker state=present
