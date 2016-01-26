@@ -1,2 +1,6 @@
 ---
 docker_daemon_port: 2376
+do_ovs: False
+do_smb: True
+smb_mounts:
+  - { src: "//freenas.radoncanyon.com/media", dest: "/mnt/media" }

@@ -2,13 +2,18 @@
 - name: Install CIFS utils
   package: name=cifs-utils state=present
 
-- name: Mount media share
+- name: Create share mount points
+  file: name={{ item.dest }} state=directory
+  with_items: smb_mounts
+
+- name: Mount SMB shares share
   mount:
-    name: /media
-    src: //freenas.radoncanyon.com/media
+    name: "{{ item.dest }}"
+    src: "{{ item.src }}"
     fstype: cifs
     state: mounted
     opts: noperm,vers=3.0,username=guest,password=guest
+  with_items: smb_mounts
 
 - name: Wait for network on boot
   service: name=systemd-networkd-wait-online enabled=yes

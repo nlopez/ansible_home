@@ -1,6 +1,8 @@
 ---
 - include: tasks/ovs.yml # Open vSwitch setup
+  when: do_ovs == True
 - include: tasks/smb.yml # SMB mounts setup
+  when: do_smb == True
 
 - name: Install Docker
   package: name=docker state=present
