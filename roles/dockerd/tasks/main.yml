@@ -1,4 +1,6 @@
 ---
+- include_vars: secret.yml
+
 - include: tasks/ovs.yml # Open vSwitch setup
   when: do_ovs == True
 - include: tasks/smb.yml # SMB mounts setup
@@ -8,8 +10,29 @@
   package: name=docker state=present
 
 - file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
+- file: path=/root/.docker state=directory mode=0755
 
-- name: Configure Docker listening port
+- name: Copy Docker server private key
+  copy:
+    content: "{{ server_key_pem_content }}"
+    dest: "/root/.docker/server-key.pem"
+    owner: root
+    group: root
+    mode: 0400
+  no_log: true
+
+- name: Copy Docker server certificate authority and certficate
+  copy:
+    src: "{{ item }}"
+    dest: "/root/.docker/{{ item }}"
+    owner: root
+    group: root
+    mode: 0444
+  with_items:
+  - ca.pem
+  - server-cert.pem
+
+- name: Configure Docker
   template:
     src: docker.conf.j2
     dest: /etc/systemd/system/docker.service.d/docker.conf
