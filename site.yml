@@ -19,3 +19,4 @@
 - hosts: dockerd
   roles:
   - dockerd
+  - zfs

@@ -1,0 +1,6 @@
+[Unit]
+Description=Scrub ZFS pools
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/zpool scrub {{ zfs_pools | join(" ") }}
