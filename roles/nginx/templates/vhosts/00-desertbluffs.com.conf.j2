@@ -1,0 +1,49 @@
+  # https www to non-www redirect
+  server {
+    listen 443 ssl accept_filter=dataready;
+    listen [::]:443 ssl ipv6only=off accept_filter=dataready;
+    server_name www.desertbluffs.com;
+
+    ssl_certificate /usr/local/etc/simp_le/fullchain.pem;
+    ssl_certificate_key /usr/local/etc/simp_le/key.pem;
+
+    return 301 https://desertbluffs.com$request_uri;
+  }
+
+  server {
+    listen 80 default_server accept_filter=httpready;
+    server_name _;
+
+    include letsencrypt-acme-challenge.conf;
+    return 301 https://desertbluffs.com$request_uri;
+  }
+
+
+  # Main server
+  server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    server_name desertbluffs.com;
+
+    ssl_certificate /usr/local/etc/simp_le/fullchain.pem;
+    ssl_certificate_key /usr/local/etc/simp_le/key.pem;
+
+    location = / {
+      echo $remote_addr;
+      default_type text/plain;
+    }
+
+    location / {
+      root /srv/webroot;
+    }
+
+    location /keybase.txt {
+      echo 'Hello!';
+      default_type text/plain;
+    }
+
+    location /_oauth {
+      include auth.conf;
+    }
+
+  }

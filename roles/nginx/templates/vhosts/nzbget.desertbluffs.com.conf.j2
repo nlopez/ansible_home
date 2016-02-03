@@ -7,6 +7,7 @@ server {
     include auth.conf;
     include proxy.conf;
     proxy_pass http://192.168.239.6:6789/;
+    client_max_body_size 5m;
   }
 
   location /_oauth {

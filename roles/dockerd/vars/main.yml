@@ -4,3 +4,4 @@ do_ovs: False
 do_smb: True
 smb_mounts:
   - { src: "//freenas.radoncanyon.com/media", dest: "/mnt/media" }
+  - { src: "//freenas.radoncanyon.com/plex_logs", dest: "/mnt/plex_logs" }
