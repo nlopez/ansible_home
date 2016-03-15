@@ -12,3 +12,10 @@ mini.radoncanyon.com ansible_python_interpreter=python2
 
 [admin]
 admin.radoncanyon.com ansible_python_interpreter=python2.7
+
+# http://docs.ansible.com/ansible/intro_inventory.html#groups-of-groups-and-group-variables
+[freenas_jails:children]
+nginx
+owncloud
+plexmediaserver
+admin
