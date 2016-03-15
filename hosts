@@ -1,11 +1,14 @@
 [nginx]
-nginx.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+nginx.radoncanyon.com ansible_python_interpreter=python2.7
 
 [owncloud]
-owncloud.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+owncloud.radoncanyon.com ansible_python_interpreter=python2.7
 
 [plexmediaserver]
-plexmediaserver.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python2.7
+plexmediaserver.radoncanyon.com ansible_python_interpreter=python2.7
 
 [dockerd]
 mini.radoncanyon.com ansible_python_interpreter=python2
+
+[admin]
+admin.radoncanyon.com ansible_python_interpreter=python2.7
