@@ -1,8 +1,19 @@
 ---
 - include_vars: secret.yml
 
-- name: Install nginx stable pkg
-  pkgng: name=nginx state=present
+- name: Ensure nginx stable isn't installed
+  portinstall: name=nginx state=absent
+
+- name: Configure nginx compilation options
+  copy:
+    src: options
+    dest: /var/db/ports/www_nginx-devel/options
+    owner: root
+    group: wheel
+    mode: 0444
+
+- name: Install nginx mainline from ports
+  portinstall: name=nginx-devel state=present use_packages=False
 
 - name: Create nginx log dir
   file: path={{ nginx_log_dir }} state=directory mode=0755 owner={{ nginx_user }} group={{ nginx_group }}
