@@ -56,3 +56,5 @@
   - /dockerfs/couchpotato/config
   - /dockerfs/sonarr/config
   - /dockerfs/plexpy/config
+  - /dockerfs/owncloud/config
+  - /dockerfs/owncloud/apps
