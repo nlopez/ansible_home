@@ -19,6 +19,14 @@
 - name: Create nginx log dir
   file: path={{ nginx_log_dir }} state=directory mode=0755 owner={{ nginx_user }} group={{ nginx_group }}
 
+- name: Install trusted certificate bundle
+  copy:
+    src: "trusted-ssl-bundle.crt"
+    dest: "/etc/ssl/trusted-ssl-bundle.crt"
+    owner: root
+    group: wheel
+    mode: 0444
+
 - name: Install nginx static (non-template) config files
   copy:
     src: "{{item}}"
