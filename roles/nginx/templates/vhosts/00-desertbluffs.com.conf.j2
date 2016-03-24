@@ -1,7 +1,7 @@
   # https www to non-www redirect
   server {
-    listen 443 ssl accept_filter=dataready;
-    listen [::]:443 ssl ipv6only=off accept_filter=dataready;
+    listen 443 ssl;
+    listen [::]:443 ssl ipv6only=off;
     server_name www.desertbluffs.com;
 
     ssl_certificate /usr/local/etc/simp_le/fullchain.pem;
@@ -11,7 +11,7 @@
   }
 
   server {
-    listen 80 default_server accept_filter=httpready;
+    listen 80 default_server;
     server_name _;
 
     include letsencrypt-acme-challenge.conf;
