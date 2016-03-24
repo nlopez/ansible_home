@@ -16,6 +16,11 @@
   roles:
     - nginx
 
+- name: configure plex media server hosts
+  hosts: plexmediaserver
+  roles:
+    - plexmediaserver
+
 - hosts: dockerd
   roles:
   - dockerd
