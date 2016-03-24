@@ -43,7 +43,8 @@ http {
   ssl_stapling on;
   ssl_stapling_verify on;
   ssl_trusted_certificate /etc/ssl/trusted-ssl-bundle.crt;
-  resolver 127.0.0.1:53;
+  resolver 8.8.8.8 8.8.4.4 valid=30s;
+  resolver_timeout 5s; # default 30s
 
   add_header Strict-Transport-Security 'max-age=15768000; includeSubdomains';
 
