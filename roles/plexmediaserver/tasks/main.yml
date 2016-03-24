@@ -1,0 +1,7 @@
+---
+- name: Install Plex Media Server
+  pkgng: name=plexmediaserver state=present
+  when: ansible_os_family == "FreeBSD"
+
+- name: Ensure Plex Media Server is started and enabled
+  service: name=plexmediaserver state=started enabled=yes
