@@ -1,8 +1,9 @@
 ---
 - include_vars: secret.yml
-
-- name: Ensure nginx stable isn't installed
-  portinstall: name=nginx state=absent
+- name: Ensure nginx compilation options dir exists
+  file:
+    path: /var/db/ports/www_nginx-devel
+    state: directory
 
 - name: Configure nginx compilation options
   copy:
