@@ -6,7 +6,7 @@ server {
   location / {
     client_max_body_size 5G;
     more_clear_headers X-Powered-By;
-    more_set_headers 'X-Permitted-Cross-Domain-Policies:master-only';
+    more_set_headers 'X-Permitted-Cross-Domain-Policies:none';
     more_set_headers 'X-Robots-Tag:none';
     more_set_headers 'X-Frame-Options:SAMEORIGIN';
 
