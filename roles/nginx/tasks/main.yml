@@ -50,6 +50,7 @@
     - proxy.conf
     - auth.conf
     - letsencrypt-acme-challenge.conf
+    - dhparam.pem
   notify: reload nginx
 
 - name: Create nginx virtual hosts directory
