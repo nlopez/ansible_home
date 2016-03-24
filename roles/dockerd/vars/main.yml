@@ -3,6 +3,6 @@ docker_daemon_port: 2376
 do_ovs: False
 do_smb: True
 smb_mounts:
-  - { src: "//freenas.radoncanyon.com/media", dest: "/mnt/media" }
-  - { src: "//freenas.radoncanyon.com/plex_logs", dest: "/mnt/plex_logs" }
-  - { src: "//freenas.radoncanyon.com/owncloud", dest: "/mnt/owncloud" }
+  - { src: "//freenas.radoncanyon.com/media", dest: "/mnt/media", opts: }
+  - { src: "//freenas.radoncanyon.com/plex_logs", dest: "/mnt/plex_logs", opts: }
+  - { src: "//freenas.radoncanyon.com/owncloud", dest: "/mnt/owncloud", opts: ",file_mode=0750,dir_mode=0750,uid=33,gid=33" }
