@@ -58,3 +58,5 @@
   - /dockerfs/plexpy/config
   - /dockerfs/owncloud/config
   - /dockerfs/owncloud/apps
+  - /dockerfs/owncloud_db/data
+  - /dockerfs/owncloud_db/config
