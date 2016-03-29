@@ -49,14 +49,5 @@
 - group: name=dockerfs
 - user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
 
-- file: name={{ item }} state=directory owner=dockerfs group=dockerfs recurse=true
-  with_items:
-  - /dockerfs/nzbget/config
-  - /dockerfs/deluge/config
-  - /dockerfs/couchpotato/config
-  - /dockerfs/sonarr/config
-  - /dockerfs/plexpy/config
-  - /dockerfs/owncloud/config
-  - /dockerfs/owncloud/apps
-  - /dockerfs/owncloud_db/data
-  - /dockerfs/owncloud_db/config
+- file: name={{ item.name }} state=directory owner={{ item.owner }} group={{ item.group }} recurse=true
+  with_items: dockerfs_dirs
