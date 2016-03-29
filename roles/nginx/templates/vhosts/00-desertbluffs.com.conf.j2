@@ -1,7 +1,7 @@
   # https www to non-www redirect
   server {
-    listen 443 ssl;
-    listen [::]:443 ssl ipv6only=off;
+    listen 443 ssl{{ " http2" if http2 else "" }};
+    listen [::]:443 ssl{{ " http2" if http2 else "" }} ipv6only=off;
     server_name www.desertbluffs.com;
 
     ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
@@ -28,8 +28,8 @@
 
   # Main server
   server {
-    listen 443 ssl default_server;
-    listen [::]:443 ssl default_server;
+    listen 443 ssl {{ "http2" if http2 else "" }} default_server;
+    listen [::]:443 {{ "http2" if http2 else "" }} ssl default_server;
     server_name desertbluffs.com;
 
     ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;

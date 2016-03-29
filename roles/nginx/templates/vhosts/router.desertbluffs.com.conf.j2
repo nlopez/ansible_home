@@ -1,6 +1,6 @@
 server {
-  listen 443 ssl;
-  listen [::]:443 ssl;
+  listen 443{{ " http2" if http2 else "" }} ssl;
+  listen [::]:443{{ " http2" if http2 else "" }} ssl;
   server_name router.desertbluffs.com;
 
   ssl_certificate /usr/local/etc/simp_le/output/router.desertbluffs.com/fullchain.pem;
