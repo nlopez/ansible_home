@@ -53,7 +53,6 @@
     - nginx.conf
     - proxy.conf
     - auth.conf
-    - letsencrypt-acme-challenge.conf
     - dhparam.pem
   notify: reload nginx
 
