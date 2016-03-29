@@ -13,6 +13,7 @@
   server {
     listen 80 default_server;
     server_name _;
+    ssl_ct off;
 
     location /.well-known/acme-challenge/ {
       root /srv/http/letsencrypt/;
@@ -31,8 +32,8 @@
     listen [::]:443 ssl default_server;
     server_name desertbluffs.com;
 
-    ssl_certificate /usr/local/etc/simp_le/fullchain.pem;
-    ssl_certificate_key /usr/local/etc/simp_le/key.pem;
+    ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
+    ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
 
     location = / {
       echo $remote_addr;

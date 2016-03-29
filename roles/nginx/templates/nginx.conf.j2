@@ -7,6 +7,8 @@ user {{ nginx_user }} {{ nginx_group }};
 load_module "{{ nginx_conf_root }}/modules/ngx_http_echo_module.so";
 load_module "{{ nginx_conf_root }}/modules/ngx_http_lua_module.so";
 load_module "{{ nginx_conf_root }}/modules/ngx_http_headers_more_filter_module.so";
+load_module "{{ nginx_conf_root }}/modules/ngx_ssl_ct_module.so";
+load_module "{{ nginx_conf_root }}/modules/ngx_http_ssl_ct_module.so";
 
 events {
   use kqueue;
@@ -45,6 +47,10 @@ http {
   ssl_trusted_certificate /etc/ssl/trusted-ssl-bundle.crt;
   resolver 8.8.8.8 8.8.4.4 valid=30s;
   resolver_timeout 5s; # default 30s
+
+  # https://github.com/grahamedgecombe/nginx-ct
+  ssl_ct on;
+  ssl_ct_static_scts /usr/local/etc/simp_le/sct/;
 
   add_header Strict-Transport-Security 'max-age=15768000; includeSubdomains';
 
