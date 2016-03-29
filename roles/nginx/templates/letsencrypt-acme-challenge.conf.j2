@@ -1,8 +1,0 @@
-location ^~ /.well-known/acme-challenge/ {
-  default_type "text/plain";
-  root /srv/http/letsencrypt;
-}
-
-location = /.well-known/acme-challenge/ {
-  return 404;
-}

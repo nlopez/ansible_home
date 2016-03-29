@@ -14,8 +14,14 @@
     listen 80 default_server;
     server_name _;
 
-    include letsencrypt-acme-challenge.conf;
-    return 301 https://desertbluffs.com$request_uri;
+    location /.well-known/acme-challenge/ {
+      root /srv/http/letsencrypt/;
+      default_type "text/plain";
+    }
+
+    location / {
+      return 301 https://desertbluffs.com$request_uri;
+    }
   }
 
 
@@ -31,10 +37,6 @@
     location = / {
       echo $remote_addr;
       default_type text/plain;
-    }
-
-    location / {
-      root /srv/webroot;
     }
 
     location /keybase.txt {
