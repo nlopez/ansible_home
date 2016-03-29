@@ -3,6 +3,9 @@ server {
   listen [::]:443 ssl;
   server_name freenas.desertbluffs.com;
 
+  ssl_certificate /usr/local/etc/simp_le/output/freenas.desertbluffs.com/fullchain.pem;
+  ssl_certificate_key /usr/local/etc/simp_le/output/freenas.desertbluffs.com/key.pem;
+
   location / {
     proxy_pass http://192.168.239.16/;
     include auth.conf;

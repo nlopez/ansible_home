@@ -3,6 +3,9 @@ server {
   listen [::]:443 ssl;
   server_name plex.desertbluffs.com;
 
+  ssl_certificate /usr/local/etc/simp_le/output/plex.desertbluffs.com/fullchain.pem;
+  ssl_certificate_key /usr/local/etc/simp_le/output/plex.desertbluffs.com/key.pem;
+
   location / {
     if ($http_x_plex_device_name = '') {rewrite ^/$ https://$http_host/web/index.html;}
 

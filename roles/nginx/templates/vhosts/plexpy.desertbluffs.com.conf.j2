@@ -3,6 +3,9 @@ server {
   listen [::]:443 ssl;
   server_name plexpy.desertbluffs.com;
 
+  ssl_certificate /usr/local/etc/simp_le/output/plexpy.desertbluffs.com/fullchain.pem;
+  ssl_certificate_key /usr/local/etc/simp_le/output/plexpy.desertbluffs.com/key.pem;
+
   location / {
     include auth.conf;
     include proxy.conf;

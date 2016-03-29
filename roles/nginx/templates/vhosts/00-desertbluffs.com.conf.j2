@@ -4,8 +4,8 @@
     listen [::]:443 ssl ipv6only=off;
     server_name www.desertbluffs.com;
 
-    ssl_certificate /usr/local/etc/simp_le/fullchain.pem;
-    ssl_certificate_key /usr/local/etc/simp_le/key.pem;
+    ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
+    ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
 
     return 301 https://desertbluffs.com$request_uri;
   }
