@@ -1,19 +1,1 @@
-server {
-  listen 443{{ " http2" if http2 else "" }} ssl;
-  listen [::]:443{{ " http2" if http2 else "" }} ssl;
-  server_name router.desertbluffs.com;
-
-  ssl_certificate /usr/local/etc/simp_le/output/router.desertbluffs.com/fullchain.pem;
-  ssl_certificate_key /usr/local/etc/simp_le/output/router.desertbluffs.com/key.pem;
-
-  location / {
-    include auth.conf;
-    include proxy.conf;
-    proxy_pass http://192.168.239.1/;
     proxy_set_header Authorization "{{router_authorization_header}}";
-  }
-
-  location /_oauth {
-    include auth.conf;
-  }
-}

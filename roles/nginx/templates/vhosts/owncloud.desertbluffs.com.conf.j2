@@ -1,19 +1,5 @@
-server {
-  listen 443{{ " http2" if http2 else "" }} ssl;
-  listen [::]:443{{ " http2" if http2 else "" }} ssl;
-  server_name owncloud.desertbluffs.com;
-
-  ssl_certificate /usr/local/etc/simp_le/output/owncloud.desertbluffs.com/fullchain.pem;
-  ssl_certificate_key /usr/local/etc/simp_le/output/owncloud.desertbluffs.com/key.pem;
-
-  location / {
     client_max_body_size 5G;
     more_clear_headers X-Powered-By;
     more_set_headers 'X-Permitted-Cross-Domain-Policies:none';
     more_set_headers 'X-Robots-Tag:none';
     more_set_headers 'X-Frame-Options:SAMEORIGIN';
-
-    include proxy.conf;
-    proxy_pass http://mini.radoncanyon.com:8080/;
-  }
-}

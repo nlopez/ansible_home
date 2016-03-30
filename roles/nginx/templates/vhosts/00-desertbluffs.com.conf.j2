@@ -1,52 +1,53 @@
-  # https www to non-www redirect
-  server {
-    listen 443 ssl{{ " http2" if http2 else "" }};
-    listen [::]:443 ssl{{ " http2" if http2 else "" }} ipv6only=off;
-    server_name www.desertbluffs.com;
+# https www to non-www redirect
+server {
+  listen 443 ssl{{ " http2" if http2 else "" }};
+  listen [::]:443 ssl{{ " http2" if http2 else "" }} ipv6only=off;
+  server_name www.desertbluffs.com;
 
-    ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
-    ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
+  ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
+  ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
 
+  return 301 https://desertbluffs.com$request_uri;
+}
+
+# ACME challenge-only listener; else redirect to https
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name _;
+  ssl_ct off;
+
+  location /.well-known/acme-challenge/ {
+    root /srv/http/letsencrypt/;
+    default_type "text/plain";
+  }
+
+  location / {
     return 301 https://desertbluffs.com$request_uri;
   }
+}
 
-  server {
-    listen 80 default_server;
-    server_name _;
-    ssl_ct off;
 
-    location /.well-known/acme-challenge/ {
-      root /srv/http/letsencrypt/;
-      default_type "text/plain";
-    }
+# https default server
+server {
+  listen 443 ssl {{ "http2" if http2 else "" }} default_server;
+  listen [::]:443 {{ "http2" if http2 else "" }} ssl default_server;
+  server_name desertbluffs.com;
 
-    location / {
-      return 301 https://desertbluffs.com$request_uri;
-    }
+  ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
+  ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
+
+  location = / {
+    echo $remote_addr;
+    default_type text/plain;
   }
 
-
-  # Main server
-  server {
-    listen 443 ssl {{ "http2" if http2 else "" }} default_server;
-    listen [::]:443 {{ "http2" if http2 else "" }} ssl default_server;
-    server_name desertbluffs.com;
-
-    ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
-    ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
-
-    location = / {
-      echo $remote_addr;
-      default_type text/plain;
-    }
-
-    location /keybase.txt {
-      echo 'Hello!';
-      default_type text/plain;
-    }
-
-    location /_oauth {
-      include auth.conf;
-    }
-
+  location /keybase.txt {
+    echo 'Hello!';
+    default_type text/plain;
   }
+
+  location /_oauth {
+    include auth.conf;
+  }
+}

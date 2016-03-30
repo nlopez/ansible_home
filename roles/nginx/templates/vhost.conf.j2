@@ -1,4 +1,4 @@
-#jinja2: lstrip_blocks: True, trim_blocks: True
+#jinja2: lstrip_blocks: True, trim_blocks: True, keep_trailing_newline: True
 upstream {{ item.fqdn | regex_replace('\.', '_') }} {
   {% for upstream in item.upstreams %}
   server {{ upstream }};
@@ -19,5 +19,6 @@ server {
     {% endif %}
     include proxy.conf;
     proxy_pass http://{{ item.fqdn | regex_replace('\.', '_') }}{{item.path if 'path' in item else '' }};
+    {% include "./vhosts/" + item.fqdn + ".conf.j2" ignore missing %}
   }
 }
