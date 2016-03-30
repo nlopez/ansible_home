@@ -4,3 +4,12 @@ nginx_log_dir: /var/log/nginx
 nginx_user: www
 nginx_group: www
 http2: yes
+proxy_vhosts:
+  - { fqdn: "couchpotato.desertbluffs.com", upstreams: [ "192.168.239.6:5050" ] }
+  - { fqdn: "deluge.desertbluffs.com", upstreams: [ "192.168.239.6:8112" ] }
+  - { fqdn: "freenas.desertbluffs.com", upstreams: [ "192.168.239.16:80" ] }
+  - { fqdn: "nzbget.desertbluffs.com", upstreams: [ "192.168.239.6:6789" ] }
+  - { fqdn: "plex.desertbluffs.com", upstreams: [ "192.168.239.17:32400" ], auth: no }
+  - { fqdn: "plexpy.desertbluffs.com", upstreams: [ "192.168.239.6:8181" ] }
+  - { fqdn: "sonarr.desertbluffs.com", upstreams: [ "192.168.239.6:8989" ] }
+

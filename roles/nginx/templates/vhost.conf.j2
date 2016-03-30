@@ -1,0 +1,23 @@
+#jinja2: lstrip_blocks: True, trim_blocks: True
+upstream {{ item.fqdn | regex_replace('\.', '_') }} {
+  {% for upstream in item.upstreams %}
+  server {{ upstream }};
+  {% endfor %}
+}
+
+server {
+  listen 443{{ " http2" if http2 else "" }} ssl;
+  listen [::]:443{{ " http2" if http2 else "" }} ssl;
+  server_name {{ item.fqdn }};
+
+  ssl_certificate /usr/local/etc/simp_le/output/{{ item.fqdn }}/fullchain.pem;
+  ssl_certificate_key /usr/local/etc/simp_le/output/{{ item.fqdn }}/key.pem;
+
+  location / {
+    {% if not 'auth' in item or item.auth %}
+    include auth.conf;
+    {% endif %}
+    include proxy.conf;
+    proxy_pass http://{{ item.fqdn | regex_replace('\.', '_') }}{{item.path if 'path' in item else '' }};
+  }
+}
