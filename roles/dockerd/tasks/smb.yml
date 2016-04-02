@@ -4,7 +4,7 @@
 
 - name: Create share mount points
   file: name={{ item.dest }} state=directory
-  with_items: smb_mounts
+  with_items: "{{ smb_mounts }}"
 
 - name: Mount SMB shares share
   mount:
@@ -13,7 +13,7 @@
     fstype: cifs
     state: mounted
     opts: "noperm,vers=3.0,username=guest,password=guest{{ item.opts }}"
-  with_items: smb_mounts
+  with_items: "{{ smb_mounts }}"
 
 - name: Wait for network on boot
   service: name=systemd-networkd-wait-online enabled=yes

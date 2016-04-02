@@ -50,4 +50,4 @@
 - user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
 
 - file: name={{ item.name }} state=directory owner={{ item.owner }} group={{ item.group }} recurse=true
-  with_items: dockerfs_dirs
+  with_items: "{{ dockerfs_dirs }}"

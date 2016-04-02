@@ -17,3 +17,5 @@ dockerfs_dirs:
   - { name: "/dockerfs/owncloud/apps", owner: 33, group: 33 }
   - { name: "/dockerfs/owncloud_db/data", owner: 999, group: 999 }
   - { name: "/dockerfs/owncloud_db/config", owner: 999, group: 999 }
+  - { name: "/dockerfs/crashplan/data", owner: "dockerfs", group: "dockerfs" }
+  - { name: "/dockerfs/crashplan/config", owner: "dockerfs", group: "dockerfs" }
