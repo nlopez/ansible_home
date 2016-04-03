@@ -61,12 +61,6 @@
     path: "{{ nginx_conf_root }}/vhosts"
     state: directory
 
-# - name: Populate virtual hosts configurations
-#   template: src={{ item }} dest={{ nginx_conf_root }}/vhosts/{{ item | basename | regex_replace('.j2','') }}
-#   with_fileglob:
-#     - ../templates/vhosts/*.j2
-#   notify: reload nginx
-
 - name: Populate virtual hosts configurations (from vars)
   template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf
   with_items: "{{ proxy_vhosts }}"

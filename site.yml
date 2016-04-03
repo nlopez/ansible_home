@@ -15,6 +15,7 @@
   hosts: nginx
   roles:
     - nginx
+    - consul-template
 
 - name: configure plex media server hosts
   hosts: plexmediaserver
