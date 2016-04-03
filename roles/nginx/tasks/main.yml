@@ -61,10 +61,9 @@
     path: "{{ nginx_conf_root }}/vhosts"
     state: directory
 
-- name: Populate virtual hosts configurations (from vars)
-  template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf
+- name: Populate virtual hosts configurations, for consumption by consul-template
+  template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf.ctmpl
   with_items: "{{ proxy_vhosts }}"
-  notify: reload nginx
 
 - name: Ensure nginx is started and enabled
   service: name=nginx state=started enabled=yes

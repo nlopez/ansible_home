@@ -7,13 +7,13 @@ http2: yes
 # set 'auth: no' for apps with their own authentication mechanism to
 # disable oauth2 authentication for a particular vhost
 proxy_vhosts:
-  - { fqdn: "couchpotato.desertbluffs.com", upstreams: [ "192.168.239.6:5050" ] }
+  - { fqdn: "couchpotato.desertbluffs.com", consul_service: "couchpotato" }
   - { fqdn: "deluge.desertbluffs.com", upstreams: [ "192.168.239.6:8112" ] }
   - { fqdn: "freenas.desertbluffs.com", upstreams: [ "192.168.239.16:80" ] }
-  - { fqdn: "nzbget.desertbluffs.com", upstreams: [ "192.168.239.6:6789" ] }
+  - { fqdn: "nzbget.desertbluffs.com", consul_service: "nzbget" }
   - { fqdn: "plex.desertbluffs.com", upstreams: [ "192.168.239.17:32400" ] }
-  - { fqdn: "plexpy.desertbluffs.com", upstreams: [ "192.168.239.6:8181" ] }
-  - { fqdn: "sonarr.desertbluffs.com", upstreams: [ "192.168.239.6:8989" ] }
+  - { fqdn: "plexpy.desertbluffs.com", consul_service: "plexpy" }
+  - { fqdn: "sonarr.desertbluffs.com", consul_service: "sonarr" }
   - { fqdn: "router.desertbluffs.com", upstreams: [ "192.168.239.1:80" ] }
-  - { fqdn: "owncloud.desertbluffs.com", upstreams: [ "192.168.239.6:8080" ], auth: no }
+  - { fqdn: "owncloud.desertbluffs.com", consul_service: "owncloud" , auth: no }
 

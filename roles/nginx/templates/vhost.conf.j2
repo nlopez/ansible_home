@@ -1,8 +1,13 @@
 #jinja2: lstrip_blocks: True, trim_blocks: True, keep_trailing_newline: True
 upstream {{ item.fqdn | regex_replace('\.', '_') }} {
+  {% if 'consul_service' in item %}
+  {{ "{{" }}range service "{{ item.consul_service }}"{{ "}}" }}
+  server {{ "{{" }}.Address{{ "}}" }}:{{ "{{" }}.Port{{ "}}" }};{{ "{{" }}end{{ "}}" }}
+  {% else %}
   {% for upstream in item.upstreams %}
   server {{ upstream }};
   {% endfor %}
+  {% endif %}
 }
 
 server {
