@@ -15,3 +15,6 @@ admin.radoncanyon.com ansible_python_interpreter=python2.7
 nginx
 plexmediaserver
 admin
+
+[dnsmasq]
+192.168.239.44 ansible_python_interpreter=python2

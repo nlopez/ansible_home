@@ -13,7 +13,6 @@
   hosts: os_FreeBSD
   roles:
     - sshd
-    - dhcp6c
 
 - name: configure nginx hosts
   hosts: nginx
