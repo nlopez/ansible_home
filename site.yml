@@ -4,10 +4,14 @@
   tasks:
    - group_by: key=os_{{ ansible_distribution }}
 
+- name: configure common settings for all hosts
+  hosts: all
+  roles:
+    - common
+
 - name: configure common settings for FreeBSD hosts
   hosts: os_FreeBSD
   roles:
-    - common
     - sshd
     - dhcp6c
 

@@ -8,12 +8,16 @@
   notify: rebuild capabilities database for login.conf
   when: ansible_os_family == "FreeBSD"
 
-- name: Install common packages for FreeBSD hosts
-  pkgng: name=bash,sudo,rsync,ca_root_nss,curl,wget,mosh,screen,bind-tools,tree,vim-lite state=present
-  when: ansible_os_family == "FreeBSD"
+- name: Set locale to en_us.UTF-8
+  copy: src=locale.gen dest=/etc/locale.gen owner=root group=root mode=0644
+  notify: generate locales
+  when: ansible_os_family == "Archlinux"
+
+- name: Install common packages
+  package: name=bash,sudo,rsync,{{ system_certificates }},curl,wget,mosh,screen,bind-tools,tree,{{ vim }} state=present
 
 - name: Set root's shell to bash
-  user: name=root shell=/usr/local/bin/bash
+  user: name=root shell={{ bash_binary }}
 
 - name: Add Nick's group
   group: name=nlopez state=present
@@ -21,8 +25,7 @@
 - name: Add Nick's superuser
   user:
     name: nlopez
-    uid: 2015
-    shell: /usr/local/bin/bash
+    shell: "{{ bash_binary }}"
     group: nlopez
     groups: wheel
     createhome: True
@@ -33,4 +36,4 @@
     - public_keys/nlopez
 
 - name: Allow members of group wheel to run all commands without a password
-  copy: src=sudoers dest=/usr/local/etc/sudoers validate='visudo -cf %s'
+  copy: src=sudoers dest={{ sudoers }} validate='visudo -cf %s'

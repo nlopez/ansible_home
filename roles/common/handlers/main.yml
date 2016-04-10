@@ -1,3 +1,6 @@
 ---
 - name: rebuild capabilities database for login.conf
   shell: cap_mkdb /etc/login.conf
+
+- name: generate locales
+  shell: locale-gen
