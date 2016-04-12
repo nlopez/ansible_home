@@ -61,9 +61,15 @@
     path: "{{ nginx_conf_root }}/vhosts"
     state: directory
 
+- name: Populate virtual hosts configurations
+  template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf.ctmpl
+  with_items: "{{ proxy_vhosts }}"
+  when: "{{ item.upstreams is defined }}"
+
 - name: Populate virtual hosts configurations, for consumption by consul-template
   template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf.ctmpl
   with_items: "{{ proxy_vhosts }}"
+  when: "{{ item.consul_service is defined }}"
 
 - name: Ensure nginx is started and enabled
   service: name=nginx state=started enabled=yes
