@@ -17,4 +17,4 @@ plexmediaserver
 admin
 
 [dnsmasq]
-192.168.239.44 ansible_python_interpreter=python2
+192.168.239.5 ansible_python_interpreter=python2

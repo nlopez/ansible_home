@@ -24,8 +24,14 @@
   hosts: plexmediaserver
   roles:
     - plexmediaserver
+    - consul
 
 - hosts: dockerd
   roles:
   - dockerd
   - zfs
+
+- name: configure dnsmasq hosts
+  hosts: dnsmasq
+  roles:
+    - dnsmasq
