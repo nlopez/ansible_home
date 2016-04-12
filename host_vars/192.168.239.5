@@ -1,0 +1,21 @@
+---
+hostname: dnsmasq
+domain: radoncanyon.com
+ipv4_addr: 192.168.239.5/24
+network: 192.168.239.0
+gateway: 192.168.239.1
+dns:
+  - 8.8.8.8
+  - 8.8.4.4
+joined_dns: "'{{ \"' '\".join(dns)}}'"
+reservations:
+  admin:
+    mac: 02:FF:70:00:09:0B
+    ip: 192.168.239.27
+  mini:
+    mac: C4:2C:03:0B:3E:05
+    ip: 192.168.239.6
+  nginx:
+    mac: 02:C0:2D:00:10:0B
+    ip: 192.168.239.25
+  owncloud:
