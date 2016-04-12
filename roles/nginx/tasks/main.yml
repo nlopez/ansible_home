@@ -62,7 +62,7 @@
     state: directory
 
 - name: Populate virtual hosts configurations
-  template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf.ctmpl
+  template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf
   with_items: "{{ proxy_vhosts }}"
   when: "{{ item.upstreams is defined }}"
 
