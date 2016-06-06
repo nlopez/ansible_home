@@ -16,5 +16,8 @@ nginx
 plexmediaserver
 admin
 
-[dnsmasq]
-192.168.239.5 ansible_python_interpreter=python2
+[peppy]
+peppy.radoncanyon.com ansible_python_interpreter=python2
+
+[droplet1]
+droplet1.desertbluffs.com

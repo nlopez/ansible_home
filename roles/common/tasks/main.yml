@@ -14,7 +14,7 @@
   when: ansible_os_family == "Archlinux"
 
 - name: Install common packages
-  package: name=bash,sudo,rsync,{{ system_certificates }},curl,wget,mosh,screen,bind-tools,tree,{{ vim }} state=present
+  package: name=bash,sudo,rsync,{{ system_certificates }},curl,wget,mosh,screen,{{ dig }},tree,{{ vim }} state=present
 
 - name: Set root's shell to bash
   user: name=root shell={{ bash_binary }}
@@ -27,7 +27,7 @@
     name: nlopez
     shell: "{{ bash_binary }}"
     group: nlopez
-    groups: wheel
+    groups: "{{ sudo_group }}"
     createhome: True
 
 - name: Setup Nick's keys

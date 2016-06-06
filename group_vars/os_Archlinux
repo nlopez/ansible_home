@@ -1,5 +1,1 @@
 ---
-system_certificates: ca-certificates
-vim: vim
-bash_binary: /usr/bin/bash
-sudoers: /etc/sudoers
