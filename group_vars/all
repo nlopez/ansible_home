@@ -3,5 +3,5 @@ system_certificates: ca-certificates
 vim: vim
 bash_binary: /usr/bin/bash
 sudoers: /etc/sudoers
-dig: bind-utils
+dig: bind-tools
 sudo_group: wheel
