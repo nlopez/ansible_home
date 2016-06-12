@@ -61,6 +61,9 @@
     path: "{{ nginx_conf_root }}/vhosts"
     state: directory
 
+- name: Drop off default server vhost separately
+  template: src=vhosts/00-desertbluffs.com.conf.j2 dest={{ nginx_conf_root}}/vhosts/00-desertbluffs.com.conf
+
 - name: Populate virtual hosts configurations
   template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf
   with_items: "{{ proxy_vhosts }}"
