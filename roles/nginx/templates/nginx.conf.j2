@@ -4,11 +4,11 @@ user {{ nginx_user }} {{ nginx_group }};
 
 # Load dynamic modules, nginx >= 1.9.11
 # http://nginx.org/en/docs/ngx_core_module.html#load_module
-load_module "{{ nginx_conf_root }}/modules/ngx_http_echo_module.so";
-load_module "{{ nginx_conf_root }}/modules/ngx_http_lua_module.so";
-load_module "{{ nginx_conf_root }}/modules/ngx_http_headers_more_filter_module.so";
-load_module "{{ nginx_conf_root }}/modules/ngx_ssl_ct_module.so";
-load_module "{{ nginx_conf_root }}/modules/ngx_http_ssl_ct_module.so";
+load_module "{{ nginx_modules_dir }}/ngx_http_echo_module.so";
+load_module "{{ nginx_modules_dir }}/ngx_http_lua_module.so";
+load_module "{{ nginx_modules_dir }}/ngx_http_headers_more_filter_module.so";
+load_module "{{ nginx_modules_dir }}/ngx_ssl_ct_module.so";
+load_module "{{ nginx_modules_dir }}/ngx_http_ssl_ct_module.so";
 
 events {
   use kqueue;
