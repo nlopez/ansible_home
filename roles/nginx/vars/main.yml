@@ -15,6 +15,6 @@ proxy_vhosts:
   - { fqdn: "plex.desertbluffs.com", upstreams: [ "192.168.239.17:32400" ], auth: no }
   - { fqdn: "plexpy.desertbluffs.com", consul_service: "plexpy" }
   - { fqdn: "sonarr.desertbluffs.com", consul_service: "sonarr" }
-  - { fqdn: "router.desertbluffs.com", upstreams: [ "192.168.239.1:80" ] }
+  - { fqdn: "router.desertbluffs.com", upstreams: [ "192.168.239.2:80" ] }
   - { fqdn: "owncloud.desertbluffs.com", consul_service: "owncloud" , auth: no }
 
