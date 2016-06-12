@@ -2,7 +2,7 @@
 upstream {{ item.fqdn | regex_replace('\.', '_') }} {
   keepalive 8;
   {% if 'consul_service' in item %}
-  {{ "{{" }}range service "{{ item.consul_service }}"{{ "}}" }}
+  {{ "{{" }}range service "{{ item.consul_service }}"{{ "any" "}}" }}
   server {{ "{{" }}.Address{{ "}}" }}:{{ "{{" }}.Port{{ "}}" }};{{ "{{" }}end{{ "}}" }}
   {% else %}
   {% for upstream in item.upstreams %}
