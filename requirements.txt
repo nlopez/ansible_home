@@ -1,5 +1,6 @@
 ansible==2.1.0.0
 cffi==1.6.0
+click==6.6
 cryptography==1.4
 ecdsa==0.13
 enum34==1.1.6
@@ -8,6 +9,7 @@ ipaddress==1.0.16
 Jinja2==2.8
 MarkupSafe==0.23
 paramiko==2.0.0
+pur==3.0.5
 pyasn1==0.1.9
 pycparser==2.14
 pycrypto==2.6.1
