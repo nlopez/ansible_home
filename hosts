@@ -18,6 +18,3 @@ admin
 
 [peppy]
 peppy.radoncanyon.com ansible_python_interpreter=python2
-
-[droplet1]
-droplet1.desertbluffs.com
