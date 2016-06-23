@@ -11,10 +11,7 @@ proxy_set_header X-Forwarded-Port 443;
 
 proxy_set_header X-Real-IP $remote_addr;
 
-# Websockets support
-proxy_set_header Upgrade $http_upgrade;
-# $connect_upgrade is set to 'Upgrade' or '' in nginx.conf
-proxy_set_header Connection $connection_upgrade;
+# Use HTTP/1.1 so we can keep connections to upstreams alive
 proxy_http_version 1.1;
 
 # Standard HTTP headers
@@ -22,9 +19,6 @@ proxy_set_header Host $host;
 proxy_set_header Referer $http_referer;
 proxy_set_header Cookie $http_cookie;
 
-proxy_ssl_verify on;
-proxy_ssl_verify_depth 5;
-proxy_ssl_trusted_certificate /etc/ssl/trusted-ssl-bundle.crt;
 proxy_ssl_protocols TLSv1.2;
 proxy_send_timeout 10m;
 proxy_read_timeout 10h;

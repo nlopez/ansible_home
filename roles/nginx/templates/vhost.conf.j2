@@ -24,7 +24,7 @@ server {
     include auth.conf;
     {% endif %}
     include proxy.conf;
-    proxy_pass http://{{ item.fqdn | regex_replace('\.', '_') }}{{item.path if 'path' in item else '' }};
+    proxy_pass {{"https"|default("http")}}://{{ item.fqdn | regex_replace('\.', '_') }}{{item.path if 'path' in item else '' }};
     {% include "./vhosts/" + item.fqdn + ".conf.j2" ignore missing %}
   }
 }

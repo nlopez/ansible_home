@@ -56,13 +56,6 @@ http {
 
   server_tokens off;
 
-  # WebSockets
-  # http://nginx.org/en/docs/http/websocket.html
-  map $http_upgrade $connection_upgrade {
-    default upgrade;
-    '' close;
-  }
-
   geo $allowed_ranges {
     # require auth by default
     default 0;
