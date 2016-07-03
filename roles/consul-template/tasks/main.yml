@@ -10,4 +10,4 @@
   notify: restart consul-template
 
 - name: Start and enable consul-template service
-  service: name=consul-template state=started enabled=yes
+  service: name=consul-template state=restarted enabled=yes
