@@ -1,3 +1,26 @@
 ---
 - include_vars: secret.yml
 
+- name: get public keys for nlopez from github
+  uri:
+    url: https://api.github.com/users/nlopez/keys
+    user: nlopez
+    password: "{{ github_api_token }}"
+    validate_certs: yes
+    return_content: yes
+    follow_redirects: none
+    status_code: 200
+  register: nlopez_pubkeys
+
+- debug: msg="{{ item.id }}"
+  with_items: "{{ nlopez_pubkeys.json }}"
+
+- digital_ocean:
+    state: present
+    command: ssh
+    name: "{{ item.id }}"
+    ssh_pub_key: "{{ item.key }}"
+    api_token: "{{ digitalocean_api_token }}"
+  with_items: "{{ nlopez_pubkeys.json }}"
+
+

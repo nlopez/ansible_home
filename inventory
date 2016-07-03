@@ -1,3 +1,6 @@
+[localhost]
+localhost ansible_connection=local ansible_become=no ansible_python_interpreter=python
+
 [nginx]
 nginx.radoncanyon.com ansible_python_interpreter=python2.7
 
@@ -27,6 +30,4 @@ admin
 peppy
 freenas_jails
 
-[localhost]
-localhost ansible_connection=local
 

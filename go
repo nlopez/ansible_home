@@ -7,9 +7,9 @@ fi
 readonly venv="venv/ansible-home"
 readonly here="$(dirname "$0")"
 cd "$here" || exit
-virtualenv -q "$venv" >/dev/null 2>&1
+virtualenv -q "$venv" || exit 1
 source "$here/$venv/bin/activate"
-pip -q install -r requirements.txt >/dev/null 2>&1
+pip -q install -r requirements.txt || exit 1
 
 echo "source $here/$venv/bin/activate"
 
