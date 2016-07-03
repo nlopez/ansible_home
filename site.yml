@@ -1,8 +1,8 @@
 ---
-# talk to all hosts just so we can learn about them
+# gather facts from all hosts
 - hosts: all
   tasks:
-   - group_by: key=os_{{ ansible_distribution }}
+    - group_by: key=os_{{ ansible_distribution }}
 
 - name: configure common settings for all hosts
   hosts: all
@@ -26,12 +26,18 @@
     - plexmediaserver
     - consul
 
-- hosts: dockerd
+- name: configure docker hosts
+  hosts: dockerd
   roles:
-  - dockerd
-  - zfs
+    - dockerd
+    - zfs
 
 - name: configure dnsmasq hosts
   hosts: dnsmasq
   roles:
     - dnsmasq
+
+- name: perform tasks on localhost
+  hosts: localhost
+  roles:
+    - droplet

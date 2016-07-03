@@ -4,11 +4,14 @@ nginx.radoncanyon.com ansible_python_interpreter=python2.7
 [plexmediaserver]
 plexmediaserver.radoncanyon.com ansible_python_interpreter=python2.7
 
+[admin]
+admin.radoncanyon.com ansible_python_interpreter=python2.7
+
 [dockerd]
 mini.radoncanyon.com ansible_python_interpreter=python2
 
-[admin]
-admin.radoncanyon.com ansible_python_interpreter=python2.7
+[peppy]
+peppy.radoncanyon.com ansible_python_interpreter=python2
 
 # http://docs.ansible.com/ansible/intro_inventory.html#groups-of-groups-and-group-variables
 [freenas_jails:children]
@@ -16,5 +19,14 @@ nginx
 plexmediaserver
 admin
 
-[peppy]
-peppy.radoncanyon.com ansible_python_interpreter=python2
+[remotehosts:children]
+nginx
+plexmediaserver
+dockerd
+admin
+peppy
+freenas_jails
+
+[localhost]
+localhost ansible_connection=local
+

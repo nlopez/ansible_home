@@ -35,6 +35,6 @@
   with_file:
     - public_keys/nlopez
 
-- name: Allow members of group wheel to run all commands without a password
+- name: Allow members of sudoers group to run all commands without a password
   template: src=sudoers.j2 dest={{ sudoers }} validate='visudo -cf %s'
 
