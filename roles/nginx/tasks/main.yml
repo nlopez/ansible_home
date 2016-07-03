@@ -61,6 +61,15 @@
     path: "{{ nginx_conf_root }}/vhosts"
     state: directory
 
+- find: path="{{ nginx_conf_root}}/vhosts" file_type=file
+  register: vhosts_files
+
+- debug: var=vhosts_files
+
+- name: Empty nginx vhosts dir
+  file: state=absent path={{ item.path }}
+  with_items: "{{ vhosts_files.files }}"
+
 - name: Drop off default server vhost separately
   template: src=vhosts/00-desertbluffs.com.conf.j2 dest={{ nginx_conf_root}}/vhosts/00-desertbluffs.com.conf
 
@@ -75,4 +84,4 @@
   when: "{{ item.consul_service is defined }}"
 
 - name: Ensure nginx is started and enabled
-  service: name=nginx state=started enabled=yes
+  service: name=nginx state=reloaded enabled=yes
