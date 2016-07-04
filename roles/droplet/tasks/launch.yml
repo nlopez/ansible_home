@@ -1,0 +1,42 @@
+---
+- include_vars: secret.yml
+
+- name: get public keys for nlopez from github
+  uri:
+    url: https://api.github.com/users/nlopez/keys
+    user: nlopez
+    password: "{{ github_api_token }}"
+    validate_certs: yes
+    return_content: yes
+    follow_redirects: none
+    status_code: 200
+  register: nlopez_pubkeys_github
+
+- name: register public keys at digital ocean
+  digital_ocean:
+    state: present
+    command: ssh
+    name: "{{ item.id }}"
+    ssh_pub_key: "{{ item.key }}"
+    api_token: "{{ digitalocean_api_token }}"
+  with_items: "{{ nlopez_pubkeys_github.json }}"
+  register: nlopez_pubkeys_digitalocean
+
+- debug: var=nlopez_pubkeys_digitalocean.results
+
+- name: launch droplet1
+  digital_ocean:
+    state: present
+    ssh_key_ids: "{{ nlopez_pubkeys_digitalocean.results | map(attribute='ssh_key.id') | list }}"
+    name: droplet1
+    api_token: "{{ digitalocean_api_token }}"
+    size_id: 512mb
+    region_id: nyc3
+    image_id: centos-7-2-x64
+    unique_name: yes
+    virtio: yes
+  register: droplet1
+
+- debug: var=droplet1
+
+- add_host: name="{{ droplet1.droplet.ip_address }}" groups=droplets

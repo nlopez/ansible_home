@@ -37,7 +37,7 @@
   roles:
     - dnsmasq
 
-- name: perform tasks on localhost
-  hosts: localhost
-  roles:
-    - droplet
+# - name: launch droplets on Digital Ocean
+#   hosts: localhost
+#   roles:
+#     - droplet
