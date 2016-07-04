@@ -5,7 +5,6 @@ do_smb: True
 smb_mounts:
   - { src: "//freenas.radoncanyon.com/media", dest: "/mnt/media", opts: }
   - { src: "//freenas.radoncanyon.com/plex_logs", dest: "/mnt/plex_logs", opts: }
-  - { src: "//freenas.radoncanyon.com/owncloud", dest: "/mnt/owncloud", opts: ",file_mode=0750,dir_mode=0750,uid=33,gid=33" }
   - { src: "//freenas.radoncanyon.com/syncthing", dest: "/mnt/syncthing", opts: ",file_mode=0750,dir_mode=0750,uid=1001,gid=1001" }
 dockerfs_dirs:
   - { name: "/dockerfs/nzbget/config", owner: "dockerfs", group: "dockerfs" }
@@ -14,9 +13,4 @@ dockerfs_dirs:
   - { name: "/dockerfs/sonarr/config", owner: "dockerfs", group: "dockerfs" }
   - { name: "/dockerfs/plexpy/config", owner: "dockerfs", group: "dockerfs" }
   - { name: "/dockerfs/nzbget/config", owner: "dockerfs", group: "dockerfs" }
-  - { name: "/dockerfs/owncloud/config", owner: "dockerfs", group: "dockerfs" }
-  - { name: "/dockerfs/owncloud/apps", owner: "dockerfs", group: "dockerfs" }
-  - { name: "/dockerfs/owncloud_db/data", owner: 999, group: 999 }
-  - { name: "/dockerfs/owncloud_db/config", owner: 999, group: 999 }
   - { name: "/dockerfs/syncthing/config", owner: "dockerfs", group: "dockerfs" }
-  - { name: "/dockerfs/syncthing_discovery/data", owner: "dockerfs", group: "dockerfs" }
