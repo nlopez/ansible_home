@@ -83,7 +83,7 @@
 - name: Configure consul service vhost templates
   template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf.ctmpl
   with_items: "{{ proxy_vhosts }}"
-  when: "{{ item.upstreams is defined }}"
+  when: "{{ item.consul_service is defined }}"
 
 - name: Add consul service vhosts to list of managed vhosts
   set_fact: >
