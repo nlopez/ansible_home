@@ -61,27 +61,46 @@
     path: "{{ nginx_conf_root }}/vhosts"
     state: directory
 
-- find: path="{{ nginx_conf_root}}/vhosts" file_type=file
-  register: vhosts_files
-
-- debug: var=vhosts_files
-
-- name: Empty nginx vhosts dir
-  file: state=absent path={{ item.path }}
-  with_items: "{{ vhosts_files.files }}"
-
 - name: Drop off default server vhost separately
   template: src=vhosts/00-desertbluffs.com.conf.j2 dest={{ nginx_conf_root}}/vhosts/00-desertbluffs.com.conf
 
-- name: Populate virtual hosts configurations
+- name: Begin list of managed vhosts
+  set_fact: managed_vhosts="["{{ nginx_conf_root}}/vhosts/00-desertbluffs.com.conf"]"
+
+- name: Configure static upstream vhosts
   template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf
   with_items: "{{ proxy_vhosts }}"
   when: "{{ item.upstreams is defined }}"
 
-- name: Populate virtual hosts configurations, for consumption by consul-template
+- name: Add static upstream vhosts to list of managed vhosts
+  set_fact: >
+    managed_vhosts="{{ managed_vhosts }} + [
+    "{{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf"
+    ]"
+  with_items: "{{ proxy_vhosts }}"
+  when: "{{ item.upstreams is defined }}"
+
+- name: Configure consul service vhost templates
   template: src=vhost.conf.j2 dest={{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf.ctmpl
   with_items: "{{ proxy_vhosts }}"
+  when: "{{ item.upstreams is defined }}"
+
+- name: Add consul service vhosts to list of managed vhosts
+  set_fact: >
+    managed_vhosts="{{ managed_vhosts }} + [
+    "{{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf",
+    "{{ nginx_conf_root }}/vhosts/{{ item.fqdn }}.conf.ctmpl",
+    ]"
+  with_items: "{{ proxy_vhosts }}"
   when: "{{ item.consul_service is defined }}"
+
+- find: path="{{ nginx_conf_root}}/vhosts" file_type=file
+  register: vhosts_files
+
+- name: Remove any unmanaged files from the vhosts dir
+  file: state=absent path={{ item.path }}
+  with_items: "{{ vhosts_files.files }}"
+  when: item.path not in managed_vhosts
 
 - name: Ensure nginx is started and enabled
   service: name=nginx state=reloaded enabled=yes

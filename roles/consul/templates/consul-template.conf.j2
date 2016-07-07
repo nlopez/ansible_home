@@ -5,7 +5,7 @@ consul = "{{ consul_host }}"
 template {
   source = "{{ nginx_conf_root }}/vhosts/{{ vhost.fqdn }}.conf.ctmpl"
   destination = "{{ nginx_conf_root }}/vhosts/{{ vhost.fqdn }}.conf"
-  command = "service nginx restart"
+  command = "service nginx reload"
   perms = 0444
   backup = true
 }
