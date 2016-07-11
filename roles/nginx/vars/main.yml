@@ -9,7 +9,7 @@ http2: yes
 # disable oauth2 authentication for a particular vhost
 proxy_vhosts:
   - { fqdn: "couchpotato.desertbluffs.com", consul_service: "couchpotato" }
-  - { fqdn: "deluge.desertbluffs.com", upstreams: [ "192.168.239.6:8112" ] }
+  - { fqdn: "deluge.desertbluffs.com", consul_service: "deluge" }
   - { fqdn: "freenas.desertbluffs.com", upstreams: [ "192.168.239.16:80" ] }
   - { fqdn: "nzbget.desertbluffs.com", consul_service: "nzbget" }
   - { fqdn: "plex.desertbluffs.com", upstreams: [ "192.168.239.17:32400" ], auth: no }

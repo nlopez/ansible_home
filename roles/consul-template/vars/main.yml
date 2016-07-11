@@ -1,2 +1,2 @@
 ---
-consul_host: mini.radoncanyon.com:8500
+consul_host: 192.168.240.128:8500
