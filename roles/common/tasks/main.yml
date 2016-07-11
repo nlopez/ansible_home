@@ -30,6 +30,10 @@
     groups: "{{ sudo_group }}"
     createhome: True
 
+- name: Add Nick to docker group
+  user: name=nlopez groups=docker append=yes
+  ignore_errors: True
+
 - name: Setup Nick's keys
   authorized_key: user=nlopez key="{{ item }}" state=present
   with_file:
