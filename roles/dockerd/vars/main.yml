@@ -14,3 +14,5 @@ dockerfs_dirs:
   - { name: "/dockerfs/plexpy/config", owner: "dockerfs", group: "dockerfs" }
   - { name: "/dockerfs/nzbget/config", owner: "dockerfs", group: "dockerfs" }
   - { name: "/dockerfs/syncthing/config", owner: "dockerfs", group: "dockerfs" }
+  - { name: "/dockerfs/pritunl/pritunl", owner: "dockerfs", group: "dockerfs" }
+  - { name: "/dockerfs/pritunl/mongodb", owner: "dockerfs", group: "dockerfs" }
