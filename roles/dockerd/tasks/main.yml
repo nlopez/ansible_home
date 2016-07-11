@@ -29,8 +29,8 @@
     group: root
     mode: 0444
   with_items:
-  - ca.pem
-  - server-cert.pem
+    - ca.pem
+    - server-cert.pem
 
 - name: Configure Docker
   template:
@@ -40,8 +40,8 @@
     group: root
     mode: 0644
   notify:
-  - Reload systemd manager configuration
-  - Restart Docker
+    - Reload systemd manager configuration
+    - Restart Docker
 
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=running

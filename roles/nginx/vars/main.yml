@@ -17,4 +17,6 @@ proxy_vhosts:
   - { fqdn: "sonarr.desertbluffs.com", consul_service: "sonarr" }
   - { fqdn: "router.desertbluffs.com", upstreams: [ "192.168.239.2:80" ] }
   - { fqdn: "erlite.desertbluffs.com", upstreams: [ "192.168.239.1:443" ], upstream_ssl: yes }
+  - { fqdn: "syncthing.desertbluffs.com", consul_service: "syncthing" }
+  - { fqdn: "privtunl.desertbluffs.com", consul_service: "privtunl" }
 

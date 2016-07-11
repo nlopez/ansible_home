@@ -1,4 +1,4 @@
 [Service]
 ExecStart=
-ExecStart=/usr/bin/docker daemon -H tcp://0.0.0.0:{{docker_daemon_port}} -H fd:// --exec-opt native.cgroupdriver=cgroupfs --tlsverify=true --tlscacert="/root/.docker/ca.pem" --tlscert="/root/.docker/server-cert.pem" --tlskey="/root/.docker/server-key.pem"
+ExecStart=/usr/bin/docker daemon -H tcp://0.0.0.0:{{docker_daemon_port}} -H fd:// --exec-opt native.cgroupdriver=cgroupfs --tlsverify=true --tlscacert="/root/.docker/ca.pem" --tlscert="/root/.docker/server-cert.pem" --tlskey="/root/.docker/server-key.pem" --ip-forward=false --ip-masq=false --iptables=false
 TimeoutStartSec=0
