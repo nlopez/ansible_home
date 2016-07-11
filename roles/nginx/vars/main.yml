@@ -16,7 +16,7 @@ proxy_vhosts:
   - { fqdn: "plexpy.desertbluffs.com", consul_service: "plexpy" }
   - { fqdn: "sonarr.desertbluffs.com", consul_service: "sonarr" }
   - { fqdn: "router.desertbluffs.com", upstreams: [ "192.168.239.2:80" ] }
-  - { fqdn: "erlite.desertbluffs.com", upstreams: [ "192.168.239.1:443" ], upstream_ssl: yes }
+  - { fqdn: "erlite.desertbluffs.com", upstreams: [ "192.168.239.1:4443" ], upstream_ssl: yes }
   - { fqdn: "syncthing.desertbluffs.com", consul_service: "syncthing" }
   - { fqdn: "pritunl.desertbluffs.com", consul_service: "pritunl", upstream_ssl: yes }
 
