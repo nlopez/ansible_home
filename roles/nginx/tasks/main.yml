@@ -102,5 +102,8 @@
   with_items: "{{ vhosts_files.files }}"
   when: item.path not in managed_vhosts
 
+- name: Run consul-template
+  command: consul-template -config=/usr/local/etc/consul-template.conf -once 
+
 - name: Ensure nginx is started and enabled
   service: name=nginx state=reloaded enabled=yes
