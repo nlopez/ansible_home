@@ -2,12 +2,20 @@
 - name: Install consul-template package
   package: name=consul-template state=present
 
-- name: Install consul-template init script
-  copy: src=consul-template dest=/usr/local/etc/rc.d/consul-template owner=root group=wheel mode=0555
+- name: Install daemontools
+  package: name=daemontools state=present
 
-- name: Install consul-template configuration
+- name: Create daemontools service dir
+  file: path=/service mode=1755 owner=root group=root
+
+- name: Configure daemontools
+  command: "sysrc svscan_servicedir=/service"
+
+- 
+
+- name: Start and enable daemontools
+  service: name=daemontools enabled=yes state=restarted
+
+- name: Configure consul-template 
   template: src=consul-template.conf.j2 dest=/usr/local/etc/consul-template.conf owner=root group=wheel mode=0444
   notify: restart consul-template
-
-- name: Start and enable consul-template service
-  service: name=consul-template state=restarted enabled=yes
