@@ -31,7 +31,7 @@ http {
 
   ssl_session_timeout 1d;
   ssl_session_cache shared:SSL:50m;
-  ssl_buffer_size 1400;
+  ssl_session_tickets off;
 
   ssl_dhparam dhparam.pem;
 
@@ -48,11 +48,7 @@ http {
   resolver 8.8.8.8 8.8.4.4 valid=30s;
   resolver_timeout 5s; # default 30s
 
-  # https://github.com/grahamedgecombe/nginx-ct
-  ssl_ct on;
-  ssl_ct_static_scts /usr/local/etc/simp_le/sct/;
-
-  add_header Strict-Transport-Security 'max-age=15768000; includeSubdomains';
+  add_header Strict-Transport-Security max-age=15768000;
 
   server_tokens off;
 
