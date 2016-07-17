@@ -6,15 +6,22 @@
   package: name=daemontools state=present
 
 - name: Create daemontools service dir
-  file: path=/service mode=1755 owner=root group=root
+  file: path=/service mode=1755 owner=root group=wheel state=directory
 
 - name: Configure daemontools
   command: "sysrc svscan_servicedir=/service"
 
-- 
+- name: Configure consul-template daemontools init
+  copy: src=consul-template dest=/service
+
+- name: Set permissions on consul-template daemontools run scripts
+  file: path="{{ item }}" mode=0755
+  with_items:
+    - /service/consul-template/run
+    - /service/consul-template/log/run
 
 - name: Start and enable daemontools
-  service: name=daemontools enabled=yes state=restarted
+  service: name=svscan enabled=yes state=restarted
 
 - name: Configure consul-template 
   template: src=consul-template.conf.j2 dest=/usr/local/etc/consul-template.conf owner=root group=wheel mode=0444
