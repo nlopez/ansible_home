@@ -35,9 +35,7 @@
   ignore_errors: True
 
 - name: Setup Nick's keys
-  authorized_key: user=nlopez key="{{ item }}" state=present
-  with_file:
-    - public_keys/nlopez
+  authorized_key: user=nlopez key=https://github.com/nlopez.keys
 
 - name: Allow members of sudoers group to run all commands without a password
   template: src=sudoers.j2 dest={{ sudoers }} validate='visudo -cf %s'
