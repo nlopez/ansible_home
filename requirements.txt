@@ -8,6 +8,7 @@ idna==2.1
 ipaddress==1.0.16
 Jinja2==2.8
 MarkupSafe==0.23
+netaddr==0.7.18
 paramiko==2.0.1
 pex==1.1.0
 pluggy==0.3.1
