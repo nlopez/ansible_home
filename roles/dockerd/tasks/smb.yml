@@ -12,7 +12,7 @@
     src: "{{ item.src }}"
     fstype: cifs
     state: mounted
-    opts: "noperm,vers=3.0,username=guest,password=guest{{ item.opts }}"
+    opts: "noperm,vers=3.0,username=guest,password=guest{{ item.opts | default('') }}"
   with_items: "{{ smb_mounts }}"
 
 - name: Wait for network on boot
