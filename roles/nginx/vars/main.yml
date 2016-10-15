@@ -5,8 +5,16 @@ nginx_log_dir: /var/log/nginx
 nginx_user: www
 nginx_group: www
 http2: yes
+
+#
 # set 'auth: no' for apps with their own authentication mechanism to
 # disable oauth2 authentication for a particular vhost
+#
+# set 'upstream_ssl: yes' for apps performing their own ssl termination
+#
+# use a named 'consul_service' attriute for services that register themselves
+# use an 'upstreams' array of ip:port entries for static upstreams
+#
 proxy_vhosts:
   - { fqdn: "couchpotato.desertbluffs.com", consul_service: "couchpotato" }
   - { fqdn: "deluge.desertbluffs.com", consul_service: "deluge" }
