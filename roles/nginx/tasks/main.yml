@@ -2,7 +2,9 @@
 - include_vars: secret.yml
   no_log: true
 
-- include: cloudflare_dns.yml
+- name: Update DNS via CloudFlare
+  include: cloudflare_dns.yml
+  when: do_cloudflare is defined and do_cloudflare | bool
 
 - name: Ensure nginx compilation options dir exists
   file:
@@ -20,7 +22,7 @@
 - name: Install nginx mainline from ports
   portinstall: name=nginx-devel state=present use_packages=False
 
-- name: Install dependencies for https://github.com/agoragames/nginx-google-oauth
+- name: Install dependencies for nginx-google-oauth
   pkgng: name=lua51-cjson,lua51-luasec,lua51-luasocket state=present
   when: ansible_os_family == "FreeBSD"
 
@@ -110,4 +112,4 @@
   command: consul-template -config=/usr/local/etc/consul-template.conf -once 
 
 - name: Ensure nginx is started and enabled
-  service: name=nginx state=reloaded enabled=yes
+  service: name=nginx state=restarted enabled=yes

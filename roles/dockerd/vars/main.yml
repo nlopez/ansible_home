@@ -17,5 +17,4 @@ dockerfs_dirs:
   - { name: "/dockerfs/pritunl/pritunl" }
   - { name: "/dockerfs/pritunl/mongodb" }
   - { name: "/dockerfs/unifi/config" }
-  - { name: "/dockerfs/grafana/config" }
   - { name: "/dockerfs/grafana/data" }

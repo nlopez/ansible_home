@@ -52,15 +52,6 @@ http {
 
   server_tokens off;
 
-  geo $allowed_ranges {
-    # require auth by default
-    default 0;
-    # do not require auth for these subnets
-    127.0.0.1/32 1;
-    192.168.239.0/24 1;
-    fe80::/64 1;
-  }
-
   # logging paths and params
   access_log off;
   error_log /var/log/nginx/error.log error;
