@@ -1,5 +1,6 @@
 ---
 - include_vars: secret.yml
+  no_log: true
 
 - include: tasks/ovs.yml # Open vSwitch setup
   when: do_ovs == True

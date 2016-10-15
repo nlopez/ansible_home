@@ -1,5 +1,9 @@
 ---
 - include_vars: secret.yml
+  no_log: true
+
+- include: cloudflare_dns.yml
+
 - name: Ensure nginx compilation options dir exists
   file:
     path: /var/db/ports/www_nginx-devel

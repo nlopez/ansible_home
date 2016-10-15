@@ -19,4 +19,5 @@ proxy_vhosts:
   - { fqdn: "syncthing.desertbluffs.com", consul_service: "syncthing" }
   - { fqdn: "pritunl.desertbluffs.com", consul_service: "pritunl", upstream_ssl: yes }
   - { fqdn: "unifi.desertbluffs.com", upstreams: [ "192.168.240.130:8443" ], upstream_ssl: yes }
+  - { fqdn: "grafana.desertbluffs.com", consul_service: "grafana" }
 
