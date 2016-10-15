@@ -14,7 +14,19 @@
   when: ansible_os_family == "Archlinux"
 
 - name: Install common packages
-  package: name=bash,sudo,rsync,{{ system_certificates }},curl,wget,mosh,screen,{{ dig }},tree,{{ vim }} state=present
+  package: name="{{ item }}" state=present
+  with_items: 
+    - bash
+    - sudo
+    - rsync
+    - "{{ system_certificates }}"
+    - curl
+    - wget
+    - mosh
+    - screen
+    - "{{ dig }}"
+    - tree
+    - "{{ vim }}"
 
 - name: Set root's shell to bash
   user: name=root shell={{ bash_binary }}
