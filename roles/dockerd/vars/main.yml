@@ -18,3 +18,4 @@ dockerfs_dirs:
   - { name: "/dockerfs/pritunl/mongodb" }
   - { name: "/dockerfs/unifi/config" }
   - { name: "/dockerfs/grafana/data" }
+  - { name: "/dockerfs/influxdb/data" }
