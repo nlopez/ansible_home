@@ -19,3 +19,4 @@ dockerfs_dirs:
   - { name: "/dockerfs/unifi/config" }
   - { name: "/dockerfs/grafana/data" }
   - { name: "/dockerfs/influxdb/data" }
+  - { name: "/dockerfs/prometheus/data" }
