@@ -1,11 +1,11 @@
 ---
 - name: Get public IPv4 address
-  uri: url=https://ipv4.icanhazip.com/ return_content=yes timeout=5
+  uri: url=http://ipv4.icanhazip.com return_content=yes timeout=5
   register: icanhazv4
   ignore_errors: yes
 
 - name: Get public IPv6 address
-  uri: url=https://ipv6.icanhazip.com/ return_content=yes timeout=5
+  uri: url=http://ipv6.icanhazip.com return_content=yes timeout=5
   register: icanhazv6
   ignore_errors: yes
 
@@ -14,7 +14,7 @@
     zone: desertbluffs.com
     type: A
     record: desertbluffs.com
-    value: "{{ icanhazv4.content | ipv4('address') }}"
+    value: "{{ icanhazv4.content | trim | ipv4('address') }}"
     state: present
     account_email: "{{ cloudflare_account_email }}"
     account_api_token: "{{ cloudflare_account_api_token }}"
@@ -25,7 +25,7 @@
     zone: desertbluffs.com
     type: AAAA
     record: desertbluffs.com
-    value: "{{ icanhazv6.content | ipv6('address') }}"
+    value: "{{ icanhazv6.content | trim | ipv6('address') }}"
     state: present
     account_email: "{{ cloudflare_account_email }}"
     account_api_token: "{{ cloudflare_account_api_token }}"
