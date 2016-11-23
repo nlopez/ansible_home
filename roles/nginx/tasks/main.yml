@@ -22,10 +22,6 @@
 - name: Install nginx mainline from ports
   portinstall: name=nginx-devel state=present use_packages=False
 
-- name: Install dependencies for nginx-google-oauth
-  pkgng: name=lua51-cjson,lua51-luasec,lua51-luasocket state=present
-  when: ansible_os_family == "FreeBSD"
-
 - name: Create nginx log dir
   file: path={{ nginx_log_dir }} state=directory mode=0755 owner={{ nginx_user }} group={{ nginx_group }}
 
@@ -45,7 +41,6 @@
     group: wheel
     mode: 0444
   with_items:
-    - access.lua
     - mime.types
 
 - name: Install main nginx config files
