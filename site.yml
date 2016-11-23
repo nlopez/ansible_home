@@ -24,7 +24,6 @@
   hosts: plexmediaserver
   roles:
     - plexmediaserver
-    - consul
 
 - name: configure docker hosts
   hosts: dockerd
