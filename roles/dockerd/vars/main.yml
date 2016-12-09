@@ -22,3 +22,5 @@ dockerfs_dirs:
   - { name: "/dockerfs/prometheus/data" }
   - { name: "/dockerfs/jenkins/data", owner: 1000, group: 1000 }
   - { name: "/dockerfs/oauth2_proxy/config" }
+  - { name: "/dockerfs/consul/data" }
+  - { name: "/dockerfs/consul/config" }
