@@ -2,9 +2,9 @@
 - include_vars: secret.yml
   no_log: true
 
-- name: Update DNS via CloudFlare
-  include: cloudflare_dns.yml
-  when: do_cloudflare is defined and do_cloudflare | bool
+- name: Update DNS 
+  include: dns.yml
+  when: dns is defined and dns | bool
 
 - name: Ensure nginx compilation options dir exists
   file:
