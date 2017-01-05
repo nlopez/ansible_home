@@ -4,7 +4,7 @@
 
 - name: Update DNS 
   include: dns.yml
-  when: dns is defined and dns | bool
+  when: do_dns is defined and do_dns | bool
 
 - name: Ensure nginx compilation options dir exists
   file:

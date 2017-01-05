@@ -9,7 +9,7 @@
   register: icanhazv6
   ignore_errors: yes
 
-- name: Set desertbluffs.com A record
+- name: Set desertbluffs.com A record via CloudFlare
   cloudflare_dns:
     zone: desertbluffs.com
     type: A
@@ -20,7 +20,20 @@
     account_api_token: "{{ cloudflare_account_api_token }}"
   when: icanhazv4 | succeeded
 
-- name: Set desertbluffs.com AAAA record
+- name: Set desertbluffs.com A record via Route 53
+  local_action:
+    module: route53
+    command: create
+    zone: desertbluffs.com
+    record: desertbluffs.com
+    type: A
+    value: "{{ icanhazv4.content | trim | ipv4('address') }}"
+    ttl: 60
+    aws_access_key: "{{ aws_route53_access_key_id }}"
+    aws_secret_key: "{{ aws_route53_secret_access_key }}"
+  when: icanhazv4 | succeeded
+
+- name: Set desertbluffs.com AAAA record via CloudFlare
   cloudflare_dns:
     zone: desertbluffs.com
     type: AAAA
@@ -31,7 +44,20 @@
     account_api_token: "{{ cloudflare_account_api_token }}"
   when: icanhazv6 | succeeded
 
-- name: Register aliases
+- name: Set desertbluffs.com AAAA record via Route53
+  local_action:
+    module: route53
+    command: create
+    zone: desertbluffs.com
+    record: desertbluffs.com
+    type: A
+    value: "{{ icanhazv4.content | trim | ipv4('address') }}"
+    ttl: 60
+    aws_access_key: "{{ aws_route53_access_key_id }}"
+    aws_secret_key: "{{ aws_route53_secret_access_key }}"
+  when: icanhazv6 | succeeded
+
+- name: Register aliases via CloudFlare
   cloudflare_dns:
     zone: desertbluffs.com
     type: CNAME
@@ -40,4 +66,17 @@
     state: present
     account_email: "{{ cloudflare_account_email }}"
     account_api_token: "{{ cloudflare_account_api_token }}"
+  with_items: "{{ proxy_vhosts }}"
+
+- name: Register aliases via Route53
+  local_action:
+    module: route53
+    command: create
+    zone: desertbluffs.com
+    record: "{{ item.fqdn }}"
+    type: CNAME
+    value: desertbluffs.com
+    ttl: 60
+    aws_access_key: "{{ aws_route53_access_key_id }}"
+    aws_secret_key: "{{ aws_route53_secret_access_key }}"
   with_items: "{{ proxy_vhosts }}"
