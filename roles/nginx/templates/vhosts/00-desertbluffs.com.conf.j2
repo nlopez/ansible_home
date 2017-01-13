@@ -1,3 +1,30 @@
+# https default server
+server {
+  listen 443 ssl {{ "http2" if http2 else "" }} default_server;
+  listen [::]:443 {{ "http2" if http2 else "" }} ssl default_server;
+  server_name _;
+
+  ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
+  ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
+  ssl_protocols {{ ssl_protocols_default }};
+  ssl_ciphers {{ ssl_ciphers_default }};
+
+  location = / {
+    echo $remote_addr;
+    default_type text/plain;
+  }
+
+  location /keybase.txt {
+    echo 'Hello!';
+    default_type text/plain;
+  }
+
+  location /_oauth {
+    include auth.conf;
+  }
+}
+
+
 # https www to non-www redirect
 server {
   listen 443 ssl{{ " http2" if http2 else "" }};
@@ -6,6 +33,8 @@ server {
 
   ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
   ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
+  ssl_protocols {{ ssl_protocols_default }};
+  ssl_ciphers {{ ssl_ciphers_default }};
 
   return 301 https://desertbluffs.com$request_uri;
 }
@@ -24,30 +53,5 @@ server {
 
   location / {
     return 301 https://desertbluffs.com$request_uri;
-  }
-}
-
-
-# https default server
-server {
-  listen 443 ssl {{ "http2" if http2 else "" }} default_server;
-  listen [::]:443 {{ "http2" if http2 else "" }} ssl default_server;
-  server_name desertbluffs.com;
-
-  ssl_certificate /usr/local/etc/simp_le/output/desertbluffs.com/fullchain.pem;
-  ssl_certificate_key /usr/local/etc/simp_le/output/desertbluffs.com/key.pem;
-
-  location = / {
-    echo $remote_addr;
-    default_type text/plain;
-  }
-
-  location /keybase.txt {
-    echo 'Hello!';
-    default_type text/plain;
-  }
-
-  location /_oauth {
-    include auth.conf;
   }
 }

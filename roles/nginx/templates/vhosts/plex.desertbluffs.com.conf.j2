@@ -19,3 +19,6 @@
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "Upgrade";
     proxy_buffering off;
+
+    access_log /var/log/nginx/plex_access.log;
+    error_log /var/log/nginx/plex_error.log;
