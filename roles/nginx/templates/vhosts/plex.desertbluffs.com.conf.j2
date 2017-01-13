@@ -1,3 +1,21 @@
-    if ($http_x_plex_device_name = '') { rewrite ^/$ https://$server_name/web/index.html; }
+    if ($request_method != OPTIONS) {
+      set $test A;
+    }
+    if ($http_x_plex_device_name = '') {
+      set $test "${test}B";
+    }
+    if ($arg_X-Plex-Device-Name = '') {
+      set $test "${test}C";
+    }
+    if ($http_user_agent !~ (SmartTV)) {
+      set $test "${test}D";
+    }
+
+    #If the client isn't an app like a SmartTV and such, forward them to the web interface.
+    if ($test = ABCD) {
+      rewrite ^/$ https://$server_name/web/index.html;
+    }
+    
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "Upgrade";
+    proxy_buffering off;
