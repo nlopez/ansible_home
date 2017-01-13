@@ -24,3 +24,4 @@ dockerfs_dirs:
   - { name: "/dockerfs/oauth2_proxy/config" }
   - { name: "/dockerfs/consul/data", owner: 100, group: 1000 }
   - { name: "/dockerfs/consul/config", owner: 100, group: 1000 }
+  - { name: "/dockerfs/pihole/etc" }
