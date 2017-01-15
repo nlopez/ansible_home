@@ -2,10 +2,6 @@
 - name: Install CIFS utils
   package: name=cifs-utils state=present
 
-- name: Create share mount points
-  file: name={{ item.dest }} state=directory
-  with_items: "{{ smb_mounts }}"
-
 - name: Mount SMB shares share
   mount:
     name: "{{ item.dest }}"
