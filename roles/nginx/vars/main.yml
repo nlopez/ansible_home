@@ -24,6 +24,7 @@ proxy_vhosts:
   - { fqdn: "nzbget.desertbluffs.com", consul_service: "nzbget" }
   - fqdn: plex.desertbluffs.com
     upstreams: [ "192.168.239.17:32400" ]
+    upstream_ssl: yes
     auth: no
     #Intentionally not hardened for security for player support and encryption video streams has a lot of overhead with something like AES-256-GCM-SHA384.
     ssl_protocols: "TLSv1 TLSv1.1 TLSv1.2"

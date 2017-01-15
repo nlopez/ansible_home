@@ -24,7 +24,4 @@ proxy_set_header Referer $http_referer;
 proxy_set_header Cookie $http_cookie;
 
 proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-proxy_send_timeout 10m;
-proxy_read_timeout 10h;
 proxy_hide_header X-ApplicationVersion;
-proxy_redirect off;

@@ -16,7 +16,9 @@
       rewrite ^/$ https://$server_name/web/index.html;
     }
     
+    proxy_redirect off;
     proxy_buffering off;
+    proxy_read_timeout 10h;
 
     access_log /var/log/nginx/plex_access.log;
     error_log /var/log/nginx/plex_error.log;
