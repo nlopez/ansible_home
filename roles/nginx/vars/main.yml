@@ -37,3 +37,4 @@ proxy_vhosts:
   - { fqdn: "unifi.desertbluffs.com", upstreams: [ "192.168.240.130:8443" ], upstream_ssl: yes }
   # - { fqdn: "grafana.desertbluffs.com", consul_service: "grafana" }
   - { fqdn: "jenkins.desertbluffs.com", consul_service: "jenkins" }
+  - { fqdn: "gitea.desertbluffs.com", consul_service: "gitea", auth: no }
