@@ -1,0 +1,14 @@
+---
+- name: Install NFS utils
+  package: name=nfs-utils state=present
+
+- name: Mount NFS shares 
+  mount:
+    name: "{{ item.dest }}"
+    src: "{{ item.src }}"
+    fstype: nfs4
+    state: mounted
+  with_items: "{{ nfs_mounts }}"
+
+- name: Wait for network on boot
+  service: name=systemd-networkd-wait-online enabled=yes

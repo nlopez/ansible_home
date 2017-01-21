@@ -2,7 +2,7 @@
 - name: Install CIFS utils
   package: name=cifs-utils state=present
 
-- name: Mount SMB shares share
+- name: Mount SMB shares 
   mount:
     name: "{{ item.dest }}"
     src: "{{ item.src }}"

@@ -1,9 +1,12 @@
 ---
 docker_daemon_port: 2376
 do_ovs: False
-do_smb: True
+nfs_mounts:
+  - { src: "freenas.radoncanyon.com:/mnt/etank/media/movies", dest: "/mnt/media/movies" }
+  - { src: "freenas.radoncanyon.com:/mnt/etank/media/tv", dest: "/mnt/media/tv" }
+  - { src: "freenas.radoncanyon.com:/mnt/etank/media/anime", dest: "/mnt/media/anime" }
+  - { src: "freenas.radoncanyon.com:/mnt/etank/media/downloads", dest: "/mnt/media/downloads" }
 smb_mounts:
-  - { src: "//freenas.radoncanyon.com/media", dest: "/mnt/media" }
   - { src: "//freenas.radoncanyon.com/plex_logs", dest: "/mnt/plex_logs" }
 dockerfs_dirs:
   - { name: "/dockerfs/consul/config", owner: 100, group: 1000 }
