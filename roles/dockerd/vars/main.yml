@@ -6,22 +6,18 @@ smb_mounts:
   - { src: "//freenas.radoncanyon.com/media", dest: "/mnt/media" }
   - { src: "//freenas.radoncanyon.com/plex_logs", dest: "/mnt/plex_logs" }
 dockerfs_dirs:
-  - { name: "/dockerfs/nzbget/config" }
-  - { name: "/dockerfs/deluge/config" }
-  - { name: "/dockerfs/couchpotato/config" }
-  - { name: "/dockerfs/sonarr/config" }
-  - { name: "/dockerfs/plexpy/config" }
-  - { name: "/dockerfs/nzbget/config" }
-  - { name: "/dockerfs/pritunl/pritunl" }
-  - { name: "/dockerfs/pritunl/mongodb" }
-  - { name: "/dockerfs/unifi/config" }
-  - { name: "/dockerfs/grafana/data" }
-  - { name: "/dockerfs/influxdb/data" }
-  - { name: "/dockerfs/prometheus/data" }
-  - { name: "/dockerfs/jenkins/data", owner: 1000, group: 1000 }
-  - { name: "/dockerfs/oauth2_proxy/config" }
-  - { name: "/dockerfs/consul/data", owner: 100, group: 1000 }
   - { name: "/dockerfs/consul/config", owner: 100, group: 1000 }
-  - { name: "/dockerfs/pihole/etc" }
+  - { name: "/dockerfs/consul/data", owner: 100, group: 1000 }
+  - { name: "/dockerfs/couchpotato/config" }
+  - { name: "/dockerfs/deluge/config" }
+  - { name: "/dockerfs/gitea-mysql/data", owner: 999, group: 999 }
   - { name: "/dockerfs/gitea/data", owner: 1000, group: 1000 }
-  - { name: "/dockerfs/gitea-mysql/data" }
+  - { name: "/dockerfs/jenkins/data", owner: 1000, group: 1000 }
+  - { name: "/dockerfs/nzbget/config" }
+  - { name: "/dockerfs/nzbget/config" }
+  - { name: "/dockerfs/oauth2_proxy/config" }
+  - { name: "/dockerfs/plexpy/config" }
+  - { name: "/dockerfs/pritunl/mongodb" }
+  - { name: "/dockerfs/pritunl/pritunl" }
+  - { name: "/dockerfs/sonarr/config" }
+  - { name: "/dockerfs/unifi/config" }
