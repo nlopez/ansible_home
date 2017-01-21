@@ -32,9 +32,8 @@ proxy_vhosts:
   - { fqdn: "plexpy.desertbluffs.com", consul_service: "plexpy" }
   - { fqdn: "sonarr.desertbluffs.com", consul_service: "sonarr" }
   - { fqdn: "erlite.desertbluffs.com", upstreams: [ "192.168.239.1:4443" ], upstream_ssl: yes }
-  - { fqdn: "syncthing.desertbluffs.com", consul_service: "syncthing" }
+  - { fqdn: "syncthing.desertbluffs.com", upstreams: [ "192.168.239.18:8384" ] }
   - { fqdn: "pritunl.desertbluffs.com", consul_service: "pritunl", upstream_ssl: yes }
   - { fqdn: "unifi.desertbluffs.com", upstreams: [ "192.168.240.130:8443" ], upstream_ssl: yes }
-  # - { fqdn: "grafana.desertbluffs.com", consul_service: "grafana" }
   - { fqdn: "jenkins.desertbluffs.com", consul_service: "jenkins" }
   - { fqdn: "gitea.desertbluffs.com", consul_service: "gitea", auth: no }

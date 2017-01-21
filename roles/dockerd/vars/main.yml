@@ -5,7 +5,6 @@ do_smb: True
 smb_mounts:
   - { src: "//freenas.radoncanyon.com/media", dest: "/mnt/media" }
   - { src: "//freenas.radoncanyon.com/plex_logs", dest: "/mnt/plex_logs" }
-  - { src: "//freenas.radoncanyon.com/syncthing", dest: "/mnt/syncthing", opts: ",file_mode=0750,dir_mode=0750,uid=1001,gid=1001" }
 dockerfs_dirs:
   - { name: "/dockerfs/nzbget/config" }
   - { name: "/dockerfs/deluge/config" }
@@ -13,7 +12,6 @@ dockerfs_dirs:
   - { name: "/dockerfs/sonarr/config" }
   - { name: "/dockerfs/plexpy/config" }
   - { name: "/dockerfs/nzbget/config" }
-  - { name: "/dockerfs/syncthing/config" }
   - { name: "/dockerfs/pritunl/pritunl" }
   - { name: "/dockerfs/pritunl/mongodb" }
   - { name: "/dockerfs/unifi/config" }
