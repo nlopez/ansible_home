@@ -1,5 +1,5 @@
-[localhost]
-127.0.0.1 ansible_connection=local ansible_become=no
+[all:vars]
+ansible_python_interpreter=python2
 
 [nginx]
 nginx.radoncanyon.com
@@ -27,6 +27,9 @@ dnscrypt-proxy.radoncanyon.com
 nginx
 plexmediaserver
 admin
+
+[freenas_jails:vars]
+ansible_python_interpreter=python2.7
 
 [remotehosts:children]
 nginx

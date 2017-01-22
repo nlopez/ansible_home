@@ -4,4 +4,3 @@ vim: vim
 sudoers: /etc/sudoers
 dig: bind-tools
 sudo_group: wheel
-ansible_python_interpreter: python2
