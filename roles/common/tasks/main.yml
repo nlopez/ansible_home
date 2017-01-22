@@ -3,15 +3,7 @@
   service: name=rtsold state=started enabled=yes
   when: ansible_os_family == "FreeBSD"
 
-- name: Set locale to en_us.UTF-8
-  copy: src=login.conf dest=/etc/login.conf owner=root group=wheel mode=0644
-  notify: rebuild capabilities database for login.conf
-  when: ansible_os_family == "FreeBSD"
-
-- name: Set locale to en_us.UTF-8
-  copy: src=locale.gen dest=/etc/locale.gen owner=root group=root mode=0644
-  notify: generate locales
-  when: ansible_os_family == "Archlinux"
+- include: locale.yml 
 
 - name: Install common packages
   package: name="{{ item }}" state=present
@@ -28,8 +20,13 @@
     - tree
     - "{{ vim }}"
 
-- name: Set root's shell to bash
-  user: name=root shell={{ bash_binary }}
+- name: Determine path to bash
+  shell: which bash
+  register: which_bash
+  changed_when: False
+
+- set_fact:
+    bash_binary: "{{ which_bash.stdout | default('/bin/bash') }}"
 
 - name: Add Nick's group
   group: name=nlopez state=present
@@ -42,12 +39,23 @@
     groups: "{{ sudo_group }}"
     createhome: True
 
+- name: Enumerate available groups
+  shell: getent group | awk -F":" '{print $1}'
+  register: etc_group
+  changed_when: False
+
 - name: Add Nick to docker group
-  user: name=nlopez groups=docker append=yes
-  ignore_errors: True
+  user: name=nlopez groups="{{ item }}" append=yes
+  when: '"{{ item }}" in etc_group.stdout_lines'
+  with_items:
+    - docker
 
 - name: Setup Nick's keys
-  authorized_key: user=nlopez key=https://github.com/nlopez.keys
+  authorized_key:
+    user: nlopez
+    key: https://github.com/nlopez.keys
+    exclusive: yes
+    validate_certs: yes # default
 
 - name: Allow members of sudoers group to run all commands without a password
   template: src=sudoers.j2 dest={{ sudoers }} validate='visudo -cf %s'

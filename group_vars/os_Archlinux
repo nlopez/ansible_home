@@ -1,1 +1,2 @@
 ---
+generate_locales: '/usr/bin/locale-gen --purge en_US.UTF-8'

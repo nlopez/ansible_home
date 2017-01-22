@@ -1,20 +1,26 @@
 [localhost]
-127.0.0.1 ansible_connection=local ansible_become=no ansible_python_interpreter=python
+127.0.0.1 ansible_connection=local ansible_become=no
 
 [nginx]
-nginx.radoncanyon.com ansible_python_interpreter=python2.7
+nginx.radoncanyon.com
 
 [plexmediaserver]
-plexmediaserver.radoncanyon.com ansible_python_interpreter=python2.7
+plexmediaserver.radoncanyon.com
 
 [admin]
-admin.radoncanyon.com ansible_python_interpreter=python2.7
+admin.radoncanyon.com
 
 [dockerd]
-mini.radoncanyon.com ansible_python_interpreter=python2
+mini.radoncanyon.com
 
-#[peppy]
-#peppy.radoncanyon.com ansible_python_interpreter=python2
+[peppy-wifi]
+peppy-wifi.radoncanyon.com
+
+[pihole]
+pihole.radoncanyon.com
+
+[dnscrypt-proxy]
+dnscrypt-proxy.radoncanyon.com
 
 # http://docs.ansible.com/ansible/intro_inventory.html#groups-of-groups-and-group-variables
 [freenas_jails:children]

@@ -5,7 +5,7 @@
     - group_by: key=os_{{ ansible_distribution }}
 
 - name: configure common settings for all hosts
-  hosts: remotehosts
+  hosts: all
   roles:
     - common
 
