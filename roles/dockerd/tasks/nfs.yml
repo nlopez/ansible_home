@@ -2,8 +2,10 @@
 - name: Install NFS utils
   package: name=nfs-utils state=present
 
-- name: Install autofs
-  package: name=autofs state=present
-
-- name: Start and enable autofs
-  service: name=autofs state=started enabled=yes
+- name: Mount NFS shares 
+  mount:
+    name: "{{ item.dest }}"
+    src: "{{ item.src }}"
+    fstype: nfs4
+    state: mounted
+  with_items: "{{ nfs_mounts }}"
