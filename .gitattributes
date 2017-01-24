@@ -1,0 +1,1 @@
+roles/nginx/files/gce-freenas-nginx.json filter=git-crypt diff=git-crypt
