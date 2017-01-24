@@ -9,6 +9,10 @@ server {
   ssl_protocols {{ ssl_protocols_default }};
   ssl_ciphers {{ ssl_ciphers_default }};
 
+  add_header Content-Security-Policy "default-src 'self'" always;
+
+  location = /favicon.ico { return 204; }
+
   location = / {
     echo $remote_addr;
     default_type text/plain;

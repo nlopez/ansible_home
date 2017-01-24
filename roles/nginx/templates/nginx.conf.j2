@@ -34,7 +34,7 @@ http {
   ssl_session_tickets off;
 
   ssl_dhparam dhparam.pem;
-  
+
   ssl_prefer_server_ciphers on;
 
   # OCSP stapling
@@ -44,7 +44,13 @@ http {
   resolver 8.8.8.8 8.8.4.4 valid=30s;
   resolver_timeout 5s; # default 30s
 
-  add_header Strict-Transport-Security max-age=15768000;
+  add_header Strict-Transport-Security max-age=15768000 always;
+  add_header X-Frame-Options SAMEORIGIN always;
+  add_header X-XSS-Protection '1; mode=block' always;
+  add_header X-Content-Type-Options nosniff always;
+  add_header Public-Key-Pins 'pin-sha256="YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg="; \
+  pin-sha256="Vjs8r4z+80wjNcr1YKepWQboSIRi63WsWXhIMN+eWys="; \
+  includeSubdomains max-age=86400' always;
 
   server_tokens off;
 
