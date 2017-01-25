@@ -1,4 +1,7 @@
 ---
+- include_vars: dns.yml
+
+###############################################################################
 - name: Get public IPv4 address
   uri: url=http://ipv4.icanhazip.com return_content=yes timeout=5
   register: icanhazv4
@@ -9,7 +12,8 @@
   register: icanhazv6
   ignore_errors: yes
 
-- name: Set desertbluffs.com A record via Google Cloud DNS
+###############################################################################
+- name: Create desertbluffs.com A record via Google Cloud DNS
   local_action:
     module: gcdns_record
     zone: desertbluffs.com
@@ -23,10 +27,11 @@
     service_account_email: "{{ gcp_service_account_email }}"
   when: icanhazv4 | succeeded
 
-- name: Set desertbluffs.com A record via Route 53
+- name: Create desertbluffs.com A record via Route 53
   local_action:
     module: route53
     command: create
+    overwrite: yes
     zone: desertbluffs.com
     record: desertbluffs.com
     type: A
@@ -34,27 +39,29 @@
     ttl: 3600
     aws_access_key: "{{ aws_route53_access_key_id }}"
     aws_secret_key: "{{ aws_route53_secret_access_key }}"
-    overwrite: yes
   when: icanhazv4 | succeeded
 
-- name: Set desertbluffs.com AAAA record via Google Cloud DNS
+###############################################################################
+- name: Create desertbluffs.com AAAA record via Google Cloud DNS
   local_action:
     module: gcdns_record
+    state: present
+    overwrite: yes
     zone: desertbluffs.com
-    type: AAAA
     record: desertbluffs.com
+    type: AAAA
     value: "{{ icanhazv6.content | trim | ipv6('address') }}"
     ttl: 3600
-    state: present
     credentials_file: "{{ gcp_credentials_file }}"
     project_id: "{{ gcp_project_id }}"
     service_account_email: "{{ gcp_service_account_email }}"
   when: icanhazv6 | succeeded
 
-- name: Set desertbluffs.com AAAA record via Route53
+- name: Create desertbluffs.com AAAA record via Route53
   local_action:
     module: route53
     command: create
+    overwrite: yes
     zone: desertbluffs.com
     record: desertbluffs.com
     type: A
@@ -62,33 +69,80 @@
     ttl: 3600
     aws_access_key: "{{ aws_route53_access_key_id }}"
     aws_secret_key: "{{ aws_route53_secret_access_key }}"
-    overwrite: yes
   when: icanhazv6 | succeeded
 
-- name: Register aliases via Google Cloud DNS
+###############################################################################
+- name: Create aliases via Google Cloud DNS
   local_action:
     module: gcdns_record
+    state: present
+    overwrite: yes
     zone: desertbluffs.com
+    record: "{{ item.fqdn }}"
     type: CNAME
     value: desertbluffs.com.
     ttl: 604800
-    record: "{{ item.fqdn }}"
-    state: present
     credentials_file: "{{ gcp_credentials_file }}"
     project_id: "{{ gcp_project_id }}"
     service_account_email: "{{ gcp_service_account_email }}"
   with_items: "{{ proxy_vhosts }}"
 
-- name: Register aliases via Route53
+- name: Create aliases via Route53
   local_action:
     module: route53
     command: create
+    overwrite: yes
     zone: desertbluffs.com
     record: "{{ item.fqdn }}"
     type: CNAME
-    value: desertbluffs.com
+    value: desertbluffs.com.
     ttl: 604800
     aws_access_key: "{{ aws_route53_access_key_id }}"
     aws_secret_key: "{{ aws_route53_secret_access_key }}"
-    overwrite: yes
   with_items: "{{ proxy_vhosts }}"
+
+###############################################################################
+- name: Create additional records via Google Cloud DNS
+  local_action:
+    module: gcdns_record
+    state: present
+    overwrite: yes
+    zone: "{{ item.zone }}"
+    record: "{{ item.name }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    ttl: "{{ item.ttl }}"
+    credentials_file: "{{ gcp_credentials_file }}"
+    project_id: "{{ gcp_project_id }}"
+    service_account_email: "{{ gcp_service_account_email }}"
+  with_items: "{{ dns_records }}"
+
+- name: Create additional records via Route53 (string)
+  local_action:
+    module: route53
+    command: create
+    overwrite: yes
+    zone: "{{ item.zone }}"
+    record: "{{ item.name }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    ttl: "{{ item.ttl }}"
+    aws_access_key: "{{ aws_route53_access_key_id }}"
+    aws_secret_key: "{{ aws_route53_secret_access_key }}"
+  with_items: "{{ dns_records }}"
+  when: item.value is string
+
+- name: Create additional records via Route53 (not string)
+  local_action:
+    module: route53
+    command: create
+    overwrite: yes
+    zone: "{{ item.zone }}"
+    record: "{{ item.name }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value | join(',') }}"
+    ttl: "{{ item.ttl }}"
+    aws_access_key: "{{ aws_route53_access_key_id }}"
+    aws_secret_key: "{{ aws_route53_secret_access_key }}"
+  with_items: "{{ dns_records }}"
+  when: not item.value is string
