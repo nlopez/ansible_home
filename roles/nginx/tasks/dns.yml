@@ -117,7 +117,7 @@
     service_account_email: "{{ gcp_service_account_email }}"
   with_items: "{{ dns_records }}"
 
-- name: Create additional records via Route53 (string)
+- name: Create additional records via Route53
   local_action:
     module: route53
     command: create
@@ -125,24 +125,8 @@
     zone: "{{ item.zone }}"
     record: "{{ item.name }}"
     type: "{{ item.type }}"
-    value: "{{ item.value }}"
+    value: "{{ item.value | joinx }}"
     ttl: "{{ item.ttl }}"
     aws_access_key: "{{ aws_route53_access_key_id }}"
     aws_secret_key: "{{ aws_route53_secret_access_key }}"
   with_items: "{{ dns_records }}"
-  when: item.value is string
-
-- name: Create additional records via Route53 (not string)
-  local_action:
-    module: route53
-    command: create
-    overwrite: yes
-    zone: "{{ item.zone }}"
-    record: "{{ item.name }}"
-    type: "{{ item.type }}"
-    value: "{{ item.value | join(',') }}"
-    ttl: "{{ item.ttl }}"
-    aws_access_key: "{{ aws_route53_access_key_id }}"
-    aws_secret_key: "{{ aws_route53_secret_access_key }}"
-  with_items: "{{ dns_records }}"
-  when: not item.value is string
