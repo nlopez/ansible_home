@@ -23,9 +23,6 @@ server {
     default_type text/plain;
   }
 
-  location /_oauth {
-    include auth.conf;
-  }
 }
 
 
@@ -48,7 +45,6 @@ server {
   listen 80 default_server;
   listen [::]:80 default_server;
   server_name _;
-  ssl_ct off;
 
   location /.well-known/acme-challenge/ {
     root /srv/http/letsencrypt/;

@@ -54,7 +54,6 @@
   with_items:
     - nginx.conf
     - proxy.conf
-    - auth.conf
     - dhparam.pem
   notify: reload nginx
 
