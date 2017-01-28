@@ -15,7 +15,6 @@ server {
   listen 80;
   listen [::]:80;
   server_name {{ item.fqdn }};
-  ssl_ct off;
 
   location /.well-known/acme-challenge/ {
     root /srv/http/letsencrypt/;
