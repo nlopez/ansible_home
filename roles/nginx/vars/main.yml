@@ -23,7 +23,7 @@ ssl_ciphers_default: 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:
 proxy_vhosts:
   - { fqdn: "couchpotato.desertbluffs.com", consul_service: "couchpotato" }
   - { fqdn: "deluge.desertbluffs.com", consul_service: "deluge" }
-  - { fqdn: "freenas.desertbluffs.com", upstreams: [ "192.168.239.16:80" ] }
+  - { fqdn: "freenas.desertbluffs.com", upstreams: [ "192.168.239.16:443" ], upstream_ssl: yes }
   - { fqdn: "nzbget.desertbluffs.com", consul_service: "nzbget" }
   - fqdn: plex.desertbluffs.com
     upstreams: [ "192.168.239.17:32400" ]
