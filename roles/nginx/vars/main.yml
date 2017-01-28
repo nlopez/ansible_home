@@ -37,3 +37,5 @@ proxy_vhosts:
   - { fqdn: "unifi.desertbluffs.com", upstreams: [ "192.168.240.130:8443" ], upstream_ssl: yes }
   - { fqdn: "jenkins.desertbluffs.com", consul_service: "jenkins" }
   - { fqdn: "gitea.desertbluffs.com", consul_service: "gitea", auth: no }
+  - { fqdn: "pihole.desertbluffs.com", upstreams: ["192.168.239.3"] }
+  - { fqdn: "proxmox.desertbluffs.com", upstreams: ["192.168.239.136:8006", "192.168.239.138:8006"], upstream_ssl: yes }

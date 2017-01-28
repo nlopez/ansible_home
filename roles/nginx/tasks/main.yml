@@ -5,6 +5,7 @@
 - name: Update DNS 
   include: dns.yml
   when: do_dns is defined and do_dns | bool
+  become: no
 
 - name: Ensure nginx compilation options dir exists
   file:
@@ -20,7 +21,7 @@
     mode: 0444
 
 - name: Install nginx mainline from ports
-  portinstall: name=nginx-devel state=present use_packages=False
+  portinstall: name=nginx-devel state=latest use_packages=False
 
 - name: Create nginx log dir
   file: path={{ nginx_log_dir }} state=directory mode=0755 owner={{ nginx_user }} group={{ nginx_group }}
