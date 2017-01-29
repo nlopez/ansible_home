@@ -8,6 +8,8 @@
 - include: tasks/zfs.yml # ZFS mounts setup
   when: zfs_mounts is defined
 
+- include: net.yml
+
 - name: Create dockerfs group
   group: name=dockerfs
 

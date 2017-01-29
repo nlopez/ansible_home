@@ -1,0 +1,31 @@
+# http://ebtables.netfilter.org/documentation/bridge-nf.html
+- name: Load bridge-netfilter
+  modprobe:
+    name: br_netfilter
+    state: present
+
+# https://wiki.archlinux.org/index.php/kernel_modules#Using_files_in_.2Fetc.2Fmodprobe.d.2F
+- name: Load bridge-netfilter at startup
+  copy:
+    content: br_netfilter
+    dest: /etc/modules-load.d/br_netfilter.conf
+
+- name: Set Docker networking sysctls
+  sysctl:
+    name: "{{ item }}"
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/docker.conf
+  with_items:
+    - net.ipv4.ip_forward
+    - net.bridge.bridge-nf-call-ip6tables
+    - net.bridge.bridge-nf-call-iptables
+
+# https://www.freedesktop.org/software/systemd/man/systemd-sysctl.service.html
+- name: Start and enable the systemd-sysctl service
+  service:
+    name: systemd-sysctl
+    state: started
+    enabled: yes
