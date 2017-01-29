@@ -1,0 +1,14 @@
+- name: Create ZFS filesystems
+  zfs:
+    name: "{{ item.name }}"
+    state: present
+    mountpoint: legacy # used so we can manage with the ansible mount module
+  with_items: "{{ zfs_mounts }}"
+
+- name: Mount ZFS filesystems
+  mount:
+    name: "{{ item.mountpoint }}"
+    src: "{{ item.name }}"
+    fstype: zfs
+    state: mounted
+  with_items: "{{ zfs_mounts }}"

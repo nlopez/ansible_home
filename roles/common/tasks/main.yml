@@ -9,6 +9,7 @@
   package: name="{{ item }}" state=present
   with_items: 
     - bash
+    - zsh
     - sudo
     - rsync
     - "{{ system_certificates }}"
@@ -20,13 +21,17 @@
     - tree
     - "{{ vim }}"
 
-- name: Determine path to bash
-  shell: which bash
-  register: which_bash
+- name: Install grml zsh extras
+  package: name=grml-zsh-config state=present
+  when: ansible_os_family == "Archlinux"
+
+- name: Determine path to zsh
+  shell: which zsh
+  register: which_zsh
   changed_when: False
 
 - set_fact:
-    bash_binary: "{{ which_bash.stdout | default('/bin/bash') }}"
+    zsh_binary: "{{ which_zsh.stdout | default('/usr/bin/zsh') }}"
 
 - name: Add Nick's group
   group: name=nlopez state=present
@@ -34,7 +39,7 @@
 - name: Add Nick's superuser
   user:
     name: nlopez
-    shell: "{{ bash_binary }}"
+    shell: "{{ zsh_binary }}"
     group: nlopez
     groups: "{{ sudo_group }}"
     createhome: True

@@ -11,8 +11,19 @@ plexmediaserver.radoncanyon.com
 [admin]
 admin.radoncanyon.com
 
+[cecil]
+cecil.radoncanyon.com
+
+[biggs]
+biggs.radoncanyon.com
+
+[wedge]
+wedge.radoncanyon.com
+
 [dockerd]
-mini.radoncanyon.com
+cecil
+biggs
+wedge
 
 [peppy-wifi]
 peppy-wifi.radoncanyon.com
@@ -22,19 +33,6 @@ pihole.radoncanyon.com
 
 [dnscrypt-proxy]
 dnscrypt-proxy.radoncanyon.com
-
-[pve0]
-pve0.radoncanyon.com
-
-[pve1]
-pve1.radoncanyon.com
-
-[proxmox:children]
-pve0
-pve1
-
-[proxmox:vars]
-ansible_user=root
 
 # http://docs.ansible.com/ansible/intro_inventory.html#groups-of-groups-and-group-variables
 [freenas_jails:children]

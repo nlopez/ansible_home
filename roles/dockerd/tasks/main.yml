@@ -1,19 +1,33 @@
 ---
-- include_vars: secret.yml
-  no_log: true
-
 - include: tasks/ovs.yml # Open vSwitch setup
   when: do_ovs == True
 - include: tasks/smb.yml # SMB mounts setup
   when: smb_mounts is defined
 - include: tasks/nfs.yml # NFS mounts setup
   when: nfs_mounts is defined
+- include: tasks/zfs.yml # ZFS mounts setup
+  when: zfs_mounts is defined
+
+- name: Create dockerfs group
+  group: name=dockerfs
+
+- name: Create dockerfs user
+  user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
 
 - name: Install Docker
   package: name=docker state=present
 
 - file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
 - file: path=/root/.docker state=directory mode=0755
+
+- name: Copy Docker server certificate authority
+  copy:
+    src: ca.pem
+    dest: /root/.docker/ca.pem
+    owner: root
+    group: root
+    mode: 0444
+    validate: 'openssl x509 -noout -in %s'
 
 - name: Copy Docker server private key
   copy:
@@ -22,18 +36,26 @@
     owner: root
     group: root
     mode: 0400
+    validate: 'openssl rsa -noout -in %s'
   no_log: true
 
-- name: Copy Docker server certificate authority and certficate
+- name: Copy Docker server certificate
   copy:
-    src: "{{ item }}"
-    dest: "/root/.docker/{{ item }}"
+    content: "{{ server_cert_pem_content }}"
+    dest: "/root/.docker/server-cert.pem"
     owner: root
     group: root
     mode: 0444
-  with_items:
-    - ca.pem
-    - server-cert.pem
+    validate: 'openssl x509 -noout -in %s'
+
+- name: Create dockerfs dirs
+  file: 
+    name: "{{ item.name }}"
+    state: directory
+    owner: "{{ item.owner | default('dockerfs') }}"
+    group: "{{ item.group | default('dockerfs') }}"
+    recurse: true
+  with_items: "{{ dockerfs_dirs }}"
 
 - name: Configure Docker
   template:
@@ -48,14 +70,3 @@
 
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=running
-
-- group: name=dockerfs
-- user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
-
-- file: 
-    name: "{{ item.name }}"
-    state: directory
-    owner: "{{ item.owner | default('dockerfs') }}"
-    group: "{{ item.group | default('dockerfs') }}"
-    recurse: true
-  with_items: "{{ dockerfs_dirs }}"
