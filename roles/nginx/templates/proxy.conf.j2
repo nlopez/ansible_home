@@ -25,10 +25,10 @@ proxy_set_header Cookie $http_cookie;
 
 # Upstream SSL
 proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-proxy_ssl_server_name on; # pass server name from SNI along
+proxy_ssl_server_name off; # pass server name from SNI along?
 proxy_ssl_session_reuse on;
 proxy_ssl_trusted_certificate /etc/ssl/trusted-ssl-bundle.crt;
-proxy_ssl_verify on;
+proxy_ssl_verify off;
 proxy_ssl_verify_depth 2;
   
 proxy_hide_header X-ApplicationVersion;

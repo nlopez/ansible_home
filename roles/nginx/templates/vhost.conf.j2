@@ -57,6 +57,9 @@ server {
     {% endif %}
     include proxy.conf;
     proxy_pass {{ 'https' if item.upstream_ssl|default(False) else 'http' }}://{{ item.fqdn | regex_replace('\.', '_') }}{{item.path if 'path' in item else '' }};
+    {% if item.proxy_ssl_name is defined %}
+    proxy_ssl_name {{ item.proxy_ssl_name }};
+    {% endif %}
     {% include "./vhosts/" + item.fqdn + ".conf.j2" ignore missing %}
   }
 }
