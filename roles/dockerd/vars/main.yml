@@ -7,21 +7,24 @@ nfs_mounts:
   - { src: "freenas.radoncanyon.com:/mnt/etank/media/anime", dest: "/mnt/media/anime" }
   - { src: "freenas.radoncanyon.com:/mnt/etank/media/downloads", dest: "/mnt/downloads" }
 dockerfs_dirs:
-  - { name: "/dockerfs/consul/config", owner: 100, group: 1000 }
-  - { name: "/dockerfs/consul/data", owner: 100, group: 1000 }
-  - { name: "/dockerfs/couchpotato/config" }
-  - { name: "/dockerfs/deluge/config" }
-  - { name: "/dockerfs/gitea-mysql/data", owner: 999, group: 999 }
-  - { name: "/dockerfs/gitea/data", owner: 1000, group: 1000 }
-  - { name: "/dockerfs/jenkins/data", owner: 1000, group: 1000 }
-  - { name: "/dockerfs/nzbget/config" }
-  - { name: "/dockerfs/nzbget/config" }
-  - { name: "/dockerfs/oauth2_proxy/config" }
-  - { name: "/dockerfs/plexpy/config" }
-  - { name: "/dockerfs/pritunl/mongodb" }
-  - { name: "/dockerfs/pritunl/pritunl" }
-  - { name: "/dockerfs/sonarr/config" }
-  - { name: "/dockerfs/unifi/config" }
+  - { name: "consul/config", owner: 100, group: 1000 }
+  - { name: "consul/data", owner: 100, group: 1000 }
+  - { name: "couchpotato/config" }
+  - { name: "deluge/config" }
+  - { name: "gitea-mysql/data", owner: 999, group: 999 }
+  - { name: "gitea/data", owner: 1000, group: 1000 }
+  - { name: "jenkins/data", owner: 1000, group: 1000 }
+  - { name: "nzbget/config" }
+  - { name: "nzbget/config" }
+  - { name: "oauth2_proxy/config" }
+  - { name: "plexpy/config" }
+  - { name: "pritunl/mongodb" }
+  - { name: "pritunl/pritunl" }
+  - { name: "sonarr/config" }
+  - { name: "unifi/config" }
+  - { name: "pms/config" }
+  - { name: "pms/transcode" }
+  - { name: "pms/data" }
 zfs_mounts:
   - { name: zroot/data/docker, mountpoint: /var/lib/docker }
   - { name: zroot/data/dockerfs, mountpoint: /dockerfs }

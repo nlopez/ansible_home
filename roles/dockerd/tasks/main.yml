@@ -52,7 +52,7 @@
 
 - name: Create dockerfs dirs
   file: 
-    name: "{{ item.name }}"
+    name: "/dockerfs/{{ item.name }}"
     state: directory
     owner: "{{ item.owner | default('dockerfs') }}"
     group: "{{ item.group | default('dockerfs') }}"
