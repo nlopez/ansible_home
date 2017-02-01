@@ -9,12 +9,12 @@ dopy==0.3.7
 enum34==1.1.6
 idna==2.2
 ipaddress==1.0.18
-Jinja2==2.9.4
+Jinja2==2.9.5
 MarkupSafe==0.23
 netaddr==0.7.19
 packaging==16.8
 paramiko==2.1.1
-pex==1.2.1
+pex==1.2.2
 pluggy==0.4.0
 pur==4.0.1
 py==1.4.32
