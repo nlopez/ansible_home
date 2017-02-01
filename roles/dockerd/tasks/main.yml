@@ -1,6 +1,4 @@
 ---
-- include: tasks/ovs.yml # Open vSwitch setup
-  when: do_ovs == True
 - include: tasks/smb.yml # SMB mounts setup
   when: smb_mounts is defined
 - include: tasks/nfs.yml # NFS mounts setup

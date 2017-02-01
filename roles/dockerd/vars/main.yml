@@ -1,6 +1,5 @@
 ---
 docker_daemon_port: 2376
-do_ovs: False
 nfs_mounts:
   - { src: "freenas.radoncanyon.com:/mnt/etank/media/tv", dest: "/mnt/media/tv" }
   - { src: "freenas.radoncanyon.com:/mnt/etank/media/movies", dest: "/mnt/media/movies" }
