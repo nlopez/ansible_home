@@ -15,38 +15,10 @@
   user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
 
 - name: Install Docker
-  include: aur/pkg.yml pkg_name=docker-bin
-
-- file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
-- file: path=/root/.docker state=directory mode=0755
-
-- name: Copy Docker server certificate authority
-  copy:
-    src: ca.pem
-    dest: /root/.docker/ca.pem
-    owner: root
-    group: root
-    mode: 0444
-    validate: 'openssl x509 -noout -in %s'
-
-- name: Copy Docker server private key
-  copy:
-    content: "{{ server_key_pem_content }}"
-    dest: "/root/.docker/server-key.pem"
-    owner: root
-    group: root
-    mode: 0400
-    validate: 'openssl rsa -noout -in %s'
-  no_log: true
-
-- name: Copy Docker server certificate
-  copy:
-    content: "{{ server_cert_pem_content }}"
-    dest: "/root/.docker/server-cert.pem"
-    owner: root
-    group: root
-    mode: 0444
-    validate: 'openssl x509 -noout -in %s'
+  package: name="{{ item }}" state=present
+  with_items:
+    - docker
+    - net-tools
 
 - name: Create dockerfs dirs
   file: 
@@ -56,17 +28,6 @@
     group: "{{ item.group | default('dockerfs') }}"
     recurse: true
   with_items: "{{ dockerfs_dirs }}"
-
-- name: Configure Docker
-  template:
-    src: docker.conf.j2
-    dest: /etc/systemd/system/docker.service.d/docker.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - Reload systemd manager configuration
-    - Restart Docker
 
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=running
