@@ -1,0 +1,6 @@
+[submodule "roles/dockerd/tasks/aur"]
+	path = roles/dockerd/tasks/aur
+	url = https://gist.github.com/39ecb1eb1ab8ee1d0ce1.git
+[submodule "roles/common/tasks/aur"]
+	path = roles/common/tasks/aur
+	url = https://gist.github.com/39ecb1eb1ab8ee1d0ce1.git

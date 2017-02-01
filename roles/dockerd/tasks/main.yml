@@ -17,7 +17,7 @@
   user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
 
 - name: Install Docker
-  package: name=docker state=present
+  include: aur/pkg.yml pkg_name=docker-bin
 
 - file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
 - file: path=/root/.docker state=directory mode=0755

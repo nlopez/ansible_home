@@ -21,6 +21,12 @@
     - tree
     - "{{ vim }}"
 
+- name: Install Archlinux AUR packages
+  include: aur/pkg.yml pkg_name="{{ item }}"
+  with_items:
+    - package-query
+    - yaourt
+
 - name: Install grml zsh extras
   package: name=grml-zsh-config state=present
   when: ansible_os_family == "Archlinux"
