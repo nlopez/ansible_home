@@ -20,17 +20,25 @@
     - "{{ dig }}"
     - tree
     - "{{ vim }}"
-
+###############################################################################
+# TODO: Move Archlinux tasks elsewhere
 - name: Install Archlinux AUR packages
   include: aur/pkg.yml pkg_name="{{ item }}"
+  when: ansible_os_family == "Archlinux"
   with_items:
     - package-query
     - yaourt
 
-- name: Install grml zsh extras
-  package: name=grml-zsh-config state=present
+- name: Install additional Archlinux packages
+  package: name="{{ item }}" state=present
+  when: ansible_os_family == "Archlinux"
+  with_items:
+    - grml-zsh-config
+
+- include_role: name=reflector
   when: ansible_os_family == "Archlinux"
 
+###############################################################################
 - name: Determine path to zsh
   shell: which zsh
   register: which_zsh

@@ -1,0 +1,20 @@
+---
+- name: Install reflector
+  package: name=reflector state=present
+
+- name: Install reflector service and timer files
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+  with_items:
+    - reflector.service
+    - reflector.timer
+
+- name: Reload systemd services files
+  shell: systemctl daemon-reload
+
+- name: Start and enable reflector service and timer
+  service: name="{{ item }}" state=started enabled=yes
+  with_items:
+    - reflector.service
+    - reflector.timer
