@@ -16,6 +16,27 @@
 
 - name: Install Docker
   include: aur/pkg.yml pkg_name=docker-bin
+  when: ansible_os_family == 'Archlinux'
+
+- name: Add Docker's official GPG key
+  apt_key:
+    url: 'https://yum.dockerproject.org/gpg'
+    id: 58118E89F3A912897C070ADBF76221572C52609D
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Setup the stable Docker repo
+  apt_repository:
+    repo: >-
+      deb https://apt.dockerproject.org/repo/
+      {{ansible_distribution|lower}}-{{ansible_distribution_release|lower}}
+       main
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Update the apt package index
+  apt: update_cache=yes
+  when: ansible_os_family == 'Debian'
 
 - file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
 - file: path=/root/.docker state=directory mode=0755

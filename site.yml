@@ -2,7 +2,7 @@
 # gather facts from all hosts
 - hosts: all
   tasks:
-    - group_by: key=os_{{ ansible_distribution }}
+    - group_by: key=os_{{ ansible_os_family }}
 
 - name: configure common settings for all hosts
   hosts: all

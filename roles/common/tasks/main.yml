@@ -1,15 +1,8 @@
 ---
-- name: Ensure the router solicitation daemon is running and enabled
-  service: name=rtsold state=started enabled=yes
-  when: ansible_os_family == "FreeBSD"
-
-- include: locale.yml 
-
 - name: Install common packages
   package: name="{{ item }}" state=present
   with_items: 
     - bash
-    - zsh
     - sudo
     - rsync
     - "{{ system_certificates }}"
@@ -29,23 +22,17 @@
     - package-query
     - yaourt
 
-- name: Install additional Archlinux packages
-  package: name="{{ item }}" state=present
-  when: ansible_os_family == "Archlinux"
-  with_items:
-    - grml-zsh-config
-
 - include_role: name=reflector
   when: ansible_os_family == "Archlinux"
 
 ###############################################################################
-- name: Determine path to zsh
-  shell: which zsh
-  register: which_zsh
+- name: Determine path to bash
+  shell: which bash
+  register: which_bash
   changed_when: False
 
 - set_fact:
-    zsh_binary: "{{ which_zsh.stdout | default('/usr/bin/zsh') }}"
+    bash_binary: "{{ which_bash.stdout | default('/usr/bin/bash') }}"
 
 - name: Add Nick's group
   group: name=nlopez state=present
@@ -53,7 +40,7 @@
 - name: Add Nick's superuser
   user:
     name: nlopez
-    shell: "{{ zsh_binary }}"
+    shell: "{{ bash_binary }}"
     group: nlopez
     groups: "{{ sudo_group }}"
     createhome: True

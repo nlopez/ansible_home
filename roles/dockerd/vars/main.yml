@@ -25,5 +25,5 @@ dockerfs_dirs:
   - { name: "pms/transcode" }
   - { name: "pms/data" }
 zfs_mounts:
-  - { name: zroot/data/docker, mountpoint: /var/lib/docker }
-  - { name: zroot/data/dockerfs, mountpoint: /dockerfs }
+  - { name: rpool/dockerfs, mountpoint: /dockerfs }
+nfs_utils: nfs-utils
