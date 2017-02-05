@@ -18,6 +18,12 @@
   include: aur/pkg.yml pkg_name=docker-bin
   when: ansible_os_family == 'Archlinux'
 
+- name: Install Docker
+  package:
+    name: docker-engine
+    state: latest
+  when: ansible_os_family == 'Debian'
+
 - name: Add Docker's official GPG key
   apt_key:
     url: 'https://yum.dockerproject.org/gpg'
@@ -52,7 +58,7 @@
 
 - name: Copy Docker server private key
   copy:
-    content: "{{ server_key_pem_content }}"
+    src: "{{inventory_hostname}}/server-key.pem"
     dest: "/root/.docker/server-key.pem"
     owner: root
     group: root
@@ -62,7 +68,7 @@
 
 - name: Copy Docker server certificate
   copy:
-    content: "{{ server_cert_pem_content }}"
+    src: "{{inventory_hostname}}/server-cert.pem"
     dest: "/root/.docker/server-cert.pem"
     owner: root
     group: root
@@ -75,6 +81,7 @@
     state: directory
     owner: "{{ item.owner | default('dockerfs') }}"
     group: "{{ item.group | default('dockerfs') }}"
+    mode: 'u=rwX,g=u,o='
     recurse: true
   with_items: "{{ dockerfs_dirs }}"
 
