@@ -1,6 +1,6 @@
 [Service]
 ExecStart=
-ExecStart=/usr/bin/docker daemon \
+ExecStart=/usr/bin/dockerd \
 -H tcp://0.0.0.0:{{docker_daemon_port}} \
 -H fd:// \
 --exec-opt native.cgroupdriver=cgroupfs \
@@ -8,8 +8,7 @@ ExecStart=/usr/bin/docker daemon \
 --tlscacert="/root/.docker/ca.pem" \
 --tlscert="/root/.docker/server-cert.pem" \
 --tlskey="/root/.docker/server-key.pem" \
---storage-driver=zfs \
+--storage-driver=zfs
 --iptables=false \
---ip-masq=false \
---live-restore=true
+--ip-masq=false
 TimeoutStartSec=0

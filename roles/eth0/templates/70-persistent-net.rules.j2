@@ -1,0 +1,2 @@
+# http://askubuntu.com/a/785442
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="{{ansible_default_ipv4.macaddress}}", ATTR{dev_id}=="0x0", ATTR{type}=="1", NAME="eth0"

@@ -1,0 +1,17 @@
+---
+- name: Write eth0 udev rule
+  template:
+    src: 70-persistent-net.rules.j2
+    dest: /etc/udev/rules.d/70-persistent-net.rules
+  register: eth0_udev
+
+- name: Write interfaces file
+  copy:
+    content: |
+      auto eth0
+      iface eth0 inet dhcp
+    dest: /etc/network/interfaces.d/eth0
+
+- debug: 
+    msg: "Network interface rename requires a reboot"
+  when: eth0_udev|changed

@@ -30,6 +30,7 @@
   roles:
     - dockerd
     - zfs
+    - eth0
 
 - name: configure dnsmasq hosts
   hosts: dnsmasq
