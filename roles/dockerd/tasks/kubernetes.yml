@@ -1,0 +1,21 @@
+- name: Install Google apt key
+  apt_key:
+    url: 'https://packages.cloud.google.com/apt/doc/apt-key.gpg'
+    state: present
+
+- name: Install Kubernetes apt repo
+  apt_repository:
+    repo: 'deb http://apt.kubernetes.io/ kubernetes-{{ansible_distribution_release|lower}} main'
+    filename: kubernetes
+    state: present
+    update_cache: yes
+
+- name: Install Kubernetes packages
+  package:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl
+    - kubernetes-cni

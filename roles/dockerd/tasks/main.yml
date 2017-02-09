@@ -20,8 +20,8 @@
 
 - name: Install Docker
   package:
-    name: docker-engine
-    state: latest
+    name: docker.io
+    state: present
   when: ansible_os_family == 'Debian'
 
 - name: Add Docker's official GPG key
@@ -97,3 +97,6 @@
 
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=running
+
+- name: Install kubelet and kubeadm
+  include: kubernetes.yml
