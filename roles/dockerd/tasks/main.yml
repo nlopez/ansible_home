@@ -76,13 +76,12 @@
     validate: 'openssl x509 -noout -in %s'
 
 - name: Create dockerfs dirs
-  file: 
+  file:
     name: "/dockerfs/{{ item.name }}"
     state: directory
     owner: "{{ item.owner | default('dockerfs') }}"
     group: "{{ item.group | default('dockerfs') }}"
     mode: 'u=rwX,g=u,o='
-    recurse: true
   with_items: "{{ dockerfs_dirs }}"
 
 - name: Configure Docker
