@@ -1,6 +1,7 @@
-- name: Install Google apt key
+- name: Install Google Cloud Packages Automatic Signing Key
   apt_key:
     url: 'https://packages.cloud.google.com/apt/doc/apt-key.gpg'
+    id: 3746C208A7317B0F
     state: present
 
 - name: Install Kubernetes apt repo
