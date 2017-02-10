@@ -97,6 +97,3 @@
 
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=running
-
-- name: Install kubelet and kubeadm
-  include: kubernetes.yml
