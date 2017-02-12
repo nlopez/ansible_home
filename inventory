@@ -2,15 +2,6 @@
 ansible_python_interpreter=python2
 ansible_user=nlopez
 
-[nginx]
-nginx.radoncanyon.com
-
-[plexmediaserver]
-plexmediaserver.radoncanyon.com
-
-[admin]
-admin.radoncanyon.com
-
 [cecil]
 cecil.radoncanyon.com
 
@@ -25,27 +16,8 @@ cecil
 biggs
 wedge
 
-[peppy-wifi]
-peppy-wifi.radoncanyon.com
-
 [pihole]
 pihole.radoncanyon.com
 
 [dnscrypt-proxy]
 dnscrypt-proxy.radoncanyon.com
-
-# http://docs.ansible.com/ansible/intro_inventory.html#groups-of-groups-and-group-variables
-[freenas_jails:children]
-nginx
-plexmediaserver
-admin
-
-[freenas_jails:vars]
-ansible_python_interpreter=python2.7
-
-[remotehosts:children]
-nginx
-plexmediaserver
-dockerd
-admin
-freenas_jails

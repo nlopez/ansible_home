@@ -14,16 +14,6 @@
 - name: Create dockerfs user
   user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
 
-- name: Install Docker
-  include: aur/pkg.yml pkg_name=docker-bin
-  when: ansible_os_family == 'Archlinux'
-
-- name: Install Docker
-  package:
-    name: docker.io
-    state: present
-  when: ansible_os_family == 'Debian'
-
 - name: Add Docker's official GPG key
   apt_key:
     url: 'https://yum.dockerproject.org/gpg'
@@ -40,8 +30,11 @@
     state: present
   when: ansible_os_family == 'Debian'
 
-- name: Update the apt package index
-  apt: update_cache=yes
+- name: Install Docker
+  apt:
+    name: docker-engine=1.13.1-0~ubuntu-xenial
+    state: present
+    update_cache: yes
   when: ansible_os_family == 'Debian'
 
 - file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
