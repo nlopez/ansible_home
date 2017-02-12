@@ -30,6 +30,7 @@ dockerfs_dirs:
   - { name: "prometheus/data" }
   - { name: "prometheus/config" }
   - { name: "graphite-exporter/config" }
+  - { name: "grafana/data" }
 zfs_mounts:
   - { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils
