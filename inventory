@@ -2,6 +2,12 @@
 ansible_python_interpreter=python2
 ansible_user=nlopez
 
+[odroid0]
+odroid0.radoncanyon.com
+
+[nginx]
+nginx.radoncanyon.com
+
 [cecil]
 cecil.radoncanyon.com
 
@@ -15,9 +21,6 @@ wedge.radoncanyon.com
 cecil
 biggs
 wedge
-
-[pihole]
-pihole.radoncanyon.com
 
 [dnscrypt-proxy]
 dnscrypt-proxy.radoncanyon.com
