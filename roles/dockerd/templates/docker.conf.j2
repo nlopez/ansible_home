@@ -8,7 +8,7 @@ ExecStart=/usr/bin/dockerd \
 --tlscacert="/root/.docker/ca.pem" \
 --tlscert="/root/.docker/server-cert.pem" \
 --tlskey="/root/.docker/server-key.pem" \
---storage-driver=aufs \
+--storage-driver=zfs \
 --live-restore
 TimeoutStartSec=0
 MountFlags=private

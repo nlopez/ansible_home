@@ -1,0 +1,14 @@
+- name: Create dockerfs group
+  group: name=dockerfs
+
+- name: Create dockerfs user
+  user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
+
+- name: Create dockerfs dirs
+  file:
+    name: "/dockerfs/{{ item.name }}"
+    state: directory
+    owner: "{{ item.owner | default('dockerfs') }}"
+    group: "{{ item.group | default('dockerfs') }}"
+    mode: 'u=rwX,g=u,o='
+  with_items: "{{ dockerfs_dirs }}"

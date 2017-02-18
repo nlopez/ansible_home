@@ -7,86 +7,16 @@
   when: zfs_mounts is defined
 
 - include: net.yml
-
-- name: Create dockerfs group
-  group: name=dockerfs
-
-- name: Create dockerfs user
-  user: name=dockerfs shell=/bin/false createhome=no home=/nonexistent group=dockerfs groups=
-
-- name: Add Docker's official GPG key
-  apt_key:
-    url: 'https://yum.dockerproject.org/gpg'
-    id: 58118E89F3A912897C070ADBF76221572C52609D
-    state: present
-  when: ansible_os_family == 'Debian'
-
-- name: Setup the stable Docker repo
-  apt_repository:
-    repo: >-
-      deb https://apt.dockerproject.org/repo/
-      {{ansible_distribution|lower}}-{{ansible_distribution_release|lower}}
-       main
-    state: present
-  when: ansible_os_family == 'Debian'
+- include: dockerfs.yml
 
 - name: Install Docker
   apt:
-    name: docker-engine=1.13.1-0~ubuntu-xenial
+    name: docker.io=1.12.3-0ubuntu4~16.04.2
     state: present
     update_cache: yes
   when: ansible_os_family == 'Debian'
 
-- file: path=/etc/systemd/system/docker.service.d state=directory mode=0755
-- file: path=/root/.docker state=directory mode=0755
-
-- name: Copy Docker server certificate authority
-  copy:
-    src: ca.pem
-    dest: /root/.docker/ca.pem
-    owner: root
-    group: root
-    mode: 0444
-    validate: 'openssl x509 -noout -in %s'
-
-- name: Copy Docker server private key
-  copy:
-    src: "{{inventory_hostname}}/server-key.pem"
-    dest: "/root/.docker/server-key.pem"
-    owner: root
-    group: root
-    mode: 0400
-    validate: 'openssl rsa -noout -in %s'
-  no_log: true
-
-- name: Copy Docker server certificate
-  copy:
-    src: "{{inventory_hostname}}/server-cert.pem"
-    dest: "/root/.docker/server-cert.pem"
-    owner: root
-    group: root
-    mode: 0444
-    validate: 'openssl x509 -noout -in %s'
-
-- name: Create dockerfs dirs
-  file:
-    name: "/dockerfs/{{ item.name }}"
-    state: directory
-    owner: "{{ item.owner | default('dockerfs') }}"
-    group: "{{ item.group | default('dockerfs') }}"
-    mode: 'u=rwX,g=u,o='
-  with_items: "{{ dockerfs_dirs }}"
-
-- name: Configure Docker
-  template:
-    src: docker.conf.j2
-    dest: /etc/systemd/system/docker.service.d/docker.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - Reload systemd manager configuration
-    - Restart Docker
-
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=running
+
+- include: kubernetes.yml
