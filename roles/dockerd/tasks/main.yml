@@ -11,10 +11,18 @@
 
 - name: Install Docker
   apt:
-    name: docker.io=1.12.3-0ubuntu4~16.04.2
+    name: docker.io
     state: present
     update_cache: yes
   when: ansible_os_family == 'Debian'
+
+- name: Configure Docker
+  template:
+    src: docker.service
+    dest: /etc/systemd/system/docker.service
+  notify:
+    - Reload systemd manager configuration
+    - Restart Docker
 
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=running

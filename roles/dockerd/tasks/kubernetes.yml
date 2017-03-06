@@ -20,3 +20,7 @@
     - kubeadm
     - kubectl
     - kubernetes-cni
+
+- name: Start and enable Kubelet
+  service: name=kubelet enabled=yes state=running
+

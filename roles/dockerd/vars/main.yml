@@ -6,31 +6,7 @@ nfs_mounts:
   - { src: "freenas.radoncanyon.com:/mnt/etank/media/anime", dest: "/mnt/media/anime" }
   - { src: "freenas.radoncanyon.com:/mnt/etank/media/downloads", dest: "/mnt/downloads" }
 dockerfs_dirs:
-  - { name: "consul/config", owner: 100, group: 1000 }
-  - { name: "consul/data", owner: 100, group: 1000 }
-  - { name: "couchpotato/config" }
-  - { name: "deluge/config" }
-  - { name: "gitea-mysql/data", owner: 999, group: 999 }
-  - { name: "gitea/data", owner: 1000, group: 1000 }
-  - { name: "jenkins/data", owner: 1000, group: 1000 }
-  - { name: "nzbget/config" }
-  - { name: "oauth2_proxy/config" }
-  - { name: "plexpy/config" }
-  - { name: "pritunl/mongodb" }
-  - { name: "pritunl/pritunl" }
-  - { name: "sonarr/config" }
-  - { name: "unifi/config" }
-  - { name: "pms/config" }
   - { name: "pms/transcode" }
-  - { name: "pms/data" }
-  - { name: "syncthing/config" }
-  - { name: "syncthing/data" }
-  - { name: "traefik/config" }
-  - { name: "nginx/config" }
-  - { name: "prometheus/data" }
-  - { name: "prometheus/config" }
-  - { name: "graphite-exporter/config" }
-  - { name: "grafana/data" }
 zfs_mounts:
   - { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils

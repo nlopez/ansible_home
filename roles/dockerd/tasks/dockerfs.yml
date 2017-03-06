@@ -11,4 +11,5 @@
     owner: "{{ item.owner | default('dockerfs') }}"
     group: "{{ item.group | default('dockerfs') }}"
     mode: 'u=rwX,g=u,o='
+    recurse: no
   with_items: "{{ dockerfs_dirs }}"

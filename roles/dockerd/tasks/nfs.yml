@@ -1,5 +1,5 @@
 ---
-- include_vars: 
+- include_vars:
     dir: vars
     files_matching: '{{ansible_os_family}}.yml'
 
@@ -8,10 +8,3 @@
     name: '{{nfs_utils}}'
     state: present
 
-- name: Mount NFS shares 
-  mount:
-    name: "{{ item.dest }}"
-    src: "{{ item.src }}"
-    fstype: nfs4
-    state: mounted
-  with_items: "{{ nfs_mounts }}"
