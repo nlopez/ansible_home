@@ -9,35 +9,11 @@
   roles:
     - common
 
-- name: configure common settings for FreeBSD hosts
-  hosts: os_FreeBSD
-  roles:
-    - sshd
-
-- name: configure nginx hosts
-  hosts: nginx
-  roles:
-    - consul-template
-    - nginx
-
-- name: configure plex media server hosts
-  hosts: plexmediaserver
-  roles:
-    - plexmediaserver
-
 - name: configure docker hosts
   hosts: dockerd
   roles:
-    - dockerd
-    - zfs
+    - certs
     - eth0
-
-- name: configure dnsmasq hosts
-  hosts: dnsmasq
-  roles:
-    - dnsmasq
-
-# - name: launch droplets on Digital Ocean
-#   hosts: localhost
-#   roles:
-#     - droplet
+    - zfs
+    - etcd
+    - dockerd

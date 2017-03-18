@@ -1,0 +1,28 @@
+- name: Trust our own certificate authority
+  copy:
+    src: trusty-nick-ca.pem
+    dest:  /usr/local/share/ca-certificates/trusty-nick-ca.crt
+    owner: root
+    group: root
+    mode: 0644
+  register: ca
+
+- name: Update trusted certificate authorities
+  command: update-ca-certificates
+  when: ca|changed
+
+- name: Install server-specific key
+  copy:
+    src: "{{inventory_hostname}}/server-key.pem"
+    dest: /etc/ssl/private/server-key.pem
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Install server-specific cert
+  copy:
+    src: "{{inventory_hostname}}/server-cert.pem"
+    dest: /etc/ssl/certs/server-cert.pem
+    owner: root
+    group: root
+    mode: 0644
