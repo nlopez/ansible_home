@@ -1,0 +1,28 @@
+[Unit]
+Description=etcd
+Documentation=https://github.com/coreos
+
+[Service]
+ExecStart=/usr/local/bin/etcd --name {{ansible_hostname}} \
+  --cert-file=/etc/ssl/certs/server-cert.pem \
+  --key-file=/etc/ssl/private/server-key.pem \
+  --peer-cert-file=/etc/ssl/certs/server-cert.pem \
+  --peer-key-file=/etc/ssl/private/server-key.pem \
+  --trusted-ca-file=/etc/ssl/certs/trusty-nick-ca.pem \
+  --peer-trusted-ca-file=/etc/ssl/certs/trusty-nick-ca.pem \
+  --initial-advertise-peer-urls https://{{ansible_default_ipv4.address}}:2380 \
+  --listen-peer-urls https://{{ansible_default_ipv4.address}}:2380 \
+  --listen-client-urls https://{{ansible_default_ipv4.address}}:2379,http://127.0.0.1:2379 \
+  --advertise-client-urls https://{{ansible_default_ipv4.address}}:2379 \
+  --initial-cluster-token etcd-cluster-0 \
+  --initial-cluster {% for host in groups['dockerd'] -%}
+  {{hostvars[host].ansible_hostname}}=https://{{hostvars[host].ansible_default_ipv4.address}}:2380
+  {%- if not loop.last %},{% endif -%}
+  {% endfor %} \
+  --initial-cluster-state new \
+  --data-dir=/var/lib/etcd
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

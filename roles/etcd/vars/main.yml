@@ -1,0 +1,2 @@
+etcd_ver: v2.3.8
+download_url: https://github.com/coreos/etcd/releases/download

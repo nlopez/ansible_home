@@ -1,0 +1,40 @@
+- name: Check whether we have a key for this host
+  local_action:
+    module: stat
+    path: "{{role_path}}/files/{{inventory_hostname}}/server-key.pem"
+  register: key_file
+  become: no
+
+- name: Get modulus of key
+  local_action: >-
+    command openssl rsa -noout -modulus
+    -in "{{role_path}}/files/{{inventory_hostname}}/server-key.pem"
+  register: key_modulus
+  when: key_file.stat.exists
+  become: no
+  changed_when: False
+
+- name: Check whether we have a certificate for this host
+  local_action:
+    module: stat
+    path: "{{role_path}}/files/{{inventory_hostname}}/server-cert.pem"
+  register: certificate_file
+  become: no
+
+- name: Get modulus of certificate
+  local_action: >-
+    command openssl x509 -noout -modulus
+    -in "{{role_path}}/files/{{inventory_hostname}}/server-cert.pem"
+  register: certificate_modulus
+  when: certificate_file.stat.exists
+  become: no
+  changed_when: False
+
+- name: Assert that key and certificate modulus match
+  assert:
+    that:
+    - key_modulus.stdout_lines == certificate_modulus.stdout_lines
+    msg: "Modulus mismatch between key and certificate for {{inventory_hostname}}"
+
+- include: main_{{ansible_os_family}}.yaml
+  ignore_errors: yes

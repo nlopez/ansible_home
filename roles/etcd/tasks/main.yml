@@ -1,0 +1,53 @@
+- name: Fetch and extract etcd
+  unarchive:
+    src: "{{download_url}}/{{etcd_ver}}/etcd-{{etcd_ver}}-linux-amd64.tar.gz"
+    dest: /usr/local/bin
+    remote_src: true
+    extra_opts:
+    - --strip-components=1
+    creates: /usr/local/bin/etcd
+  register: unarchive
+
+- name: Get etcd version
+  shell: /usr/local/bin/etcd --version
+  register: etcd_version
+  changed_when: False
+
+- name: Display etcd version
+  debug:
+    msg: "{{etcd_version.stdout_lines}}"
+
+- name: Create etcd group
+  group:
+    name: etcd
+    system: yes
+
+- name: Create etcd user
+  user:
+    name: etcd
+    group: etcd
+    createhome: no
+    system: yes
+
+- name: Create etcd data directory
+  file:
+    path: /var/lib/etcd
+    state: directory
+    owner: etcd
+    group: etcd
+    mode: 0750
+
+- name: Create etcd systemd service
+  template:
+    src: etcd.service.j2
+    dest: /etc/systemd/system/etcd.service
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Start and enable etcd
+  systemd:
+    name: etcd
+    state: started
+    enabled: yes
+    daemon_reload: yes
