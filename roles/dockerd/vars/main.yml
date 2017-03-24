@@ -1,6 +1,10 @@
 ---
 docker_daemon_port: 2376
 nfs_mounts:
+- { src: "freenas.radoncanyon.com:/mnt/etank/media/tv", dest: "/mnt/media/tv" }
+- { src: "freenas.radoncanyon.com:/mnt/etank/media/movies", dest: "/mnt/media/movies" }
+- { src: "freenas.radoncanyon.com:/mnt/etank/media/anime", dest: "/mnt/media/anime" }
+- { src: "freenas.radoncanyon.com:/mnt/etank/media/downloads", dest: "/mnt/media/downloads" }
 dockerfs_dirs:
 - { name: "couchpotato/config" }
 - { name: "nzbget/config" }
