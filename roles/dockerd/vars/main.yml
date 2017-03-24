@@ -2,8 +2,13 @@
 docker_daemon_port: 2376
 nfs_mounts:
 dockerfs_dirs:
-  - { name: "pms/transcode" }
-  - { name: "nzbget/intermediate" }
+- { name: "couchpotato/config" }
+- { name: "nzbget/config" }
+- { name: "nzbget/intermediate" }
+- { name: "plexpy/config" }
+- { name: "pms/config" }
+- { name: "pms/transcode" }
+- { name: "sonarr/config" }
 zfs_mounts:
-  - { name: rpool/dockerfs, mountpoint: /dockerfs }
+- { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils

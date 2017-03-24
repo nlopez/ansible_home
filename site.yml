@@ -12,8 +12,6 @@
 - name: configure docker hosts
   hosts: dockerd
   roles:
-    - certs
     - eth0
     - zfs
-    - etcd
     - dockerd
