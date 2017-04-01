@@ -13,6 +13,7 @@ dockerfs_dirs:
 - { name: "pms/config" }
 - { name: "pms/transcode" }
 - { name: "sonarr/config" }
+- { name: "radarr/config" }
 - { name: "smokeping/data" }
 - { name: "smokeping/config" }
 zfs_mounts:
