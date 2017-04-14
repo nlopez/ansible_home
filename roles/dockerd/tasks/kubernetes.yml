@@ -22,5 +22,5 @@
     - kubernetes-cni
 
 - name: Start and enable Kubelet
-  service: name=kubelet enabled=yes state=running
+  service: name=kubelet enabled=yes state=started
 

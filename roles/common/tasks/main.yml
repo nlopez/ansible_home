@@ -54,7 +54,7 @@
 
 - name: Add Nick to docker group
   user: name=nlopez groups="{{ item }}" append=yes
-  when: '"{{ item }}" in etc_group.stdout_lines'
+  when: item in etc_group.stdout_lines
   with_items:
     - docker
 

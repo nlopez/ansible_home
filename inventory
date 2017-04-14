@@ -15,9 +15,9 @@ biggs.radoncanyon.com
 wedge.radoncanyon.com
 
 [dockerd]
-cecil
-biggs
-wedge
+cecil.radoncanyon.com
+biggs.radoncanyon.com
+wedge.radoncanyon.com
 
 [dnscrypt-proxy]
 dnscrypt-proxy.radoncanyon.com

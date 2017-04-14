@@ -25,6 +25,6 @@
     - Restart Docker
 
 - name: Enable and start Docker daemon
-  service: name=docker enabled=yes state=running
+  service: name=docker enabled=yes state=started
 
 - include: kubernetes.yml
