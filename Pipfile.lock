@@ -33,8 +33,8 @@
             "hash": "sha256:b560916546b2f209d74b82bdbc3223cee9a165b0242fa00a06dfc48a2054864a"
         },
         "setuptools": {
-            "version": "==34.3.3",
-            "hash": "sha256:e436d8c9dcf67ea8902bfa7cce1ef698f36bf303f13b4f62a5668891ecd380dd"
+            "version": "==34.4.1",
+            "hash": "sha256:1f7aac8b778446406ec5dcd5cc9305b375e7935e38f2fd3b1b70168c21a079d0"
         },
         "packaging": {
             "version": "==16.8",
@@ -45,12 +45,12 @@
             "hash": "sha256:a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"
         },
         "ansible": {
-            "version": "==2.2.2.0",
-            "hash": "sha256:efd9c574168ac1916dd57f7c88d4dd2e13ef816af0ee49a8d34c77567886e4c2"
+            "version": "==2.3.0.0",
+            "hash": "sha256:299f3907cd566a20e163942fa82b6afc86ef89c2726ba503b90c1a651e82a458"
         },
         "jinja2": {
-            "version": "==2.9.5",
-            "hash": "sha256:a7b7438120dbe76a8e735ef7eba6048eaf4e0b7dbc530e100812f8ec462a4d50"
+            "version": "==2.9.6",
+            "hash": "sha256:2231bace0dfd8d2bf1e5d7e41239c06c9e0ded46e70cc1094a0aa64b0afeb054"
         },
         "asn1crypto": {
             "version": "==0.22.0",
