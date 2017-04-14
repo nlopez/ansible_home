@@ -5,15 +5,6 @@ ansible_user=nlopez
 [odroid0]
 odroid0.radoncanyon.com
 
-[cecil]
-cecil.radoncanyon.com
-
-[biggs]
-biggs.radoncanyon.com
-
-[wedge]
-wedge.radoncanyon.com
-
 [dockerd]
 cecil.radoncanyon.com
 biggs.radoncanyon.com
