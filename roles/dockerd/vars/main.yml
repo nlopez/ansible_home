@@ -5,6 +5,7 @@ nfs_mounts:
 - { src: "freenas.radoncanyon.com:/mnt/etank/media/movies", dest: "/mnt/media/movies" }
 - { src: "freenas.radoncanyon.com:/mnt/etank/media/anime", dest: "/mnt/media/anime" }
 - { src: "freenas.radoncanyon.com:/mnt/etank/media/downloads", dest: "/mnt/media/downloads" }
+- { src: "freenas.radoncanyon.com:/mnt/etank/media/music", dest: "/mnt/media/music" }
 dockerfs_dirs:
 - { name: "couchpotato/config" }
 - { name: "nzbget/config" }
