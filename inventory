@@ -5,6 +5,9 @@ ansible_user=nlopez
 [odroid0]
 odroid0.radoncanyon.com
 
+[odroid1]
+odroid1.radoncanyon.com
+
 [dockerd]
 cecil.radoncanyon.com
 biggs.radoncanyon.com
