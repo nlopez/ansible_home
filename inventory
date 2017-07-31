@@ -1,6 +1,10 @@
 [all:vars]
 ansible_python_interpreter=python2
 ansible_user=nlopez
+ansible_become=true
+ansible_become_user=root
+ansible_become_method=sudo
+ansible_become_flags="-i"
 
 [odroid0]
 odroid0.radoncanyon.com

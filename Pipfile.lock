@@ -28,7 +28,7 @@
             "version": "==1.10.0"
         },
         "cryptography": {
-            "version": "==1.9"
+            "version": "==2.0.2"
         },
         "enum34": {
             "version": "==1.1.6"
@@ -52,7 +52,7 @@
             "version": "==2.2.1"
         },
         "pyasn1": {
-            "version": "==0.2.3"
+            "version": "==0.3.1"
         },
         "pycparser": {
             "version": "==2.18"
@@ -67,7 +67,7 @@
             "version": "==3.12"
         },
         "setuptools": {
-            "version": "==36.2.0"
+            "version": "==36.2.4"
         },
         "six": {
             "version": "==1.10.0"
