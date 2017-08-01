@@ -1,6 +1,11 @@
 ---
-system_certificates: ca-certificates
-vim: vim
-sudoers: /etc/sudoers
+ansible_become: true
+ansible_become_method: sudo
+ansible_become_user: root
+ansible_python_interpreter: python2
+ansible_user: nlopez
 dig: bind-tools
 sudo_group: wheel
+sudoers: /etc/sudoers
+system_certificates: ca-certificates
+vim: vim

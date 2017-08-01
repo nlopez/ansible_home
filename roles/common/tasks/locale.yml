@@ -2,14 +2,10 @@
   copy: src=login.conf dest=/etc/login.conf owner=root group=wheel mode=0644
   when: ansible_os_family == "FreeBSD"
 
-- name: Set locale to en_us.UTF-8 (Archlinux)
-  copy: src=locale.gen dest=/etc/locale.gen owner=root group=root mode=0644
-  when: ansible_os_family == "Archlinux"
-
 - name: Set locale to en_us.UTF-8 (Debian)
   copy: src=etc_default_locale dest=/etc/default/locale owner=root group=root mode=0644
   when: ansible_os_family == "Debian"
 
-- name: generate locales 
+- name: generate locales
   shell: "{{ generate_locales }}"
   changed_when: False

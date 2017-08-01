@@ -1,0 +1,4 @@
+---
+ansible_user: odroid
+ansible_password: odroid
+ansible_sudo_pass: odroid
