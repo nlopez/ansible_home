@@ -1,7 +1,3 @@
-[odroid]
-odroid0.radoncanyon.com
-odroid1.radoncanyon.com
-
 [dockerd]
 cecil.radoncanyon.com
 biggs.radoncanyon.com

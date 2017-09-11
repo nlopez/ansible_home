@@ -1,0 +1,59 @@
+---
+- include_vars: dns.yml
+
+- name: Get public IPv4 address
+  uri: url=http://ipv4.icanhazip.com return_content=yes timeout=5
+  register: icanhazv4
+  ignore_errors: yes
+
+- name: Get public IPv6 address
+  uri: url=http://ipv6.icanhazip.com return_content=yes timeout=5
+  register: icanhazv6
+  ignore_errors: yes
+
+- name: Create desertbluffs.com A record via Google Cloud DNS
+  local_action:
+    module: gcdns_record
+    zone: desertbluffs.com
+    type: A
+    record: desertbluffs.com
+    value: "{{ icanhazv4.content | trim | ipv4('address') }}"
+    ttl: 3600
+    state: present
+  when: icanhazv4 | succeeded
+
+- name: Create desertbluffs.com AAAA record via Google Cloud DNS
+  local_action:
+    module: gcdns_record
+    state: present
+    overwrite: yes
+    zone: desertbluffs.com
+    record: desertbluffs.com
+    type: AAAA
+    value: "{{ icanhazv6.content | trim | ipv6('address') }}"
+    ttl: 3600
+  when: icanhazv6 | succeeded
+
+- name: Create aliases via Google Cloud DNS
+  local_action:
+    module: gcdns_record
+    state: present
+    overwrite: yes
+    zone: desertbluffs.com
+    record: "{{ item.fqdn }}"
+    type: CNAME
+    value: desertbluffs.com.
+    ttl: 604800
+  with_items: "{{ proxy_vhosts }}"
+
+- name: Create additional records via Google Cloud DNS
+  local_action:
+    module: gcdns_record
+    state: present
+    overwrite: yes
+    zone: "{{ item.zone }}"
+    record: "{{ item.name }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    ttl: "{{ item.ttl }}"
+  with_items: "{{ dns_records }}"
