@@ -9,22 +9,14 @@
 - include: net.yml
 - include: dockerfs.yml
 
-- name: Install Docker
-  apt:
-    name: docker.io
-    state: present
-    update_cache: yes
-  when: ansible_os_family == 'Debian'
 
-- name: Configure Docker
-  template:
-    src: docker.service
-    dest: /etc/systemd/system/docker.service
-  notify:
-    - Reload systemd manager configuration
-    - Restart Docker
+# - name: Configure Docker
+#   template:
+#     src: docker.service
+#     dest: /etc/systemd/system/docker.service
+#   notify:
+#     - Reload systemd manager configuration
+#     - Restart Docker
 
-- name: Enable and start Docker daemon
-  service: name=docker enabled=yes state=started
-
+- include: docker.yml
 - include: kubernetes.yml

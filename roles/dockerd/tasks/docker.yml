@@ -1,0 +1,21 @@
+- name: Add Docker’s official GPG key
+  apt_key:
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    id: 3746C208A7317B0F
+    id: 0EBFCD88
+    state: present
+
+- name: Install Kubernetes apt repo
+  apt_repository:
+    repo: 'deb https://download.docker.com/linux/ubuntu {{ansible_distribution_release|lower}} stable'
+    filename: docker
+    state: present
+    update_cache: yes
+
+- name: Install Docker package
+  package:
+    name: docker-ce
+    state: present
+
+- name: Enable and start Docker daemon
+  service: name=docker enabled=yes state=started
