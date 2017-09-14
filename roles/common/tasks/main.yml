@@ -15,19 +15,9 @@
     - "{{ dig }}"
     - tree
     - "{{ vim }}"
-###############################################################################
-# TODO: Move Archlinux tasks elsewhere
-- name: Install Archlinux AUR packages
-  include: aur/pkg.yml pkg_name="{{ item }}"
-  when: ansible_os_family == "Archlinux"
-  with_items:
-    - package-query
-    - yaourt
+    - pv
+    - tcpdump
 
-- include_role: name=reflector
-  when: ansible_os_family == "Archlinux"
-
-###############################################################################
 - name: Determine path to bash
   shell: which bash
   register: which_bash
