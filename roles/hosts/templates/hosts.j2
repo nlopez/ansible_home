@@ -4,9 +4,9 @@
 
 {% for host in ansible_play_hosts %}
 {% if 'address' in hostvars[host].ansible_default_ipv4 %}
-{{ hostvars[host].ansible_default_ipv4.address }} {{ hostvars[host]['ansible_fqdn'] }}
+{{ hostvars[host].ansible_default_ipv4.address }} {{ hostvars[host]['ansible_fqdn'] }} {{ hostvars[host]['ansible_hostname'] }}
 {% endif %}
 {% if 'address' in hostvars[host].ansible_default_ipv6 %}
-{{ hostvars[host].ansible_default_ipv6.address }} {{ hostvars[host]['ansible_fqdn'] }}
+{{ hostvars[host].ansible_default_ipv6.address }} {{ hostvars[host]['ansible_fqdn'] }} {{ hostvars[host]['ansible_hostname'] }}
 {% endif %}
 {% endfor %}
