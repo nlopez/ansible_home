@@ -3,5 +3,6 @@ cecil.radoncanyon.com
 biggs.radoncanyon.com
 wedge.radoncanyon.com
 
-[dnscrypt-proxy]
-dnscrypt-proxy.radoncanyon.com
+[infra]
+pihole.radoncanyon.com
+unifi.radoncanyon.com
