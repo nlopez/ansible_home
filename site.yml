@@ -1,18 +1,18 @@
 ---
-# apply bootstrap role to odrobian odroids so we can use ansible with them
-- hosts: odroid
+- name: Prepare ODROIDs for Ansible
+  hosts: odroid
   gather_facts: no
   roles:
     - odrobian
 
-# gather facts from all hosts
-- hosts: all
+- name: Apply common role to all hosts
+  hosts: all
   pre_tasks:
     - group_by: key=os_{{ ansible_os_family }}
   roles:
     - common
 
-- name: configure docker hosts
+- name: Configure docker hosts
   hosts: dockerd
   roles:
     - eth0
