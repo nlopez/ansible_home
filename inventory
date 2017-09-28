@@ -1,8 +1,7 @@
 [dockerd]
-cecil.radoncanyon.com
-biggs.radoncanyon.com
-wedge.radoncanyon.com
+cecil
+biggs
 
 [infra]
-pihole.radoncanyon.com
-unifi.radoncanyon.com
+pihole
+unifi
