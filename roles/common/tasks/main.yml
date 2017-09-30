@@ -1,6 +1,4 @@
 ---
-- include: locale.yml
-
 - name: Install common packages
   package: name="{{ item }}" state=present
   with_items:
