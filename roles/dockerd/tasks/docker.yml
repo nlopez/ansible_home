@@ -13,6 +13,7 @@
     update_cache: yes
 
 - name: Pin Docker version
+  copy:
     dest: /etc/apt/preferences.d/docker-ce
     content: |
       Package: docker-ce
