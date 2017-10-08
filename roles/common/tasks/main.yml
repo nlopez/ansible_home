@@ -16,6 +16,9 @@
     - pv
     - tcpdump
     - rng-tools
+    - ethtool
+    - iperf
+    - iperf3
 
 - name: Determine path to bash
   shell: which bash
