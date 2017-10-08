@@ -25,4 +25,7 @@
     state: latest
 
 - name: Enable and start Docker daemon
-  service: name=docker enabled=yes state=started
+  service:
+    name: docker
+    enabled: yes
+    state: started
