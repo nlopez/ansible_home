@@ -12,10 +12,17 @@
     state: present
     update_cache: yes
 
+- name: Pin Docker version
+    dest: /etc/apt/preferences.d/docker-ce
+    content: |
+      Package: docker-ce
+      Pin: version 17.03*
+      Pin-Priority: 1001
+
 - name: Install Docker package
   package:
-    name: docker-ce=17.03.2~ce-0~ubuntu-xenial
-    state: present
+    name: docker-ce
+    state: latest
 
 - name: Enable and start Docker daemon
   service: name=docker enabled=yes state=started
