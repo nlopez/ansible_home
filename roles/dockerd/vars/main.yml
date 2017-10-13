@@ -20,6 +20,7 @@ dockerfs_dirs:
 - { name: "deluge/config" }
 - { name: "jackett/config" }
 - { name: "nzbhydra/config" }
+- { name: "emby/config" }
 zfs_mounts:
 - { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils
