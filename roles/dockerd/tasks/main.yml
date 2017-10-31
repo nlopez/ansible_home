@@ -1,13 +1,13 @@
 ---
-- include: tasks/smb.yml # SMB mounts setup
+- include_tasks: tasks/smb.yml # SMB mounts setup
   when: smb_mounts is defined
-- include: tasks/nfs.yml # NFS mounts setup
+- include_tasks: tasks/nfs.yml # NFS mounts setup
   when: nfs_mounts is defined
-- include: tasks/zfs.yml # ZFS mounts setup
+- include_tasks: tasks/zfs.yml # ZFS mounts setup
   when: zfs_mounts is defined
 
-- include: net.yml
-- include: dockerfs.yml
+- import_tasks: net.yml
+- import_tasks: dockerfs.yml
 
 
 # - name: Configure Docker
@@ -18,5 +18,5 @@
 #     - Reload systemd manager configuration
 #     - Restart Docker
 
-- include: docker.yml
-- include: kubernetes.yml
+- import_tasks: docker.yml
+- import_tasks: kubernetes.yml

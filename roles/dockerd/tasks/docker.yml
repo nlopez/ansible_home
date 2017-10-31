@@ -1,7 +1,6 @@
 - name: Add Docker’s official GPG key
   apt_key:
     url: 'https://download.docker.com/linux/ubuntu/gpg'
-    id: 3746C208A7317B0F
     id: 0EBFCD88
     state: present
 
