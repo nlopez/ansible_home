@@ -59,4 +59,3 @@
 
 - name: Allow members of sudoers group to run all commands without a password
   template: src=sudoers.j2 dest={{ sudoers }} validate='visudo -cf %s'
-

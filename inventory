@@ -4,5 +4,5 @@ biggs ansible_host=192.168.222.103
 wedge ansible_host=192.168.222.144
 
 [infra]
-wireguard ansible_host=192.168.222.2
-wireguard ansible_host=192.168.239.2
+wg-ev ansible_host=192.168.222.2
+wg-astoria ansible_host=192.168.239.2
