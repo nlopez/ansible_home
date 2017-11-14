@@ -23,3 +23,11 @@ dockerfs_dirs:
 zfs_mounts:
 - { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils
+docker_sysctls:
+  net.ipv4.ip_forward: 1
+  net.bridge.bridge-nf-call-ip6tables: 1
+  net.bridge.bridge-nf-call-iptables: 1
+  net.netfilter.nf_conntrack_max: 1000000
+  net.core.somaxconn: 1024
+  vm.panic_on_oom: 1
+  kernel.panic: 10

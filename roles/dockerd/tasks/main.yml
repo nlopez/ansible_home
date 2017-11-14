@@ -8,15 +8,5 @@
 
 - import_tasks: net.yml
 - import_tasks: dockerfs.yml
-
-
-# - name: Configure Docker
-#   template:
-#     src: docker.service
-#     dest: /etc/systemd/system/docker.service
-#   notify:
-#     - Reload systemd manager configuration
-#     - Restart Docker
-
 - import_tasks: docker.yml
 - import_tasks: kubernetes.yml

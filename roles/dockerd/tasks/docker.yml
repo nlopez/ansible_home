@@ -24,6 +24,13 @@
     name: docker-ce
     state: latest
 
+- name: Configure Docker
+  template:
+    src: docker.service
+    dest: /etc/systemd/system/docker.service
+  notify:
+    - Restart Docker
+
 - name: Enable and start Docker daemon
   service:
     name: docker
