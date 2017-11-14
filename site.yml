@@ -17,4 +17,5 @@
   roles:
     - eth0
     - zfs
+    - sanoid
     - dockerd

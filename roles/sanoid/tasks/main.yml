@@ -1,0 +1,76 @@
+- name: create temporary download directory
+  tempfile:
+    state: directory
+    suffix: .sanoid
+  register: sanoid_tmpdir
+
+- name: fetch sanoid tarball
+  get_url:
+    url: "{{ sanoid_tarball_url }}"
+    dest: "{{ sanoid_tmpdir.path }}"
+    checksum: "{{ sanoid_tarball_checksum }}"
+  register: sanoid_tarball
+
+- name: extract sanoid
+  unarchive:
+    remote_src: yes
+    src: "{{ sanoid_tarball.dest }}"
+    dest: "{{ sanoid_tmpdir.path }}"
+  register: sanoid_extracted
+
+- set_fact:
+    sanoid_extracted_path: "{{ sanoid_extracted.dest ~ '/sanoid-' ~ sanoid_version }}"
+
+- name: copy sanoid binaries
+  copy:
+    remote_src: yes
+    src: "{{ sanoid_extracted_path ~ '/' ~ item }}"
+    dest: "{{ '/usr/local/bin/' ~ item }}"
+    mode: 0755
+    owner: root
+    group: root
+  with_items: "{{ sanoid_binaries }}"
+
+- name: create sanoid conf dir
+  file:
+    path: /etc/sanoid
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: install sanoid defaults
+  copy:
+    remote_src: yes
+    src: "{{ sanoid_extracted_path ~ '/sanoid.defaults.conf' }}"
+    dest: /etc/sanoid/sanoid.defaults.conf
+    mode: 0644
+    owner: root
+    group: root
+
+- name: write our sanoid config
+  template:
+    src: sanoid.conf.j2
+    dest: /etc/sanoid/sanoid.conf
+    mode: 0644
+    owner: root
+    group: root
+
+- name: install sanoid dependencies
+  package:
+    name: "{{ item }}"
+  with_items: "{{ sanoid_dependencies }}"
+
+- name: cleanup sanoid installation temp dir
+  file:
+    path: "{{ sanoid_tmpdir.path }}"
+    state: absent
+
+- name: install sanoid cron
+  cron:
+    name: sanoid
+    job: "/usr/local/bin/sanoid --cron"
+    cron_file: sanoid
+    user: root
+    minute: "*"
+    hour: "*"

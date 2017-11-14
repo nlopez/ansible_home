@@ -1,0 +1,13 @@
+sanoid_version: 1.4.14
+sanoid_tarball_url: https://github.com/jimsalterjrs/sanoid/archive/v{{ sanoid_version }}.tar.gz
+sanoid_tarball_checksum: sha256:7425e54622f7f270d9a5c3ac4e814e20d2df5307b5e032feb4a6d023a659d516
+sanoid_binaries:
+  - sanoid
+  - syncoid
+  - findoid
+  - sleepymutex
+sanoid_dependencies:
+  - pv
+  - lzop
+  - mbuffer
+  - libconfig-inifiles-perl
