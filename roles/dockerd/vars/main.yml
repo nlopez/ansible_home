@@ -6,20 +6,6 @@ nfs_mounts:
 - { src: "192.168.222.149:/mnt/etank/media/anime", dest: "/mnt/media/anime" }
 - { src: "192.168.222.149:/mnt/etank/media/downloads", dest: "/mnt/media/downloads" }
 - { src: "192.168.222.149:/mnt/etank/media/music", dest: "/mnt/media/music" }
-dockerfs_dirs:
-- { name: "deluge/config" }
-- { name: "emby/config" }
-- { name: "nzbget/config" }
-- { name: "nzbget/intermediate" }
-- { name: "nzbhydra/config" }
-- { name: "ombi/config" }
-- { name: "plexpy/config" }
-- { name: "pms/config" }
-- { name: "pms/transcode" }
-- { name: "radarr/config" }
-- { name: "smokeping/config" }
-- { name: "smokeping/data" }
-- { name: "sonarr/config" }
 zfs_mounts:
 - { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils
