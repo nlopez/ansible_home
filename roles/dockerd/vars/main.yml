@@ -1,11 +1,5 @@
 ---
 docker_daemon_port: 2376
-nfs_mounts:
-- { src: "192.168.222.149:/mnt/etank/media/tv", dest: "/mnt/media/tv" }
-- { src: "192.168.222.149:/mnt/etank/media/movies", dest: "/mnt/media/movies" }
-- { src: "192.168.222.149:/mnt/etank/media/anime", dest: "/mnt/media/anime" }
-- { src: "192.168.222.149:/mnt/etank/media/downloads", dest: "/mnt/media/downloads" }
-- { src: "192.168.222.149:/mnt/etank/media/music", dest: "/mnt/media/music" }
 zfs_mounts:
 - { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils
