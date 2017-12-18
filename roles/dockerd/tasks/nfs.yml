@@ -15,6 +15,7 @@
     fstype: nfs4
     state: mounted
   with_items: "{{ nfs_mounts }}"
+  when: nfs_mounts is defined
 
 - name: Start and enable rpcbind
   service:
