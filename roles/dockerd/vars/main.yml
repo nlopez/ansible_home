@@ -9,8 +9,8 @@ nfs_mounts:
 - { src: "nas2.radoncanyon.com:/mnt/etank/media/anime", dest: "/mnt/media/anime/nas2" }
 - { src: "nas1.radoncanyon.com:/mnt/etank/media/music", dest: "/mnt/media/music/nas1" }
 - { src: "nas2.radoncanyon.com:/mnt/etank/media/music", dest: "/mnt/media/music/nas2" }
-- { src: "nas1.radoncanyon.com:/mnt/scratch/downloads", dest: "/mnt/downloads/nas1" }
-- { src: "nas2.radoncanyon.com:/mnt/scratch/downloads", dest: "/mnt/downloads/nas2" }
+- { src: "nas1.radoncanyon.com:/mnt/etank/scratch/downloads", dest: "/mnt/downloads/nas1" }
+- { src: "nas2.radoncanyon.com:/mnt/etank/scratch/downloads", dest: "/mnt/downloads/nas2" }
 zfs_mounts:
 - { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils

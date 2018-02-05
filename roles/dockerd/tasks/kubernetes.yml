@@ -46,4 +46,3 @@
     name: kubelet
     enabled: yes
     state: started
-
