@@ -16,25 +16,25 @@
     dest: /etc/apt/preferences.d/kubernetes
     content: |
       Package: kubelet
-      Pin: version 1.8.5-00
+      Pin: version 1.9.3-00
       Pin-Priority: 1001
 
       Package: kubeadm
-      Pin: version 1.8.5-00
+      Pin: version 1.9.3-00
       Pin-Priority: 1001
 
       Package: kubectl
-      Pin: version 1.8.5-00
+      Pin: version 1.9.3-00
       Pin-Priority: 1001
 
       Package: kubernetes-cni
-      Pin: version 0.5.1-00
+      Pin: version 0.6.0-00
       Pin-Priority: 1001
 
 - name: Install Kubernetes packages
   package:
     name: "{{item}}"
-    state: present
+    state: latest
   with_items:
     - kubelet
     - kubeadm
