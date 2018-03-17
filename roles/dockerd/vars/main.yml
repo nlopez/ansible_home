@@ -12,4 +12,4 @@ docker_sysctls:
   net.core.somaxconn: 1024
   vm.panic_on_oom: 1
   kernel.panic: 10
-  net.core.netdev_max_backlog: 2000
+  net.core.netdev_max_backlog: 4000
