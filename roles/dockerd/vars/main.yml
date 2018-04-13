@@ -12,7 +12,6 @@ docker_sysctls:
   net.core.somaxconn: 1024
   vm.panic_on_oom: 1
   kernel.panic: 10
-  net.core.netdev_max_backlog: 4000
   # http://www.nateware.com/linux-network-tuning-for-2013.html
   # Increase Linux autotuning TCP buffer limits
   # Set max to 16MB for 1GE and 32M (33554432) or 54M (56623104) for 10GE
