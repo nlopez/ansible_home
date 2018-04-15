@@ -1,5 +1,0 @@
-dockerfs_dirs:
-- { name: "prometheus/data" }
-- { name: "prometheus/config" }
-- { name: "grafana/data" }
-- { name: "grafana/config" }

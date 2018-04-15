@@ -12,6 +12,6 @@
       iface eth0 inet dhcp
     dest: /etc/network/interfaces.d/eth0
 
-- debug: 
+- debug:
     msg: "Network interface rename requires a reboot"
-  when: eth0_udev|changed
+  when: eth0_udev is changed

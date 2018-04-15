@@ -11,7 +11,7 @@
   systemd:
     name: systemd-timesyncd.service
     state: restarted
-  when: timesyncd_conf | changed
+  when: timesyncd_conf is changed
 
 - name: Ensure systemd-timesyncd is running and enabled
   systemd:

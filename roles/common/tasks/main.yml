@@ -1,24 +1,8 @@
 ---
 - name: Install common packages
-  package: name="{{ item }}" state=present
-  with_items:
-    - bash
-    - sudo
-    - rsync
-    - "{{ system_certificates }}"
-    - curl
-    - wget
-    - mosh
-    - screen
-    - "{{ dig }}"
-    - tree
-    - "{{ vim }}"
-    - pv
-    - tcpdump
-    - rng-tools
-    - ethtool
-    - iperf
-    - iperf3
+  package:
+    name:   "{{ common_packages }}"
+    state: present
 
 - name: Determine path to bash
   shell: which bash
@@ -29,7 +13,9 @@
     bash_binary: "{{ which_bash.stdout | default('/usr/bin/bash') }}"
 
 - name: Add Nick's group
-  group: name=nlopez state=present
+  group:
+    name: nlopez
+    state: present
 
 - name: Add Nick's superuser
   user:
@@ -45,17 +31,21 @@
   changed_when: False
 
 - name: Add Nick to docker group
-  user: name=nlopez groups="{{ item }}" append=yes
-  when: item in etc_group.stdout_lines
-  with_items:
-    - docker
+  user:
+    name: nlopez
+    groups: docker
+    append: yes
+  when: "'docker' in etc_group.stdout_lines"
 
 - name: Setup Nick's keys
   authorized_key:
     user: nlopez
     key: https://github.com/nlopez.keys
     exclusive: yes
-    validate_certs: yes # default
+    validate_certs: yes
 
 - name: Allow members of sudoers group to run all commands without a password
-  template: src=sudoers.j2 dest={{ sudoers }} validate='visudo -cf %s'
+  template:
+    src: sudoers.j2
+    dest: "{{ sudoers }}"
+    validate: 'visudo -cf %s'

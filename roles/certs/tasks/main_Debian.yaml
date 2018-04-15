@@ -9,7 +9,7 @@
 
 - name: Update trusted certificate authorities
   command: update-ca-certificates
-  when: ca|changed
+  when: ca is changed
 
 - name: Install server-specific key
   copy:
