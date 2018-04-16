@@ -8,6 +8,7 @@
   group:
     name: nlopez
     state: present
+    gid: 1000
 
 - name: Add Nick's superuser
   user:
@@ -16,6 +17,7 @@
     group: nlopez
     groups: "{{ sudo_group }}"
     createhome: True
+    uid: 1000
 
 - name: Add Nick to docker group
   user:
