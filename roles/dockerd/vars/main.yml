@@ -1,9 +1,9 @@
 ---
 kubernetes_packages:
-  - { name: kubelet, version: 1.9.3-00 }
-  - { name: kubeadm, version: 1.9.3-00 }
-  - { name: kubectl, version: 1.9.3-00 }
-  - { name: kubernetes-cni, version: 0.6.0-00 }
+  - kubelet=1.9.3-00
+  - kubeadm=1.9.3-00
+  - kubectl=1.9.3-00
+  - kubernetes-cni=0.6.0-00
 docker_daemon_port: 2376
 #nfs_mounts:
 zfs_mounts:

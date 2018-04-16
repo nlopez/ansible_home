@@ -1,6 +1,7 @@
 {% for package in kubernetes_packages %}
-Package: {{ package.name }}
-Pin: version {{ package.version }}
+Package: {{ package.split('=')[0] }}
+Pin: version {{ package.split('=')[1] }}
 Pin-Priority: 1001
+
 
 {% endfor %}

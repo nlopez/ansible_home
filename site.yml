@@ -17,7 +17,7 @@
   roles:
     - common
 
-- name: Configure docker hosts
+- name: Configure dockerd hosts
   hosts: dockerd
   strategy: free
   roles:
@@ -25,3 +25,9 @@
     - zfs
     - sanoid
     - dockerd
+
+- name: Configure infra hosts
+  hosts: infra
+  strategy: free
+  roles:
+    - wireguard

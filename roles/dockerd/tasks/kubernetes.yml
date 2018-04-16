@@ -18,8 +18,8 @@
 
 - name: Install Kubernetes packages
   package:
-    name: "{{ kubernetes_packages | map(attribute='name') | list }}"
-    state: latest
+    name: "{{ kubernetes_packages }}"
+    force: yes
 
 - name: Start and enable Kubelet
   service:
