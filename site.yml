@@ -26,8 +26,8 @@
     - sanoid
     - dockerd
 
-- name: Configure infra hosts
-  hosts: infra
-  strategy: free
-  roles:
-    - wireguard
+# - name: Configure infra hosts
+#   hosts: infra
+#   strategy: free
+#   roles:
+#     - wireguard
