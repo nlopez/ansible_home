@@ -12,7 +12,7 @@
   file:
     path: "{{ item.dest }}"
     state: directory
-  with_items: "{{ nfs_mounts }}"
+  loop: "{{ nfs_mounts }}"
   when: nfs_mounts is defined
 
 - name: Mount NFS shares
@@ -21,7 +21,7 @@
     src: "{{ item.src }}"
     fstype: nfs4
     state: mounted
-  with_items: "{{ nfs_mounts }}"
+  loop: "{{ nfs_mounts }}"
   when: nfs_mounts is defined
 
 - name: Start and enable rpcbind
@@ -29,4 +29,3 @@
     name: rpcbind
     enabled: yes
     state: started
-

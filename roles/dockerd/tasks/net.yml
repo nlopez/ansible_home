@@ -14,11 +14,11 @@
   sysctl:
     name: "{{ item.key }}"
     value: "{{ item.value }}"
-    sysctl_set: yes
     state: present
+    sysctl_set: yes
     reload: yes
     sysctl_file: /etc/sysctl.d/60-docker.conf
-  with_dict: "{{ docker_sysctls }}"
+  loop: "{{ lookup('dict', docker_sysctls) }}"
 
 # https://www.freedesktop.org/software/systemd/man/systemd-sysctl.service.html
 - name: Start and enable the systemd-sysctl service

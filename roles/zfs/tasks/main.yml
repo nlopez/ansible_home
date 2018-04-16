@@ -5,11 +5,14 @@
     owner: root
     group: root
     mode: 0444
-  with_items:
-  - zfs-scrub.service
-  - zfs-scrub.timer
+  loop:
+    - zfs-scrub.service
+    - zfs-scrub.timer
   notify:
-  - Reload systemd manager configuration
+    - Reload systemd manager configuration
 
 - name: Enable weekly ZFS scrub timer
-  service: name=zfs-scrub.timer state=started enabled=yes
+  service:
+    name: zfs-scrub.timer
+    state: started
+    enabled: yes

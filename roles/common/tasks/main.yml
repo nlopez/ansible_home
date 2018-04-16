@@ -4,14 +4,6 @@
     name:   "{{ common_packages }}"
     state: present
 
-- name: Determine path to bash
-  shell: which bash
-  register: which_bash
-  changed_when: False
-
-- set_fact:
-    bash_binary: "{{ which_bash.stdout | default('/usr/bin/bash') }}"
-
 - name: Add Nick's group
   group:
     name: nlopez
@@ -20,22 +12,17 @@
 - name: Add Nick's superuser
   user:
     name: nlopez
-    shell: "{{ bash_binary }}"
+    shell: "{{ lookup('pipe', 'which bash') }}"
     group: nlopez
     groups: "{{ sudo_group }}"
     createhome: True
-
-- name: Enumerate available groups
-  shell: getent group | awk -F":" '{print $1}'
-  register: etc_group
-  changed_when: False
 
 - name: Add Nick to docker group
   user:
     name: nlopez
     groups: docker
     append: yes
-  when: "'docker' in etc_group.stdout_lines"
+  when: "'docker' in  lookup('pipe', 'cut -d: -f1 /etc/group')"
 
 - name: Setup Nick's keys
   authorized_key:

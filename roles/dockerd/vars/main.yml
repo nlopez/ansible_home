@@ -1,8 +1,13 @@
 ---
+kubernetes_packages:
+  - { name: kubelet, version: 1.9.3-00 }
+  - { name: kubeadm, version: 1.9.3-00 }
+  - { name: kubectl, version: 1.9.3-00 }
+  - { name: kubernetes-cni, version: 0.6.0-00 }
 docker_daemon_port: 2376
 #nfs_mounts:
 zfs_mounts:
-- { name: rpool/dockerfs, mountpoint: /dockerfs }
+  - { name: rpool/dockerfs, mountpoint: /dockerfs }
 nfs_utils: nfs-utils
 docker_sysctls:
   net.ipv4.ip_forward: 1

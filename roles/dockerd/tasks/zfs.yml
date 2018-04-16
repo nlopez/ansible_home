@@ -2,8 +2,9 @@
   zfs:
     name: "{{ item.name }}"
     state: present
-    mountpoint: legacy # used so we can manage with the ansible mount module
-  with_items: "{{ zfs_mounts }}"
+    extra_zfs_properties:
+      mountpoint: legacy # used so we can manage with the ansible mount module
+  loop: "{{ zfs_mounts }}"
 
 - name: Mount ZFS filesystems
   mount:
@@ -11,4 +12,4 @@
     src: "{{ item.name }}"
     fstype: zfs
     state: mounted
-  with_items: "{{ zfs_mounts }}"
+  loop: "{{ zfs_mounts }}"

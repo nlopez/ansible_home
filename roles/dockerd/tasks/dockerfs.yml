@@ -12,4 +12,4 @@
     group: "{{ item.group | default('dockerfs') }}"
     mode: 'u=rwX,g=u,o='
     recurse: no
-  with_items: "{{ dockerfs_dirs }}"
+  loop: "{{ dockerfs_dirs }}"
