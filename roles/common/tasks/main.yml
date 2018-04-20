@@ -38,3 +38,13 @@
     src: sudoers.j2
     dest: "{{ sudoers }}"
     validate: 'visudo -cf %s'
+
+- name: Tune networking
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_set: yes
+    reload: yes
+    sysctl_file: /etc/sysctl.d/60-net.conf
+  loop: "{{ lookup('dict', net_sysctls) }}"

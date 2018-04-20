@@ -25,9 +25,3 @@
     - zfs
     - sanoid
     - dockerd
-
-# - name: Configure infra hosts
-#   hosts: infra
-#   strategy: free
-#   roles:
-#     - wireguard
