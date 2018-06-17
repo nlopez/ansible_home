@@ -13,7 +13,7 @@
 - name: Add Nick's superuser
   user:
     name: nlopez
-    shell: "{{ lookup('pipe', 'which bash') }}"
+    shell: /bin/bash
     group: nlopez
     groups: "{{ sudo_group }}"
     createhome: True
