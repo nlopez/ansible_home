@@ -9,3 +9,4 @@ dockerfs_dirs:
 - { name: "smokeping/data" }
 - { name: "sonarr/config" }
 - { name: "nextcloud/config" }
+- { name: "nextcloud-mariadb/config" }
