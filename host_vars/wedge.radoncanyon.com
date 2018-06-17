@@ -8,3 +8,4 @@ dockerfs_dirs:
 - { name: "smokeping/config" }
 - { name: "smokeping/data" }
 - { name: "sonarr/config" }
+- { name: "nextcloud/config" }
