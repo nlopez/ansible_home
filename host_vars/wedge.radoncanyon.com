@@ -1,13 +1,6 @@
 dockerfs_dirs:
-- { name: "deluge/config" }
-- { name: "nzbget/config" }
-- { name: "nzbget/intermediate" }
-- { name: "nzbhydra/config" }
-- { name: "ombi/config" }
-- { name: "radarr/config" }
-- { name: "smokeping/config" }
-- { name: "smokeping/data" }
-- { name: "sonarr/config" }
+- { name: "plexpy/config" }
+- { name: "pms/config" }
+- { name: "pms/transcode" }
 - { name: "nextcloud/config" }
 - { name: "nextcloud-mariadb/config" }
-- { name: "thelounge/data" }
