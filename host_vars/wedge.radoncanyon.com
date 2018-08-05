@@ -10,3 +10,4 @@ dockerfs_dirs:
 - { name: "sonarr/config" }
 - { name: "nextcloud/config" }
 - { name: "nextcloud-mariadb/config" }
+- { name: "thelounge/data" }
