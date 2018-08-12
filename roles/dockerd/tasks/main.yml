@@ -6,6 +6,6 @@
   when: zfs_mounts is defined
 
 - import_tasks: net.yml
-- import_tasks: dockerfs.yml
 - import_tasks: docker.yml
 - import_tasks: kubernetes.yml
+- import_tasks: iscsi.yaml

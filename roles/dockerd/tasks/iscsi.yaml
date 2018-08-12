@@ -1,0 +1,8 @@
+- name: Install iSCSI tools
+  package:
+    name: open-iscsi
+
+- service:
+    name: iscsid
+    state: started
+    enabled: yes

@@ -45,3 +45,5 @@ net_sysctls:
   # If your servers talk UDP, also up these limits
   net.ipv4.udp_rmem_min: 8192
   net.ipv4.udp_wmem_min: 8192
+  # Actual fix for high softirq in 4.13
+  net.core.netdev_budget_usecs: 5000
