@@ -6,7 +6,7 @@
 
 - name: Install Kubernetes apt repo
   apt_repository:
-    repo: 'deb http://apt.kubernetes.io/ kubernetes-{{ansible_distribution_release|lower}} main'
+    repo: 'deb http://apt.kubernetes.io/ kubernetes-xenial main'
     filename: kubernetes
     state: present
     update_cache: yes
