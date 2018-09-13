@@ -20,9 +20,7 @@
 
 - name: Start and enable WireGuard interfaces
   service:
-    name: "wg-quick@{{ interface.key }}"
+    name: wg-quick@{{ item.key }}
     state: started
     enabled: true
   loop: "{{ query('dict', wireguard_interfaces) }}"
-  loop_control:
-    loop_var: interface
