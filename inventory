@@ -4,4 +4,4 @@ wedge.radoncanyon.com
 
 [infra]
 wg-ev.radoncanyon.com
-wg-astoria.radoncanyon.com
+wg-astoria.radoncanyon.com ansible_host=astoria.port0.org ansible_port=20022

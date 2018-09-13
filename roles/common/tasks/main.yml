@@ -47,4 +47,5 @@
     sysctl_set: yes
     reload: yes
     sysctl_file: /etc/sysctl.d/60-net.conf
+    ignoreerrors: yes # ignores unknown key errors
   loop: "{{ lookup('dict', net_sysctls) }}"

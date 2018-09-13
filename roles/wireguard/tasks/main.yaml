@@ -1,0 +1,28 @@
+- name: Install WireGuard repo
+  apt_repository:
+    repo: ppa:wireguard/wireguard
+
+- name: Install latest WireGuard package
+  package:
+    name: wireguard
+    state: latest
+
+- name: Configure WireGuard interfaces
+  template:
+    src: wg.conf
+    dest: /etc/wireguard/{{ interface.key }}.conf
+    owner: root
+    group: root
+    mode: 0600
+  loop: "{{ query('dict', wireguard_interfaces) }}"
+  loop_control:
+    loop_var: interface
+
+- name: Start and enable WireGuard interfaces
+  service:
+    name: "wg-quick@{{ interface.key }}"
+    state: started
+    enabled: true
+  loop: "{{ query('dict', wireguard_interfaces) }}"
+  loop_control:
+    loop_var: interface
