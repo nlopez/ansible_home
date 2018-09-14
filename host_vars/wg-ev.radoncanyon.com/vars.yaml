@@ -3,8 +3,6 @@ wireguard_endpoint: ev.port0.org
 wireguard_public_key: 7l7MeX1T6O6KbrAt5Hp4p2yhRsAh9nlLtGrw7W17F3w=
 wireguard_networks:
   - 192.168.239.0/24
-  - 10.100.0.0/16
-  - 10.10.10.0/24
 wireguard_interfaces:
   wg0:
     peers:
