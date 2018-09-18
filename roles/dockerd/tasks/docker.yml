@@ -16,7 +16,7 @@
     dest: /etc/apt/preferences.d/docker-ce
     content: |
       Package: docker-ce
-      Pin: version 18.03*
+      Pin: version 18.03.1~ce~3-0~ubuntu
       Pin-Priority: 1001
 
 - name: Install Docker package
