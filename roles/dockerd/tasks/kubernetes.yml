@@ -21,6 +21,12 @@
     name: "{{ kubernetes_packages }}"
     force: yes
 
+- name: Configure kubelet
+  template:
+    src: etc_default_kubelet
+    dest: /etc/default/kubelet
+    mode: 0640
+
 - name: Start and enable Kubelet
   service:
     name: kubelet
