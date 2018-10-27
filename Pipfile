@@ -1,11 +1,8 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 
-
 [packages]
-
-ansible = "*"
+ansible = "==2.7.1"
 boto = "*"
 netaddr = "*"
