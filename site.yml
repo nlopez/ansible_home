@@ -1,14 +1,4 @@
 ---
-- name: Install packages required by Ansible
-  hosts: all
-  become: yes
-  gather_facts: no
-  tasks:
-    - name: Install dmidecode for gather_facts support
-      package:
-        name: dmidecode
-        state: present
-
 - name: Apply common role to all hosts
   hosts: all
   pre_tasks:
