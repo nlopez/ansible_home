@@ -1,3 +1,11 @@
+- name: set hostname
+  file:
+    path: /etc/hostname
+    content: "{{ inventory_hostname_short }}"
+    mode: 0644
+    owner: root
+    group: root
+
 - name: populate /etc/hosts
   template:
     src: hosts.j2
