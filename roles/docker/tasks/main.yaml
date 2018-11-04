@@ -1,0 +1,47 @@
+---
+- import_tasks: sysctl.yaml
+
+- name: Add Docker’s official GPG key
+  apt_key:
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    id: 0EBFCD88
+    state: present
+
+- name: Remove old Docker pin file
+  file:
+    path: /etc/apt/preferences.d/docker-ce
+    state: absent
+
+- name: Pin Docker version
+  copy:
+    dest: /etc/apt/preferences.d/docker
+    content: |
+      Package: {{ docker_package_name }}
+      Pin: version {{ docker_package_version }}
+      Pin-Priority: 1001
+
+- name: Install Docker package
+  package:
+    name: "{{ docker_package_name }}"
+    state: latest
+
+- name: Configure Docker systemd service
+  template:
+    src: docker.service.j2
+    dest: /etc/systemd/system/docker.service
+  notify:
+    - Restart Docker
+
+- name: Configure Docker
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+  notify:
+    - Reload Docker
+
+- name: Enable and start Docker daemon
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+    daemon_reload: yes

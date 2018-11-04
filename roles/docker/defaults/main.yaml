@@ -1,14 +1,5 @@
 ---
-kubernetes_packages:
-  - kubelet=1.11.2-00
-  - kubeadm=1.11.2-00
-  - kubectl=1.11.2-00
-  - kubernetes-cni=0.6.0-00
 docker_daemon_port: 2376
-#nfs_mounts:
-zfs_mounts:
-  - { name: rpool/dockerfs, mountpoint: /dockerfs }
-nfs_utils: nfs-utils
 docker_sysctls:
   net.ipv4.ip_forward: 1
   net.bridge.bridge-nf-call-ip6tables: 1
@@ -18,3 +9,7 @@ docker_sysctls:
   vm.panic_on_oom: 1
   kernel.panic: 10
   net.ipv4.tcp_syncookies: 0
+docker_package_name: docker-ce
+docker_package_version: 18.03.1~ce~3-0~ubuntu
+docker_storage_driver: aufs
+docker_live_restore: true

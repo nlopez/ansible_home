@@ -1,11 +1,7 @@
 ---
-- include_vars:
-    dir: vars
-    files_matching: '{{ansible_os_family}}.yml'
-
 - name: Install NFS utils
   package:
-    name: '{{nfs_utils}}'
+    name: '{{ nfs_utils }}'
     state: present
 
 - name: Ensure mount points exist

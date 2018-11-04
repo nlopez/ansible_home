@@ -6,15 +6,19 @@
   roles:
     - common
 
-- name: Configure dockerd hosts
-  hosts: dockerd
+- name: Configure Kubernetes hosts
+  hosts: kubernetes
   roles:
     - eth0
     - zfs
+    - iscsi
+    - nfs
     - sanoid
-    - dockerd
+    - docker
+    - kubernetes
 
 - name: Configure infra hosts
   hosts: infra
   roles:
     - wireguard
+    - docker
