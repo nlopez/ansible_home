@@ -6,3 +6,4 @@ verify_ssl = true
 ansible = "==2.7.1"
 boto = "*"
 netaddr = "*"
+mitogen = "*"
