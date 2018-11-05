@@ -9,3 +9,5 @@ wireguard_interfaces:
   wg0:
     peers:
       - wg-ev.radoncanyon.com
+pihole_ServerIP: 192.168.222.2
+pihole_TZ: America/New_York

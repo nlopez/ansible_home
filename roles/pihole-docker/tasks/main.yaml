@@ -1,0 +1,41 @@
+- name: Install pip
+  package:
+    name: python-pip
+
+- name: Install Pyton Docker SDK
+  pip:
+    name: docker
+
+- name: pull pihole container
+  docker_image:
+    name: pihole/pihole:{{ pihole_docker_tag }}
+
+- name: Create data persistence dirs on Docker host
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - /etc/pihole-docker/pihole
+    - /etc/pihole-docker/dnsmasq.d
+
+- name: Create Pi-hole Docker container
+  docker_container:
+    name: pihole
+    image: pihole/pihole:{{ pihole_docker_tag }}
+    state: started
+    detach: yes
+    dns_servers: 127.0.0.1
+    network_mode: host
+    restart_policy: unless-stopped
+    volumes:
+      - /etc/pihole-docker/pihole:/etc/pihole
+      - /etc/pihole-docker/dnsmasq.d:/etc/dnsmasq.d
+    env:
+      ServerIP: "{{ pihole_ServerIP }}"
+      ServerIPv6: "{{ pihole_ServerIPv6 }}"
+      DNS1: "{{ pihole_DNS1 }}"
+      DNS2: "{{ pihole_DNS2 }}"
+      TZ: "{{ pihole_TZ }}"
+      WEBPASSWORD: "{{ pihole_WEBPASSWORD }}"
+
