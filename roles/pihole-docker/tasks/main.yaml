@@ -28,6 +28,8 @@
     dns_servers: 127.0.0.1
     network_mode: host
     restart_policy: unless-stopped
+    capabilities:
+      - net_admin
     volumes:
       - /etc/pihole-docker/pihole:/etc/pihole
       - /etc/pihole-docker/dnsmasq.d:/etc/dnsmasq.d
