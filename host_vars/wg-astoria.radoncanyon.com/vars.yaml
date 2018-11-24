@@ -1,10 +1,10 @@
 wireguard_port: 12170
-wireguard_endpoint: astoria.port0.org
+wireguard_endpoint: lga1.desertbluffs.com
 wireguard_public_key: G61uhwwmEyHrY+Yy4kzsftMiXV0LDa1xv0Rk+Nv0SB4=
 wireguard_networks:
   - 192.168.222.0/24
-  - 10.100.0.0/16
-  - 10.10.10.0/24
+  - 10.11.0.0/16 # k8s pods
+  - 10.10.10.0/24 # k8s svcs
 wireguard_interfaces:
   wg0:
     peers:
