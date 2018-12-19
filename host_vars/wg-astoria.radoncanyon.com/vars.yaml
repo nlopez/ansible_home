@@ -1,6 +1,6 @@
-wireguard_port: 12170
+wireguard_port: 8267
 wireguard_endpoint: lga1.desertbluffs.com
-wireguard_public_key: G61uhwwmEyHrY+Yy4kzsftMiXV0LDa1xv0Rk+Nv0SB4=
+wireguard_public_key: YA5ogs/ol6RspiR9moyLj2OXTOkbAq0sigoXTske/ko=
 wireguard_networks:
   - 192.168.222.0/24
   - 10.11.0.0/16 # k8s pods

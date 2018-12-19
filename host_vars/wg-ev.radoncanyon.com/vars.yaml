@@ -1,6 +1,6 @@
-wireguard_port: 10515
+wireguard_port: 5083
 wireguard_endpoint: lga2.desertbluffs.com
-wireguard_public_key: 7l7MeX1T6O6KbrAt5Hp4p2yhRsAh9nlLtGrw7W17F3w=
+wireguard_public_key: xlLhG267pvWL83cGLeFkvsUHhColGogWbz/jPAC7TX8=
 wireguard_networks:
   - 192.168.239.0/24
 wireguard_interfaces:
