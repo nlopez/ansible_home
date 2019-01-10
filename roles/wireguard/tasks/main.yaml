@@ -14,9 +14,12 @@
     owner: root
     group: root
     mode: 0600
+  vars:
+    iface: "{{ interface.value }}"
   loop: "{{ query('dict', wireguard_interfaces) }}"
   loop_control:
     loop_var: interface
+  register: i
 
 - name: Start and enable WireGuard interfaces
   service:

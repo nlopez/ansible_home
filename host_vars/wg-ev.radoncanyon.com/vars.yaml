@@ -3,8 +3,11 @@ wireguard_endpoint: lga2.desertbluffs.com
 wireguard_public_key: xlLhG267pvWL83cGLeFkvsUHhColGogWbz/jPAC7TX8=
 wireguard_networks:
   - 192.168.239.0/24
+  - 10.1.9.0/24 # wiregurd point-to-point
 wireguard_interfaces:
   wg0:
+    address: # multiple allowed, e.g.: ipv6
+      - 10.1.9.2/24
     peers:
       - wg-astoria.radoncanyon.com
 pihole_ServerIP: 192.168.239.2

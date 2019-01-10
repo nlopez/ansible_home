@@ -4,9 +4,12 @@ wireguard_public_key: YA5ogs/ol6RspiR9moyLj2OXTOkbAq0sigoXTske/ko=
 wireguard_networks:
   - 192.168.222.0/24
   - 10.11.0.0/16 # k8s pods
-  - 10.10.10.0/24 # k8s svcs
+  - 10.96.0.0/12 # k8s svcs
+  - 10.1.9.0/24 # wiregurd point-to-point
 wireguard_interfaces:
   wg0:
+    address: # multiple allowed, e.g.: ipv6
+      - 10.1.9.1/24
     peers:
       - wg-ev.radoncanyon.com
 pihole_ServerIP: 192.168.222.2
