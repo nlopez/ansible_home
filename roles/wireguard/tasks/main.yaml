@@ -19,11 +19,10 @@
   loop: "{{ query('dict', wireguard_interfaces) }}"
   loop_control:
     loop_var: interface
-  register: i
 
 - name: Start and enable WireGuard interfaces
   service:
     name: wg-quick@{{ item.key }}
-    state: started
+    state: restarted
     enabled: true
   loop: "{{ query('dict', wireguard_interfaces) }}"
