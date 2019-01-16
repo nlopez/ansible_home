@@ -1,5 +1,5 @@
 # This role retrieves my public keys from GitHub and configures them for
-# the root FreeNAS user. Expects your FreeNAS API credents in ~/.netrc
+# the root FreeNAS user. Expects your FreeNAS API credentials in ~/.netrc
 - block:
   - name: Get authorized keys from GitHub
     uri:
