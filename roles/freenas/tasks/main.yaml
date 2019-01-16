@@ -1,0 +1,35 @@
+# This role retrieves my public keys from GitHub and configures them for
+# the root FreeNAS user. Expects your FreeNAS API credents in ~/.netrc
+- block:
+  - name: Get authorized keys from GitHub
+    uri:
+      url: https://github.com/nlopez.keys
+      return_content: yes
+    register: ssh_public_keys
+
+  - name: List FreeNAS users
+    uri:
+      url: https://{{ inventory_hostname }}/api/v1.0/account/users/
+      return_content: yes
+      force_basic_auth: yes
+      validate_certs: no
+    register: freenas_users
+
+  # This seems to always be 1. But you never know...
+  - name: Determine FreeNAS user id for root (uid=0)
+    set_fact:
+      freenas_root_user_id: "{{ freenas_users.json | json_query(root_user_query) | int }}"
+    vars:
+      root_user_query: "[?bsdusr_uid==`0`].id | [0]"
+
+  - name: Update FreeNAS root user's authorized keys
+    uri:
+      url: https://{{ inventory_hostname }}/api/v1.0/account/users/{{ freenas_root_user_id }}/
+      method: PUT
+      body_format: json
+      force_basic_auth: yes
+      body:
+        bsdusr_sshpubkey: "{{ ssh_public_keys.content }}"
+      validate_certs: no
+  become: no
+  delegate_to: localhost

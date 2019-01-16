@@ -3,7 +3,8 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [packages]
-ansible = "==2.7.2"
+ansible = "==2.7.5"
 boto = "*"
 netaddr = "*"
 mitogen = "*"
+jmespath = "*"

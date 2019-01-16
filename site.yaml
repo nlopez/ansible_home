@@ -1,6 +1,6 @@
 ---
-- name: Apply common role to all hosts
-  hosts: all
+- name: Apply common role to all but FreeNAS hosts
+  hosts: all:!freenas
   pre_tasks:
     - group_by: key=os_{{ ansible_os_family }}
   roles:
@@ -23,3 +23,10 @@
     - wireguard
     - docker
     - pihole-docker
+
+- name: Configure FreeNAS hosts
+  hosts: freenas
+  gather_facts: no
+  become: no
+  roles:
+    - freenas
