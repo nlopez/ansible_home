@@ -1,1 +1,3 @@
 ---
+zfs_mounts:
+  - { name: rpool/dockerfs, mountpoint: /dockerfs }

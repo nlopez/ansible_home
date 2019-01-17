@@ -12,6 +12,13 @@
     path: /etc/apt/preferences.d/docker-ce
     state: absent
 
+- name: Install Docker apt repo
+  apt_repository:
+    repo: 'deb https://download.docker.com/linux/ubuntu {{ansible_distribution_release|lower}} stable'
+    filename: docker
+    state: present
+    update_cache: yes
+
 - name: Pin Docker version
   copy:
     dest: /etc/apt/preferences.d/docker
