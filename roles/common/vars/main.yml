@@ -16,6 +16,7 @@ common_packages:
   - ethtool
   - iperf
   - iperf3
+  - apt-transport-https
 
 net_sysctls:
   # http://www.nateware.com/linux-network-tuning-for-2013.html

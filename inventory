@@ -1,6 +1,7 @@
 [kubernetes]
 biggs.radoncanyon.com
 wedge.radoncanyon.com
+wg-astoria.radoncanyon.com
 
 [infra]
 wg-ev.radoncanyon.com
@@ -9,3 +10,7 @@ wg-astoria.radoncanyon.com
 [freenas]
 nas1.radoncanyon.com
 nas2.radoncanyon.com
+
+[zfs]
+biggs.radoncanyon.com
+wedge.radoncanyon.com

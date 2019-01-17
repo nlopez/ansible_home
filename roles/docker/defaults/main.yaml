@@ -11,5 +11,5 @@ docker_sysctls:
   net.ipv4.tcp_syncookies: 0
 docker_package_name: docker-ce
 docker_package_version: 18.03.1~ce~3-0~ubuntu
-docker_storage_driver: aufs
+docker_storage_driver: overlay2
 docker_live_restore: true

@@ -6,14 +6,18 @@
   roles:
     - common
 
+- name: Configure zfs
+  hosts: zfs
+  roles:
+    - zfs
+    - sanoid
+
 - name: Configure Kubernetes hosts
   hosts: kubernetes
   roles:
     - eth0
-    - zfs
     - iscsi
     - nfs
-    - sanoid
     - docker
     - kubernetes
 
