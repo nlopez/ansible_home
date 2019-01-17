@@ -20,17 +20,20 @@
       Pin: version {{ docker_package_version }}
       Pin-Priority: 1001
 
-- name: Install Docker package
-  package:
-    name: "{{ docker_package_name }}"
-    state: latest
-
 - name: Configure Docker systemd service
   template:
     src: docker.service.j2
     dest: /etc/systemd/system/docker.service
   notify:
     - Restart Docker
+
+- name: Install Docker package
+  package:
+    name: "{{ docker_package_name }}={{ docker_package_version }}"
+    state: present
+    # Use allow_downgrades when available:
+    # https://github.com/ansible/ansible/issues/29451
+    force: yes
 
 - name: Configure Docker
   template:

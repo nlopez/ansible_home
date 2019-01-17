@@ -10,6 +10,8 @@ docker_sysctls:
   kernel.panic: 10
   net.ipv4.tcp_syncookies: 0
 docker_package_name: docker-ce
-docker_package_version: 18.03.1~ce~3-0~ubuntu
+# This value will be used for apt version pinning and should follow
+# the latest Docker version validated
+docker_package_version: 18.06*
 docker_storage_driver: overlay2
-docker_live_restore: true
+docker_live_restore: false

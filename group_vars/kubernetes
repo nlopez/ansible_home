@@ -1,4 +1,1 @@
 ---
-zfs_mounts:
-  - { name: rpool/dockerfs, mountpoint: /dockerfs }
-docker_storage_driver: zfs
