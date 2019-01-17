@@ -2,7 +2,7 @@
   package:
     name: python-pip
 
-- name: Install Pyton Docker SDK
+- name: Install Python Docker SDK
   pip:
     name: docker
 
@@ -40,4 +40,3 @@
       DNS2: "{{ pihole_DNS2 }}"
       TZ: "{{ pihole_TZ }}"
       WEBPASSWORD: "{{ pihole_WEBPASSWORD }}"
-
