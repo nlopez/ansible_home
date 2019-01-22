@@ -1,0 +1,13 @@
+#!/bin/sh
+
+. /etc/rc.subr
+
+name=nzbget
+rcvar=nzbget_enable
+nzbget_user=nzbget
+
+command="/opt/nzbget/nzbget"
+command_args="--configfile /etc/nzbget.conf --daemon"
+
+load_rc_config $name
+run_rc_command "$1"

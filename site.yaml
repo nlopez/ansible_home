@@ -1,6 +1,6 @@
 ---
 - name: Apply common role to all but FreeNAS hosts
-  hosts: all:!freenas
+  hosts: all:!freenas:!jails
   pre_tasks:
     - group_by: key=os_{{ ansible_os_family }}
   roles:
@@ -34,3 +34,8 @@
   become: no
   roles:
     - freenas
+
+- name: Configure nzbget
+  hosts: nzbget
+  roles:
+    - nzbget
