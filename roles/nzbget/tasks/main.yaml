@@ -38,6 +38,14 @@
     group: wheel
     mode: 0755
 
+- name: Install archive tools
+  package:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - unrar
+      - p7zip
+
 - name: Write nzbget config
   template:
     src: nzbget.conf.j2
