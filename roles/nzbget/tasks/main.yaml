@@ -3,7 +3,7 @@
     shell: /sbin/nologin
     home: /var/empty
     create_home: no
-    uid: 1000
+    uid: 1001
 
 - name: Try to get nzbget version
   command: /opt/nzbget/nzbget --version
