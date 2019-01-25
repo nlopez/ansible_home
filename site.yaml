@@ -15,7 +15,6 @@
 - name: Configure Kubernetes hosts
   hosts: kubernetes
   roles:
-    - eth0
     - iscsi
     - nfs
     - docker
