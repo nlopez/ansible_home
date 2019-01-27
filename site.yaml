@@ -24,8 +24,6 @@
   hosts: infra
   roles:
     - wireguard
-    - docker
-    - pihole-docker
 
 - name: Configure FreeNAS hosts
   hosts: freenas
