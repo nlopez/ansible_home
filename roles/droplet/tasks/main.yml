@@ -1,4 +1,0 @@
----
-- include: tasks/launch.yml
-  connection: local
-  become: no
