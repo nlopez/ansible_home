@@ -1,11 +1,10 @@
 [kubernetes]
 biggs.radoncanyon.com
-wedge.radoncanyon.com ansible_python_interpreter=python3
-wg-astoria.radoncanyon.com
+wedge.radoncanyon.com
 
 [infra]
 wg-ev.radoncanyon.com
-wg-astoria.radoncanyon.com
+#wg-astoria.radoncanyon.com
 
 [freenas]
 nas1.radoncanyon.com
