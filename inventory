@@ -11,8 +11,5 @@ wg-astoria.radoncanyon.com
 nas1.radoncanyon.com
 nas2.radoncanyon.com
 
-[zfs]
-biggs.radoncanyon.com
-
 [jails]
 nzbget ansible_connection=sshjail ansible_ssh_host=nzbget@nas2.radoncanyon.com ansible_python_interpreter=python2.7 ansible_user=root ansible_become=no
