@@ -1,6 +1,6 @@
 [kubernetes]
-biggs.radoncanyon.com
-wedge.radoncanyon.com
+knode1.radoncanyon.com
+knode2.radoncanyon.com
 
 [infra]
 wg-ev.radoncanyon.com
