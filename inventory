@@ -1,3 +1,5 @@
+ansible_python_interpreter=python3
+
 [kubernetes]
 knode1.radoncanyon.com
 knode2.radoncanyon.com
