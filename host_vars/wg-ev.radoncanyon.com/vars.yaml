@@ -9,7 +9,7 @@ wireguard_interfaces:
     address: # multiple allowed, e.g.: ipv6
       - 10.1.9.2/24
     peers:
-      - wg-astoria.radoncanyon.com
+      - knode2.radoncanyon.com
 pihole_ServerIP: 192.168.239.2
 pihole_ServerIPv6: fdb4:724d:4e9e:3da0::2
 pihole_DNS1: 127.0.0.1#5353

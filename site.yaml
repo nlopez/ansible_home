@@ -20,10 +20,10 @@
     - docker
     - kubernetes
 
-# - name: Configure infra hosts
-#   hosts: infra
-#   roles:
-#     - wireguard
+- name: Configure infra hosts
+  hosts: infra
+  roles:
+    - wireguard
 
 - name: Configure FreeNAS hosts
   hosts: freenas

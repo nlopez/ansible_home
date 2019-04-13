@@ -1,12 +1,10 @@
-ansible_python_interpreter=python3
-
 [kubernetes]
 knode1.radoncanyon.com
 knode2.radoncanyon.com
 
 [infra]
 wg-ev.radoncanyon.com
-#wg-astoria.radoncanyon.com
+knode2.radoncanyon.com
 
 [freenas]
 nas1.radoncanyon.com
