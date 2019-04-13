@@ -10,7 +10,4 @@ wireguard_interfaces:
       - 10.1.9.2/24
     peers:
       - knode2.radoncanyon.com
-pihole_ServerIP: 192.168.239.2
-pihole_ServerIPv6: fdb4:724d:4e9e:3da0::2
-pihole_DNS1: 127.0.0.1#5353
-pihole_DNS2: 'no'
+docker_storage_driver: aufs

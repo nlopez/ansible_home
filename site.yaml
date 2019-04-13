@@ -25,6 +25,12 @@
   roles:
     - wireguard
 
+- name: Configure pihole hosts
+  hosts: pihole
+  roles:
+    - docker
+    - pihole-docker
+
 - name: Configure FreeNAS hosts
   hosts: freenas
   gather_facts: no
