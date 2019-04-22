@@ -9,5 +9,5 @@ wireguard_interfaces:
     address: # multiple allowed, e.g.: ipv6
       - 10.1.9.2/24
     peers:
-      - knode2.radoncanyon.com
+      - wg-astoria.radoncanyon.com
 docker_storage_driver: aufs

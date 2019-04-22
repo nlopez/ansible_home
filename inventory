@@ -4,7 +4,7 @@ knode2.radoncanyon.com
 
 [infra]
 wg-ev.radoncanyon.com
-knode2.radoncanyon.com
+wg-astoria.radoncanyon.com
 
 [freenas]
 nas1.radoncanyon.com
@@ -15,3 +15,4 @@ nzbget ansible_connection=sshjail ansible_ssh_host=nzbget@nas2.radoncanyon.com a
 
 [pihole]
 wg-ev.radoncanyon.com
+
