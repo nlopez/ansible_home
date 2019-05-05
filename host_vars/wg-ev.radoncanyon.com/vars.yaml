@@ -11,3 +11,5 @@ wireguard_interfaces:
     peers:
       - wg-astoria.radoncanyon.com
 docker_storage_driver: aufs
+pihole_ServerIP: 192.168.239.2
+pihole_TZ: America/New_York
