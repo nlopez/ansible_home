@@ -16,6 +16,8 @@ ExecReload=/bin/kill -s HUP $MAINPID
 LimitNOFILE=infinity
 LimitNPROC=infinity
 LimitCORE=infinity
+# For Elasticsearch
+LimitMEMLOCK=Infinity
 # Uncomment TasksMax if your systemd version supports it.
 # Only systemd 226 and above support this version.
 TasksMax=infinity
@@ -24,6 +26,7 @@ TimeoutStartSec=0
 Delegate=yes
 # kill only the docker process, not all processes in the cgroup
 KillMode=process
+
 
 [Install]
 WantedBy=multi-user.target
