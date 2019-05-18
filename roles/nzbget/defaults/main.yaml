@@ -1,0 +1,4 @@
+nzbget_expected_version: '21.0'
+nzbget_package:
+  url: https://github.com/nzbget/nzbget/releases/download/v{{ nzbget_expected_version }}/nzbget-{{ nzbget_expected_version }}-bin-freebsd.run
+  checksum: sha256:b9f98a60e81e410565ccae2655d7082f48521ff000dbc6cb01655caa22ba6267

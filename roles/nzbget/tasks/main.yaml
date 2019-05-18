@@ -15,19 +15,20 @@
   assert:
     that:
       - nzbget_version is succeeded
-      - "'nzbget version: 20.0' in nzbget_version.stdout"
+      - "'nzbget version: ' ~ nzbget_expected_version in nzbget_version.stdout"
   ignore_errors: true
   register: version_ok
 
 - block:
     - name: Fetch nzbget installer
       get_url:
-        url: https://github.com/nzbget/nzbget/releases/download/v20.0/nzbget-20.0-bin-freebsd.run
-        checksum: sha256:609dbcedb71498bb79697c2cb18da88d7e5183eebed1fde3abf4a0e32bb6e7d7
-        dest: /root/nzbget-20.0-bin-freebsd.run
+        url: "{{ nzbget_package.url }}"
+        checksum: "{{ nzbget_package.checksum }}"
+        dest: /root/nzbget-{{ nzbget_expected_version }}-bin-freebsd.run
 
     - name: Run nzbget installer
-      command: /bin/sh /root/nzbget-20.0-bin-freebsd.run --destdir /opt/nzbget
+      command: /bin/sh /root/nzbget-{{ nzbget_expected_version }}-bin-freebsd.run --destdir /opt/nzbget
+      notify: restart nzbget
   when: version_ok is failed
 
 - name: Write nzbget init script
@@ -37,6 +38,7 @@
     owner: root
     group: wheel
     mode: 0755
+  notify: restart nzbget
 
 - name: Install archive tools
   package:
@@ -54,6 +56,7 @@
     group: nzbget
     mode: 0600
     backup: yes
+  notify: restart nzbget
 
 - name: Ensure nzbget owns its working dirs
   file:
