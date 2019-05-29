@@ -1,4 +1,4 @@
-pihole_docker_tag: 4.2.2-1
+pihole_docker_tag: 4.3
 pihole_DNS1: 1.1.1.1
 pihole_DNS2: 1.0.0.1
 pihole_TZ: UTC
