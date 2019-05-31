@@ -24,6 +24,7 @@
   hosts: infra
   roles:
     - wireguard
+    - healthchecks_io
 
 - name: Configure pihole hosts
   hosts: pihole

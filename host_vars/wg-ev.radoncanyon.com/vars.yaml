@@ -14,3 +14,4 @@ docker_storage_driver: aufs
 pihole_ServerIP: 192.168.239.2
 pihole_ServerIPv6: 'fd72:ce7b:d4a9:9511::2'
 pihole_TZ: America/New_York
+hc_url: https://hc-ping.com/e16b000c-b0ee-4407-9b2a-1ed971b2b05d

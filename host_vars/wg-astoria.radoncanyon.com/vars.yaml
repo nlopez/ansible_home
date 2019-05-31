@@ -16,3 +16,4 @@ wireguard_interfaces:
       - wg-ev.radoncanyon.com
 pihole_ServerIP: 192.168.222.2
 pihole_TZ: America/New_York
+hc_url: https://hc-ping.com/fea2dbb2-fca4-4262-83b6-d3b581fef011
