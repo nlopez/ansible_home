@@ -8,6 +8,7 @@ wireguard_networks:
   - 192.168.220.0/24 # STORAGE
   - 192.168.222.0/24 # LAB
   - 192.168.223.0/24 # WLAN
+  - 204.0.0.0/14 # FFXIV Aether/Jenova
 wireguard_interfaces:
   wg0:
     address: # multiple allowed, e.g.: ipv6
