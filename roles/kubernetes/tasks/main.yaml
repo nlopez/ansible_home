@@ -28,6 +28,10 @@
     name: "{{ kubernetes_packages }}"
     force: yes
 
+- name: Install supporting Kubernetes packages
+  package:
+    name: "{{ kubernetes_other_packages }}"
+
 - name: Configure kubelet
   template:
     src: etc_default_kubelet
@@ -39,3 +43,6 @@
     name: kubelet
     enabled: yes
     state: started
+
+- name: Configure keepalived vrrp for stacked Kubernetes masters
+  include_tasks: keepalived.yaml

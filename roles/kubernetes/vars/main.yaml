@@ -3,3 +3,6 @@ kubernetes_packages:
   - kubeadm=1.15.3-00
   - kubectl=1.15.3-00
   - kubernetes-cni=0.7.5-00
+
+kubernetes_other_packages:
+  - ipset  # needed for ipvs

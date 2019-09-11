@@ -1,0 +1,11 @@
+vrrp_instance vips {
+  state BACKUP
+  interface eno1
+  virtual_router_id 1
+  priority 100
+  advert_int 1
+  nopreempt
+  virtual_ipaddress {
+    192.168.222.245
+  }
+}
