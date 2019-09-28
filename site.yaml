@@ -18,6 +18,7 @@
     - iscsi
     - nfs
     - docker
+    - crio
     - kubernetes
 
 - name: Configure infra hosts

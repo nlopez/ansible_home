@@ -3,6 +3,7 @@
     name: docker
     enabled: false
     state: stopped
+  ignore_errors: true
 
 - name: Remove Docker package
   package:
@@ -25,8 +26,7 @@
     filename: docker
     state: absent
 
-- name: Remove Docker’s official GPG key
+- name: Remove Docker's official GPG key
   apt_key:
-    url: 'https://download.docker.com/linux/ubuntu/gpg'
     id: 0EBFCD88
     state: absent

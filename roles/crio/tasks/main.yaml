@@ -1,0 +1,43 @@
+---
+- name: Add Project Atomic package signing key
+  apt_key:
+    id: 7EA0A9C3F273FCD8
+    keyserver: keyserver.ubuntu.com
+
+- name: Add Project Atomic PPA
+  apt_repository:
+    repo: 'ppa:projectatomic/ppa'
+    update_cache: true
+
+- name: Install CRI-O packages
+  package:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - buildah
+      - cri-o-1.15
+      - cri-o-runc
+      - podman
+
+- name: Configure CRI-O
+  template:
+    src: crio.conf.j2
+    dest: /etc/crio/crio.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Configure CRI-O bridge
+  template:
+    src: crio-bridge.conf.j2
+    dest: /etc/cni/net.d/100-crio-bridge.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start and enable CRI-O
+  service:
+    name: cri-o
+    enabled: true
+    state: started
+    daemon_reload: true
