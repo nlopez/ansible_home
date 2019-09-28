@@ -1,6 +1,10 @@
 ---
 - import_tasks: sysctl.yaml
 
+- import_tasks: tombstone.yaml
+
+- meta: end_play
+
 - name: Add Docker’s official GPG key
   apt_key:
     url: 'https://download.docker.com/linux/ubuntu/gpg'

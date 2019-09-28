@@ -1,0 +1,32 @@
+- name: Disable and stop Docker daemon
+  systemd:
+    name: docker
+    enabled: false
+    state: stopped
+
+- name: Remove Docker package
+  package:
+    name: "{{ docker_package_name }}={{ docker_package_version }}"
+    state: absent
+    purge: true
+
+- name: Remove misc Docker files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/preferences.d/docker
+    - /etc/systemd/system/docker.service
+    - /etc/docker/daemon.json
+
+- name: Remove Docker apt repo
+  apt_repository:
+    repo: 'deb https://download.docker.com/linux/ubuntu {{ansible_distribution_release|lower}} stable'
+    filename: docker
+    state: absent
+
+- name: Remove Docker’s official GPG key
+  apt_key:
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    id: 0EBFCD88
+    state: absent
