@@ -30,7 +30,7 @@
 - name: Configure pihole hosts
   hosts: pihole
   roles:
-    - docker
+    - crio
     - pihole-docker
 
 - name: Configure FreeNAS hosts
