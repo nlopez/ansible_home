@@ -1,3 +1,4 @@
+---
 kubernetes_packages:
   - kubelet=1.15.3-00
   - kubeadm=1.15.3-00

@@ -1,3 +1,4 @@
+---
 - name: Install Google Cloud Packages Automatic Signing Key
   apt_key:
     url: 'https://packages.cloud.google.com/apt/doc/apt-key.gpg'
@@ -9,7 +10,7 @@
     repo: 'deb http://apt.kubernetes.io/ kubernetes-xenial main'
     filename: kubernetes
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: Pin versions on Kubernetes packages
   template:
@@ -19,7 +20,7 @@
 - name: Install Kubernetes packages
   package:
     name: "{{ kubernetes_packages }}"
-    force: yes
+    force: true
 
 - name: Install supporting Kubernetes packages
   package:
@@ -34,7 +35,7 @@
 - name: Start and enable Kubelet
   service:
     name: kubelet
-    enabled: yes
+    enabled: true
     state: started
 
 - name: Configure keepalived vrrp for stacked Kubernetes masters
