@@ -27,16 +27,10 @@
     - wireguard
     - healthchecks_io
 
-- name: Configure pihole hosts
-  hosts: pihole
-  roles:
-    - crio
-    - pihole-docker
-
 - name: Configure FreeNAS hosts
   hosts: freenas
-  gather_facts: no
-  become: no
+  gather_facts: false
+  become: false
   roles:
     - freenas
 

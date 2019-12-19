@@ -12,6 +12,3 @@ nas2.radoncanyon.com
 
 [jails]
 nzbget ansible_connection=sshjail ansible_ssh_host=nzbget@nas2.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python3.7 ansible_user=root ansible_become=no
-
-[pihole]
-wg-ev.radoncanyon.com
