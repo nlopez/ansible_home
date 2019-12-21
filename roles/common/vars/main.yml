@@ -17,6 +17,7 @@ common_packages:
   - iperf
   - iperf3
   - apt-transport-https
+  - lsof
 
 net_sysctls:
   # http://www.nateware.com/linux-network-tuning-for-2013.html

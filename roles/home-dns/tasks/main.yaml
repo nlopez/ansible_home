@@ -1,0 +1,16 @@
+- apt:
+    deb: https://secure.nic.cz/files/knot-resolver/knot-resolver-release.deb
+
+- apt:
+    package: knot-resolver
+    update_cache: true
+
+- template:
+    src: kresd.conf.j2
+    dest: /etc/knot-resolver/kresd.conf
+  notify: restart knot
+
+- service:
+    name: kresd@1
+    enabled: true
+    state: started

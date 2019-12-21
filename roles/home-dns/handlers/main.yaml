@@ -1,0 +1,4 @@
+- name: restart knot
+  service:
+    name: kresd@1
+    state: restarted

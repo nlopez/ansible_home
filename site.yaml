@@ -26,6 +26,7 @@
   roles:
     - wireguard
     - healthchecks_io
+    - home-dns
 
 - name: Configure FreeNAS hosts
   hosts: freenas
