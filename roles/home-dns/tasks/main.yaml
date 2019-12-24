@@ -1,3 +1,4 @@
+---
 - apt:
     deb: https://secure.nic.cz/files/knot-resolver/knot-resolver-release.deb
 
@@ -9,6 +10,21 @@
     src: kresd.conf.j2
     dest: /etc/knot-resolver/kresd.conf
   notify: restart knot
+
+- file:
+    path: /etc/systemd/system/kresd.socket.d
+    state: directory
+    recurse: true
+
+- template:
+    src: kresd-socket-override.conf.j2
+    dest: /etc/systemd/system/kresd.socket.d/override.conf
+  notify:
+    - restart knot
+
+- file:
+    path: /etc/knot-resolver/rpz.zone
+    state: touch
 
 - service:
     name: kresd@1
