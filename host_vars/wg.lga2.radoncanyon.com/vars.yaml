@@ -9,7 +9,7 @@ wireguard_interfaces:
     address: # multiple allowed, e.g.: ipv6
       - 10.1.9.2/24
     peers:
-      - wg-astoria.radoncanyon.com
+      - wg.lga1.radoncanyon.com
 docker_storage_driver: aufs
 pihole_ServerIP: 192.168.239.2
 pihole_ServerIPv6: 'fd72:ce7b:d4a9:9511::2'

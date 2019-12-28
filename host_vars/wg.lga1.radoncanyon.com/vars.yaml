@@ -5,16 +5,13 @@ wireguard_networks:
   - 10.1.9.0/24 # wiregurd point-to-point
   - 192.168.1.0/24 # MGMT
   - 192.168.10.1/24 # k8s load balancers
-  - 192.168.220.0/24 # STORAGE
-  - 192.168.222.0/24 # LAB
-  - 192.168.223.0/24 # WLAN
-  - 204.0.0.0/14 # FFXIV Aether/Jenova
+  - 192.168.220.0/22
 wireguard_interfaces:
   wg0:
     address: # multiple allowed, e.g.: ipv6
       - 10.1.9.1/24
     peers:
-      - wg-ev.radoncanyon.com
+      - wg.lga2.radoncanyon.com
 pihole_ServerIP: 192.168.222.2
 pihole_TZ: America/New_York
 hc_url: https://hc-ping.com/fea2dbb2-fca4-4262-83b6-d3b581fef011
