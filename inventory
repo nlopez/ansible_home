@@ -1,14 +1,14 @@
 [kubernetes]
-knode1.radoncanyon.com
-knode2.radoncanyon.com
+knode1.lga1.radoncanyon.com
+knode2.lga1.radoncanyon.com
 
 [infra]
 wg.lga1.radoncanyon.com
 wg.lga2.radoncanyon.com
 
 [freenas]
-nas1.radoncanyon.com
-nas2.radoncanyon.com
+nas1.lga1.radoncanyon.com
+nas2.lga1.radoncanyon.com
 
 [jails]
 nzbget ansible_connection=sshjail ansible_ssh_host=nzbget@nas2.radoncanyon.com ansible_python_interpreter=/usr/local/bin/python3.7 ansible_user=root ansible_become=no
