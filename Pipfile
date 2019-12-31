@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 ansible = "*"
 mitogen = "*"
+jmespath = "*"
 
 [requires]
 python_version = "3.6"
