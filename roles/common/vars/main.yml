@@ -50,9 +50,12 @@ net_sysctls:
   # Actual fix for high softirq in 4.13
   net.core.netdev_budget_usecs: 5000
   # https://blog.cloudflare.com/http-2-prioritization-with-nginx/
-  net.core.default_qdisc: fq
-  net.ipv4.tcp_congestion_control: bbr
-  net.ipv4.tcp_notsent_lowat: 16384
+  # net.core.default_qdisc: fq
+  # net.ipv4.tcp_congestion_control: bbr
+  # net.ipv4.tcp_notsent_lowat: 16384
+  net.core.default_qdisc: fq_codel
+  net.ipv4.tcp_congestion_control: cubic
+  net.ipv4.tcp_notsent_lowat: 0xFFFFFFFF
   # TCP SACK PANIC
   # https://access.redhat.com/security/vulnerabilities/tcpsack
   net.ipv4.tcp_sack: 0
