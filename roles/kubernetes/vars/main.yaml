@@ -7,3 +7,6 @@ kubernetes_packages:
 
 kubernetes_other_packages:
   - ipset  # needed for ipvs
+
+kubernetes_sysctls:
+  fs.inotify.max_user_watches: 524288

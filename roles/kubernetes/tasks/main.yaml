@@ -1,4 +1,15 @@
 ---
+- name: Set Kubernetes sysctls
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_set: yes
+    reload: yes
+    sysctl_file: /etc/sysctl.d/70-k8s.conf
+    ignoreerrors: yes # ignores unknown key errors
+  loop: "{{ lookup('dict', kubernetes_sysctls, wantlist=true) }}"
+
 - name: Install Google Cloud Packages Automatic Signing Key
   apt_key:
     url: 'https://packages.cloud.google.com/apt/doc/apt-key.gpg'
