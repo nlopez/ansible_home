@@ -1,23 +1,20 @@
 ---
-- name: Add Project Atomic package signing key
+- name: Add Kubic package signing key
   apt_key:
-    id: 7EA0A9C3F273FCD8
-    keyserver: keyserver.ubuntu.com
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key
 
-- name: Add Project Atomic PPA
+- name: Add Kubic apt repo
   apt_repository:
-    repo: 'ppa:projectatomic/ppa'
-    update_cache: true
+    repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }} /
+    filename: kubic
 
 - name: Install CRI-O packages
   package:
     name: "{{ packages }}"
   vars:
     packages:
-      - buildah
-      - cri-o-1.15
+      - cri-o-1.17
       - cri-o-runc
-      - podman
 
 - name: Configure CRI-O
   template:
@@ -26,6 +23,14 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Create cni net.d dir
+  file:
+    dest: /etc/cni/net.d/
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
 
 - name: Configure CRI-O bridge
   template:

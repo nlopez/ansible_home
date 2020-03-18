@@ -1,8 +1,8 @@
 ---
 kubernetes_packages:
-  - kubelet=1.15.3-00
-  - kubeadm=1.15.3-00
-  - kubectl=1.15.3-00
+  - kubelet=1.17.4-00
+  - kubeadm=1.17.4-00
+  - kubectl=1.17.4-00
   - kubernetes-cni=0.7.5-00
 
 kubernetes_other_packages:
