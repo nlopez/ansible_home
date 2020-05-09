@@ -42,7 +42,7 @@
 
 - name: Start and enable CRI-O
   service:
-    name: cri-o
+    name: crio
     enabled: true
     state: started
     daemon_reload: true
