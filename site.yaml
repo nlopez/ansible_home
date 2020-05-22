@@ -24,6 +24,7 @@
   hosts: infra
   roles:
     - healthchecks_io
+    - pihole
 
 - name: Configure FreeNAS hosts
   hosts: freenas
