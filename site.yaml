@@ -23,7 +23,6 @@
 - name: Configure infra hosts
   hosts: infra
   roles:
-    - wireguard
     - healthchecks_io
     - home-dns
 
