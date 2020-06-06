@@ -2,4 +2,6 @@
 127.0.0.1 localhost
 ::1       localhost
 {{ ansible_default_ipv4.address }} {{ inventory_hostname }} {{ inventory_hostname_short }}
+{% if 'address' in ansible_default_ipv6 %}
 {{ ansible_default_ipv6.address }} {{ inventory_hostname }} {{ inventory_hostname_short }}
+{% endif %}
