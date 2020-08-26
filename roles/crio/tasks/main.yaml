@@ -11,6 +11,7 @@
 - name: Install CRI-O packages
   package:
     name: "{{ packages }}"
+    state: present
   vars:
     packages:
       - cri-o-1.17
@@ -22,13 +23,13 @@
     dest: /etc/crio/crio.conf
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
 
 - name: Create cni net.d dir
   file:
     dest: /etc/cni/net.d/
     state: directory
-    mode: 0755
+    mode: '0755'
     owner: root
     group: root
 
@@ -38,7 +39,7 @@
     dest: /etc/cni/net.d/100-crio-bridge.conf
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
 
 - name: Start and enable CRI-O
   service:
