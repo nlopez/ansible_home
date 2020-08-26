@@ -32,16 +32,18 @@
   package:
     name: "{{ kubernetes_packages }}"
     force: true
+    state: present
 
 - name: Install supporting Kubernetes packages
   package:
     name: "{{ kubernetes_other_packages }}"
+    state: present
 
 - name: Configure kubelet for CRI-O
   template:
     src: etc_default_kubelet
     dest: /etc/default/kubelet
-    mode: 0640
+    mode: '0640'
 
 - name: Start and enable Kubelet
   service:

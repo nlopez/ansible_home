@@ -2,6 +2,7 @@
 - name: Install keepalived
   package:
     name: keepalived
+    state: present
 
 - name: Configured keepalived
   template:
@@ -9,7 +10,7 @@
     dest: /etc/keepalived/keepalived.conf
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
 
 - name: Start keepalived
   service:
