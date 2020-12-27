@@ -5,8 +5,17 @@
 
 - name: Add Kubic apt repo
   apt_repository:
-    repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }} /
+    repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
     filename: kubic
+
+- name: Add Kubic cri-o package signing key
+  apt_key:
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key
+
+- name: Add Kubic cri-o apt repo
+  apt_repository:
+    repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_version }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
+    filename: kubic-cri-o
 
 - name: Install CRI-O packages
   package:
@@ -14,7 +23,7 @@
     state: present
   vars:
     packages:
-      - cri-o-1.17
+      - cri-o
       - cri-o-runc
 
 - name: Configure CRI-O
