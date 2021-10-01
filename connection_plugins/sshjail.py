@@ -1,3 +1,4 @@
+# Copyright (c) 2015-2018, Austin Hyde (@austinhyde)
 from __future__ import (absolute_import, division, print_function)
 
 import os
@@ -5,6 +6,8 @@ import pipes
 
 from ansible.errors import AnsibleError
 from ansible.plugins.connection.ssh import Connection as SSHConnection
+from ansible.module_utils._text import to_text
+from ansible.plugins.loader import get_shell_plugin
 from contextlib import contextmanager
 
 __metaclass__ = type
@@ -46,6 +49,17 @@ DOCUMENTATION = '''
           vars:
               - name: ansible_password
               - name: ansible_ssh_pass
+      sshpass_prompt:
+          description: Password prompt that sshpass should search for. Supported by sshpass 1.06 and up
+          default: ''
+          ini:
+              - section: 'ssh_connection'
+                key: 'sshpass_prompt'
+          env:
+              - name: ANSIBLE_SSHPASS_PROMPT
+          vars:
+              - name: ansible_sshpass_prompt
+          version_added: '2.10'
       ssh_args:
           description: Arguments to pass to all ssh cli tools
           default: '-C -o ControlMaster=auto -o ControlPersist=60s'
@@ -54,14 +68,24 @@ DOCUMENTATION = '''
                 key: 'ssh_args'
           env:
               - name: ANSIBLE_SSH_ARGS
+          vars:
+              - name: ansible_ssh_args
+                version_added: '2.7'
       ssh_common_args:
           description: Common extra args for all ssh CLI tools
+          ini:
+              - section: 'ssh_connection'
+                key: 'ssh_common_args'
+                version_added: '2.7'
+          env:
+              - name: ANSIBLE_SSH_COMMON_ARGS
+                version_added: '2.7'
           vars:
               - name: ansible_ssh_common_args
       ssh_executable:
           default: ssh
           description:
-            - This defines the location of the ssh binary. It defaults to `ssh` which will use the first ssh binary available in $PATH.
+            - This defines the location of the ssh binary. It defaults to ``ssh`` which will use the first ssh binary available in $PATH.
             - This option is usually not required, it might be useful when access to system ssh is restricted,
               or when using ssh wrappers to connect to remote hosts.
           env: [{name: ANSIBLE_SSH_EXECUTABLE}]
@@ -69,14 +93,20 @@ DOCUMENTATION = '''
           - {key: ssh_executable, section: ssh_connection}
           #const: ANSIBLE_SSH_EXECUTABLE
           version_added: "2.2"
+          vars:
+              - name: ansible_ssh_executable
+                version_added: '2.7'
       sftp_executable:
           default: sftp
           description:
-            - This defines the location of the sftp binary. It defaults to `sftp` which will use the first binary available in $PATH.
+            - This defines the location of the sftp binary. It defaults to ``sftp`` which will use the first binary available in $PATH.
           env: [{name: ANSIBLE_SFTP_EXECUTABLE}]
           ini:
           - {key: sftp_executable, section: ssh_connection}
           version_added: "2.6"
+          vars:
+              - name: ansible_sftp_executable
+                version_added: '2.7'
       scp_executable:
           default: scp
           description:
@@ -85,22 +115,45 @@ DOCUMENTATION = '''
           ini:
           - {key: scp_executable, section: ssh_connection}
           version_added: "2.6"
+          vars:
+              - name: ansible_scp_executable
+                version_added: '2.7'
       scp_extra_args:
-          description: Extra exclusive to the 'scp' CLI
+          description: Extra exclusive to the ``scp`` CLI
           vars:
               - name: ansible_scp_extra_args
+          env:
+            - name: ANSIBLE_SCP_EXTRA_ARGS
+              version_added: '2.7'
+          ini:
+            - key: scp_extra_args
+              section: ssh_connection
+              version_added: '2.7'
       sftp_extra_args:
-          description: Extra exclusive to the 'sftp' CLI
+          description: Extra exclusive to the ``sftp`` CLI
           vars:
               - name: ansible_sftp_extra_args
+          env:
+            - name: ANSIBLE_SFTP_EXTRA_ARGS
+              version_added: '2.7'
+          ini:
+            - key: sftp_extra_args
+              section: ssh_connection
+              version_added: '2.7'
       ssh_extra_args:
           description: Extra exclusive to the 'ssh' CLI
           vars:
               - name: ansible_ssh_extra_args
-      retries:
-          # constant: ANSIBLE_SSH_RETRIES
+          env:
+            - name: ANSIBLE_SSH_EXTRA_ARGS
+              version_added: '2.7'
+          ini:
+            - key: ssh_extra_args
+              section: ssh_connection
+              version_added: '2.7'
+      reconnection_retries:
           description: Number of attempts to connect.
-          default: 3
+          default: 0
           type: integer
           env:
             - name: ANSIBLE_SSH_RETRIES
@@ -109,10 +162,12 @@ DOCUMENTATION = '''
               key: retries
             - section: ssh_connection
               key: retries
+          vars:
+            - name: ansible_ssh_retries
+              version_added: '2.7'
       port:
           description: Remote port to connect to.
           type: int
-          default: 22
           ini:
             - section: defaults
               key: remote_port
@@ -175,6 +230,9 @@ DOCUMENTATION = '''
         ini:
           - key: control_path
             section: ssh_connection
+        vars:
+          - name: ansible_control_path
+            version_added: '2.7'
       control_path_dir:
         default: ~/.ansible/cp
         description:
@@ -185,6 +243,9 @@ DOCUMENTATION = '''
         ini:
           - section: ssh_connection
             key: control_path_dir
+        vars:
+          - name: ansible_control_path_dir
+            version_added: '2.7'
       sftp_batch_mode:
         default: 'yes'
         description: 'TODO: write it'
@@ -192,6 +253,19 @@ DOCUMENTATION = '''
         ini:
         - {key: sftp_batch_mode, section: ssh_connection}
         type: bool
+        vars:
+          - name: ansible_sftp_batch_mode
+            version_added: '2.7'
+      ssh_transfer_method:
+        default: smart
+        description:
+            - "Preferred method to use when transferring files over ssh"
+            - Setting to 'smart' (default) will try them in order, until one succeeds or they all fail
+            - Using 'piped' creates an ssh pipe with ``dd`` on either side to copy the data
+        choices: ['sftp', 'scp', 'piped', 'smart']
+        env: [{name: ANSIBLE_SSH_TRANSFER_METHOD}]
+        ini:
+            - {key: transfer_method, section: ssh_connection}
       scp_if_ssh:
         default: smart
         description:
@@ -201,6 +275,9 @@ DOCUMENTATION = '''
         env: [{name: ANSIBLE_SCP_IF_SSH}]
         ini:
         - {key: scp_if_ssh, section: ssh_connection}
+        vars:
+          - name: ansible_scp_if_ssh
+            version_added: '2.7'
       use_tty:
         version_added: '2.5'
         default: 'yes'
@@ -209,7 +286,30 @@ DOCUMENTATION = '''
         ini:
         - {key: usetty, section: ssh_connection}
         type: bool
-        yaml: {key: connection.usetty}
+        vars:
+          - name: ansible_ssh_use_tty
+            version_added: '2.7'
+      timeout:
+        default: 10
+        description:
+            - This is the default ammount of time we will wait while establishing an ssh connection
+            - It also controls how long we can wait to access reading the connection once established (select on the socket)
+        env:
+            - name: ANSIBLE_TIMEOUT
+            - name: ANSIBLE_SSH_TIMEOUT
+              version_added: '2.11'
+        ini:
+            - key: timeout
+              section: defaults
+            - key: timeout
+              section: ssh_connection
+              version_added: '2.11'
+        vars:
+            - name: ansible_ssh_timeout
+              version_added: '2.11'
+        cli:
+            - name: timeout
+        type: integer
 '''
 
 try:
@@ -254,13 +354,13 @@ class Connection(ConnectionBase):
                 display.vvv("JLS stdout: %s" % stdout)
                 raise AnsibleError("jls returned non-zero!")
 
-            lines = stdout.strip().split('\n')
+            lines = stdout.strip().split(b'\n')
             found = False
             for line in lines:
                 if line.strip() == '':
                     break
 
-                jid, name, hostname, path = line.strip().split()
+                jid, name, hostname, path = to_text(line).strip().split()
                 if name == self.jailspec or hostname == self.jailspec:
                     self.jid = jid
                     self.jname = name
@@ -328,7 +428,9 @@ class Connection(ConnectionBase):
 
         if self._play_context.become:
             # display.debug("_low_level_execute_command(): using become for this command")
-            cmd = self._play_context.make_become_cmd(cmd)
+            plugin = self.become
+            shell = get_shell_plugin(executable=executable)
+            cmd = plugin.build_become_command(cmd, shell)
 
         # display.vvv("JAIL (%s) %s" % (local_cmd), host=self.host)
         return super(Connection, self).exec_command(cmd, in_data, True)
@@ -339,20 +441,22 @@ class Connection(ConnectionBase):
         normpath = os.path.normpath(path)
         return os.path.join(prefix, normpath[1:])
 
-    def _copy_file(self, from_file, to_file):
-        copycmd = self._play_context.make_become_cmd(' '.join(['cp', from_file, to_file]))
+    def _copy_file(self, from_file, to_file, executable='/bin/sh'):
+        plugin = self.become
+        shell = get_shell_plugin(executable=executable)
+        copycmd = plugin.build_become_command(' '.join(['cp', from_file, to_file]), shell)
 
         display.vvv(u"REMOTE COPY {0} TO {1}".format(from_file, to_file), host=self.inventory_hostname)
         code, stdout, stderr = self._jailhost_command(copycmd)
         if code != 0:
-            raise AnsibleError("failed to move file from %s to %s:\n%s\n%s" % (from_file, to_file, stdout, stderr))
+            raise AnsibleError("failed to copy file from %s to %s:\n%s\n%s" % (from_file, to_file, stdout, stderr))
 
     @contextmanager
     def tempfile(self):
         code, stdout, stderr = self._jailhost_command('mktemp')
         if code != 0:
             raise AnsibleError("failed to make temp file:\n%s\n%s" % (stdout, stderr))
-        tmp = stdout.strip().split('\n')[-1]
+        tmp = to_text(stdout.strip().split(b'\n')[-1])
 
         code, stdout, stderr = self._jailhost_command(' '.join(['chmod 0644', tmp]))
         if code != 0:
