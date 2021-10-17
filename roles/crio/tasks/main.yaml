@@ -20,7 +20,7 @@
 - name: Install CRI-O packages
   package:
     name: "{{ packages }}"
-    state: present
+    state: latest
   vars:
     packages:
       - cri-o
