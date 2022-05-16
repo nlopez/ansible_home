@@ -7,7 +7,7 @@ authors = ["Nick Lopez <nlopez@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 ansible = "^2.9.9"
-jinja2 = "^2.11.2"
+jinja2 = "^2.11.3"
 PyYAML = "^5.3.1"
 cryptography = "^2.9.2"
 mitogen = "^0.2.9"
