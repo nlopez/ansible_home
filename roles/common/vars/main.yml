@@ -15,6 +15,7 @@ common_packages:
   - mosh
   - mosh
   - mtr-tiny
+  - ncdu
   - pv
   - rng-tools
   - rsync
