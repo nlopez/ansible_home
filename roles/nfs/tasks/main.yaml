@@ -5,23 +5,25 @@
     state: present
 
 - name: Ensure mount points exist
-  file:
+  ansible.builtin.file:
     path: "{{ item.dest }}"
     state: directory
+    mode: 0755
   loop: "{{ nfs_mounts }}"
   when: nfs_mounts is defined
 
 - name: Mount NFS shares
-  mount:
+  ansible.posix.mount:
     path: "{{ item.dest }}"
     src: "{{ item.src }}"
+    opts: "{{ item.opts | default(omit) }}"
     fstype: nfs4
     state: mounted
   loop: "{{ nfs_mounts }}"
   when: nfs_mounts is defined
 
 - name: Start and enable rpcbind
-  service:
+  ansible.builtin.service:
     name: rpcbind
-    enabled: yes
+    enabled: true
     state: started
