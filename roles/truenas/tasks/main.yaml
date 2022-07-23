@@ -1,0 +1,41 @@
+# This role retrieves my public keys from GitHub and configures them for
+# the root TrueNAS user. Expects the TrueNAS bearer token for a TrueNAS
+# with FQDN "truenas.example.org" in env var "BEARER_truenas_example_org"
+- name: TrueNAS API operations
+  block:
+  - name: Get authorized keys from GitHub
+    ansible.builtin.uri:
+      url: https://github.com/nlopez.keys
+      return_content: true
+    register: ssh_public_keys
+
+  - name: Setup env vars for TrueNAS API access
+    ansible.builtin.set_fact:
+      truenas_api_url: "https://{{ inventory_hostname }}/api/v2.0"
+      headers:
+        Authorization: "Bearer {{ lookup('ansible.builtin.env', 'BEARER_' ~  inventory_hostname | regex_replace('\\.', '_')) }}"
+
+  - name: Get root user from TrueNAS API
+    ansible.builtin.uri:
+      url: "{{ truenas_api_url }}/user?uid=0"
+      headers: "{{ headers }}"
+      return_content: true
+    register: truenas_root_user
+
+  # This seems to always be 1. But you never know...
+  - name: Determine TrueNAS user id for root (uid=0)
+    ansible.builtin.set_fact:
+      truenas_root_user_id: "{{ truenas_root_user.content | from_json | community.general.json_query(root_user_query) }}"
+    vars:
+      root_user_query: "[0].id"
+
+  - name: Update TrueNAS root user's authorized keys
+    ansible.builtin.uri:
+      url: "{{ truenas_api_url }}/user/id/{{ truenas_root_user_id }}"
+      headers: "{{ headers }}"
+      method: PUT
+      body_format: json
+      body:
+        sshpubkey: "{{ ssh_public_keys.content }}"
+  become: false
+  delegate_to: localhost

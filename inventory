@@ -1,12 +1,12 @@
-    [kubernetes]
+[kubernetes]
 knode1.lga1.radoncanyon.com
 knode2.lga1.radoncanyon.com
 
 [infra]
-wg.lga1.radoncanyon.com
-wg.lga2.radoncanyon.com
+odroid.lga1.radoncanyon.com
+odroid.lga2.radoncanyon.com
 
-[freenas]
+[truenas]
 nas1.lga1.radoncanyon.com
 nas2.lga1.radoncanyon.com
 

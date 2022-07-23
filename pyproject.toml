@@ -6,13 +6,9 @@ authors = ["Nick Lopez <nlopez@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-ansible = "2.9.27"
-jinja2 = "^2.11.2"
-PyYAML = "^5.3.1"
-cryptography = "^2.9.2"
-mitogen = "^0.2.9"
-jmespath = "^0.10.0"
-MarkupSafe = "2.0.1"
+ansible = "^6.1.0"
+ansible-lint = "^6.3.0"
+jmespath = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 

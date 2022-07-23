@@ -5,11 +5,14 @@ common_packages:
   - apt-transport-https
   - arping
   - bash
+  - bwm-ng
   - curl
   - ethtool
+  - htop
   - iperf
   - iperf3
   - lsof
+  - mosh
   - mosh
   - mtr-tiny
   - pv

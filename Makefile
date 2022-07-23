@@ -1,9 +1,8 @@
-shell: init
-	pipenv shell
+shell: install
+	poetry shell
 
-init:
-	pip install pipenv --quiet
-	pipenv --venv || pipenv --bare install --two
+install:
+	poetry install
 
 clean:
-	pipenv --rm
+	poetry env remove python

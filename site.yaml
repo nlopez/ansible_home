@@ -1,6 +1,6 @@
 ---
-- name: Apply common role to all but FreeNAS hosts
-  hosts: all:!freenas:!jails
+- name: Apply common role to all but TrueNAS hosts
+  hosts: all:!truenas:!jails
   pre_tasks:
     - group_by: key=os_{{ ansible_os_family }}
   roles:
@@ -26,12 +26,12 @@
     - healthchecks_io
     - pihole
 
-- name: Configure FreeNAS hosts
-  hosts: freenas
+- name: Configure TrueNAS hosts
+  hosts: truenas
   gather_facts: false
   become: false
   roles:
-    - freenas
+    - truenas
 
 - name: Configure nzbget
   hosts: nzbget

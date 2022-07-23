@@ -1,7 +1,7 @@
 ---
 - name: Install common packages
   package:
-    name:   "{{ common_packages }}"
+    name: "{{ common_packages }}"
     state: present
 
 - name: Add Nick's group
@@ -37,7 +37,7 @@
   template:
     src: sudoers.j2
     dest: "{{ sudoers }}"
-    validate: 'visudo -cf %s'
+    validate: "visudo -cf %s"
 
 - name: Tune networking
   sysctl:
