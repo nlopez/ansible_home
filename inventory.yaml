@@ -1,0 +1,12 @@
+---
+kubernetes:
+  hosts:
+    knode1.lga1.radoncanyon.com:
+    knode2.lga1.radoncanyon.com:
+infra:
+  hosts:
+    odroid.lga1.radoncanyon.com:
+    odroid.lga2.radoncanyon.com:
+truenas:
+  nas1.lga1.radoncanyon.com:
+  nas2.lga1.radoncanyon.com:
