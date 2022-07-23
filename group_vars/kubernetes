@@ -1,3 +1,6 @@
 ---
-zfs_mounts:
-  - { name: rpool/dockerfs, mountpoint: /dockerfs }
+nfs_mounts:
+  - {
+      src: "nas2.lga1.radoncanyon.com:/mnt/etank/media",
+      dest: "/mnt/media",
+    }
