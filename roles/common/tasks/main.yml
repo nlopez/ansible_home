@@ -1,51 +1,67 @@
 ---
 - name: Install common packages
-  package:
+  ansible.builtin.package:
     name: "{{ common_packages }}"
     state: present
 
 - name: Add Nick's group
-  group:
+  ansible.builtin.group:
     name: nlopez
     state: present
     gid: 1000
 
 - name: Add Nick's superuser
-  user:
+  ansible.builtin.user:
     name: nlopez
-    shell: /bin/bash
+    shell: /usr/bin/zsh
     group: nlopez
     groups: "{{ sudo_group }}"
-    createhome: True
+    createhome: true
     uid: 1000
 
 - name: Add Nick to docker group
-  user:
+  ansible.builtin.user:
     name: nlopez
     groups: docker
-    append: yes
+    append: true
   when: "'docker' in  lookup('pipe', 'cut -d: -f1 /etc/group')"
 
 - name: Setup Nick's keys
-  authorized_key:
+  ansible.builtin.authorized_key:
     user: nlopez
     key: https://github.com/nlopez.keys
-    exclusive: yes
-    validate_certs: yes
+    exclusive: true
+    validate_certs: true
+
+- name: Setup Nick's dotfiles
+  ansible.builtin.git:
+    repo: https://github.com/nlopez/dotfiles
+    bare: true
+    dest: /home/nlopez/dotfiles
+    version: unstable
+  become: true
+  become_user: nlopez
+
+- name: Checkout dotfiles
+  ansible.builtin.command:
+    cmd: /usr/bin/git --git-dir=/home/nlopez/dotfiles --work-tree=/home/nlopez checkout
+  become: true
+  become_user: nlopez
 
 - name: Allow members of sudoers group to run all commands without a password
-  template:
+  ansible.builtin.template:
     src: sudoers.j2
     dest: "{{ sudoers }}"
     validate: "visudo -cf %s"
+    mode: '0600'
 
 - name: Tune networking
-  sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.key }}"
     value: "{{ item.value }}"
     state: present
-    sysctl_set: yes
-    reload: yes
+    sysctl_set: true
+    reload: true
     sysctl_file: /etc/sysctl.d/60-net.conf
-    ignoreerrors: yes # ignores unknown key errors
+    ignoreerrors: true # ignores unknown key errors
   loop: "{{ lookup('dict', net_sysctls) }}"

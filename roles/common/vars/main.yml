@@ -8,6 +8,7 @@ common_packages:
   - bwm-ng
   - curl
   - ethtool
+  - git
   - htop
   - iperf
   - iperf3
@@ -24,6 +25,7 @@ common_packages:
   - tcpdump
   - tree
   - wget
+  - zsh
 
 net_sysctls:
   # http://www.nateware.com/linux-network-tuning-for-2013.html
