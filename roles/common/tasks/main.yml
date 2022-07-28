@@ -4,6 +4,19 @@
     name: "{{ common_packages }}"
     state: present
 
+- name: Set locale to en_us.UTF-8 (Debian)
+  ansible.builtin.copy:
+    src: etc_default_locale
+    dest: /etc/default/locale
+    owner: root
+    group: root
+    mode: '0644'
+  when: ansible_os_family == "Debian"
+
+- name: generate locales
+  ansible.builtin.command: "{{ generate_locales }}"
+  changed_when: false
+
 - name: Add Nick's group
   ansible.builtin.group:
     name: nlopez
@@ -33,18 +46,26 @@
     exclusive: true
     validate_certs: true
 
-- name: Setup Nick's dotfiles
+- name: Bare clone Nick's dotfiles
   ansible.builtin.git:
     repo: https://github.com/nlopez/dotfiles
     bare: true
     dest: /home/nlopez/dotfiles
     version: unstable
+    update: true
   become: true
   become_user: nlopez
 
+- name: Don't show untracked files in dotfiles repo
+  community.general.git_config:
+    name: status.showUntrackedFiles
+    value: "no"
+    repo: /home/nlopez/dotfiles
+    scope: local
+
 - name: Checkout dotfiles
   ansible.builtin.command:
-    cmd: /usr/bin/git --git-dir=/home/nlopez/dotfiles --work-tree=/home/nlopez checkout
+    cmd: /usr/bin/git --git-dir=/home/nlopez/dotfiles --work-tree=/home/nlopez checkout --force
   become: true
   become_user: nlopez
 
