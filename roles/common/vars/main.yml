@@ -12,6 +12,7 @@ common_packages:
   - htop
   - iperf
   - iperf3
+  - jdupes
   - lsof
   - mosh
   - mosh
