@@ -10,13 +10,3 @@ nfs_mounts:
       dest: "/mnt/scratch",
       opts: "rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport,_netdev,nofail"
     }
-  - {
-      src: "nas2.lga1.radoncanyon.com:/mnt/etank/media",
-      dest: "/mnt/a/media",
-      opts: "rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport,_netdev,nofail"
-    }
-  - {
-      src: "nas1.lga1.radoncanyon.com:/mnt/etank/scratch",
-      dest: "/mnt/a/scratch",
-      opts: "rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport,_netdev,nofail"
-    }
