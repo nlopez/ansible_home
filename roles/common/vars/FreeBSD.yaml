@@ -1,0 +1,5 @@
+---
+system_certificates: ca_root_nss
+vim: vim-lite
+sudoers: /usr/local/etc/sudoers
+generate_locales: cap_mkdb /etc/login.conf
