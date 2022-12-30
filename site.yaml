@@ -1,16 +1,12 @@
 ---
 - name: Apply common role to all but TrueNAS hosts
-  hosts: all:!truenas:!jails
+  hosts: all:!truenas
   pre_tasks:
-    - group_by: key=os_{{ ansible_os_family }}
+    - name: Group by operating system
+      ansible.builtin.group_by:
+        key: "os_{{ ansible_os_family }}"
   roles:
     - common
-
-- name: Configure zfs
-  hosts: zfs
-  roles:
-    - zfs
-    - sanoid
 
 - name: Configure Kubernetes hosts
   hosts: kubernetes
@@ -32,8 +28,3 @@
   become: false
   roles:
     - truenas
-
-- name: Configure nzbget
-  hosts: nzbget
-  roles:
-    - nzbget
