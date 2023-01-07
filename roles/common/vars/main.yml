@@ -29,6 +29,8 @@ common_packages:
   - zsh
 
 net_sysctls:
+  vm.swappiness: 10
+  net.ipv4.ip_local_port_range: 10000 65000
   # http://www.nateware.com/linux-network-tuning-for-2013.html
   # Increase Linux autotuning TCP buffer limits
   # Set max to 16MB for 1GE and 32M (33554432) or 54M (56623104) for 10GE
@@ -40,8 +42,9 @@ net_sysctls:
   net.core.optmem_max: 40960
   # cloudflare uses this for balancing latency and throughput
   # https://blog.cloudflare.com/the-story-of-one-latency-spike/
-  net.ipv4.tcp_rmem: 4096 1048576 2097152
-  net.ipv4.tcp_wmem: 4096 65536 16777216
+  # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency/
+  net.ipv4.tcp_rmem: 8192 262144 536870912
+  net.ipv4.tcp_wmem: 4096 16384 536870912
   # Also increase the max packet backlog
   net.core.netdev_max_backlog: 100000
   net.core.netdev_budget: 50000
@@ -56,15 +59,20 @@ net_sysctls:
   # If your servers talk UDP, also up these limits
   net.ipv4.udp_rmem_min: 8192
   net.ipv4.udp_wmem_min: 8192
+  # Disable source routing and redirects
+  net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.all.accept_source_route: 0
+  # Log packets with impossible addresses for security
+  net.ipv4.conf.all.log_martians: 1
   # Actual fix for high softirq in 4.13
   net.core.netdev_budget_usecs: 5000
   # https://blog.cloudflare.com/http-2-prioritization-with-nginx/
-  # net.core.default_qdisc: fq
-  # net.ipv4.tcp_congestion_control: bbr
-  # net.ipv4.tcp_notsent_lowat: 16384
-  net.core.default_qdisc: fq_codel
-  net.ipv4.tcp_congestion_control: cubic
-  net.ipv4.tcp_notsent_lowat: 0xFFFFFFFF
+  net.core.default_qdisc: fq
+  net.ipv4.tcp_congestion_control: bbr
+  net.ipv4.tcp_notsent_lowat: 16384
+  net.ipv4.tcp_adv_win_scale: -2
+  net.ipv4.tcp_collapse_max_bytes: 6291456
   # TCP SACK PANIC
   # https://access.redhat.com/security/vulnerabilities/tcpsack
   net.ipv4.tcp_sack: 0
