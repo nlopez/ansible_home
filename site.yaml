@@ -19,7 +19,6 @@
 - name: Configure infra hosts
   hosts: infra
   roles:
-    - healthchecks_io
     - pihole
 
 - name: Configure TrueNAS hosts
