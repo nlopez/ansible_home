@@ -5,8 +5,8 @@ description = ""
 authors = ["Nick Lopez <nlopez@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-ansible = "^6.1.0"
+python = "^3.9"
+ansible = "^7.2.0"
 ansible-lint = "^6.3.0"
 jmespath = "^1.0.1"
 
