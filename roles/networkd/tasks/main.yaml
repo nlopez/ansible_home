@@ -1,0 +1,23 @@
+- name: Create networkd.conf.d
+  ansible.builtin.file:
+    dest: /etc/systemd/networkd.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Remove old config
+  ansible.builtin.file:
+    dest: /etc/systemd/networkd.conf.d/99no-manage-foreign-routes
+    state: absent
+
+- name: Don't manage foreign routes
+  ansible.builtin.copy:
+    dest: /etc/systemd/networkd.conf.d/01-dont-manage-foreign-routes.conf
+    content: |
+      [Network]
+      ManageForeignRoutingPolicyRules=no
+      ManageForeignRoutes=no
+    owner: root
+    group: root
+    mode: "0644"
