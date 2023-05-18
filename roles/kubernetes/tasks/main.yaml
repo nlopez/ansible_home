@@ -1,54 +1,57 @@
 ---
 - name: Set Kubernetes sysctls
-  sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.key }}"
     value: "{{ item.value }}"
     state: present
-    sysctl_set: yes
-    reload: yes
+    sysctl_set: true
+    reload: true
     sysctl_file: /etc/sysctl.d/70-k8s.conf
-    ignoreerrors: yes # ignores unknown key errors
+    ignoreerrors: true # ignores unknown key errors
   loop: "{{ lookup('dict', kubernetes_sysctls, wantlist=true) }}"
 
 - name: Install Google Cloud Packages Automatic Signing Key
-  apt_key:
+  ansible.builtin.apt_key:
     url: 'https://packages.cloud.google.com/apt/doc/apt-key.gpg'
     state: present
 
 - name: Install Kubernetes apt repo
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: 'deb http://apt.kubernetes.io/ kubernetes-xenial main'
     filename: kubernetes
     state: present
     update_cache: true
 
 - name: Pin versions on Kubernetes packages
-  template:
+  ansible.builtin.template:
     src: kubernetes_apt_pins
     dest: /etc/apt/preferences.d/kubernetes
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Install Kubernetes packages
-  package:
+  ansible.builtin.package:
     name: "{{ kubernetes_packages }}"
     force: true
     state: present
 
 - name: Install supporting Kubernetes packages
-  package:
+  ansible.builtin.package:
     name: "{{ kubernetes_other_packages }}"
     state: present
 
 - name: Configure kubelet for CRI-O
-  template:
+  ansible.builtin.template:
     src: etc_default_kubelet
     dest: /etc/default/kubelet
     mode: '0640'
 
 - name: Start and enable Kubelet
-  service:
+  ansible.builtin.service:
     name: kubelet
     enabled: true
     state: started
 
 - name: Configure keepalived vrrp for stacked Kubernetes masters
-  include_tasks: keepalived.yaml
+  ansible.builtin.include_tasks: keepalived.yaml

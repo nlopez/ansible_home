@@ -13,7 +13,7 @@
     mode: '0644'
   when: ansible_os_family == "Debian"
 
-- name: generate locales
+- name: Generate locales
   ansible.builtin.command: "{{ generate_locales }}"
   changed_when: false
 
@@ -40,7 +40,7 @@
   when: "'docker' in  lookup('pipe', 'cut -d: -f1 /etc/group')"
 
 - name: Setup Nick's keys
-  ansible.builtin.authorized_key:
+  ansible.posix.authorized_key:
     user: nlopez
     key: https://github.com/nlopez.keys
     exclusive: true

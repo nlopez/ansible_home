@@ -1,11 +1,11 @@
 ---
 - name: Install keepalived
-  package:
+  ansible.builtin.package:
     name: keepalived
     state: present
 
 - name: Configured keepalived
-  template:
+  ansible.builtin.template:
     src: keepalived.conf.j2
     dest: /etc/keepalived/keepalived.conf
     owner: root
@@ -13,6 +13,6 @@
     mode: '0644'
 
 - name: Start keepalived
-  service:
+  ansible.builtin.service:
     name: keepalived
     state: started
