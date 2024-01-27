@@ -28,3 +28,8 @@
   become: false
   roles:
     - truenas
+
+- name: Configure Palworld hosts
+  hosts: palworld
+  roles:
+    - palworld

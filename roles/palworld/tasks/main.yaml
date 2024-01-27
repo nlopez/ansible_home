@@ -1,0 +1,115 @@
+- name: Create steamcmd group
+  ansible.builtin.group:
+    name: steam
+    state: present
+
+- name: Create steamcmd user
+  ansible.builtin.user:
+    name: steam
+    state: present
+
+- name: Enable multiverse
+  ansible.builtin.apt_repository:
+    repo: "{{item}}"
+    update_cache: false
+  register: multiverse_installed
+  when: ansible_distribution == 'Ubuntu'
+  with_items:
+    - 'deb {{mirror_url}} {{ansible_distribution_release}} multiverse'
+    - 'deb {{mirror_url}} {{ansible_distribution_release}}-updates multiverse'
+  vars:
+    mirror_url: http://mirrors.digitalocean.com/ubuntu/
+
+- name: Update cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: multiverse_installed is changed
+
+- name: Enable i386 arch for dpkg
+  ansible.builtin.copy:
+    dest: /var/lib/dpkg/arch
+    content: |
+      amd64
+      i386
+    owner: root
+    group: root
+    mode: '0644'
+  register: dpkg_arch
+
+- name: Install i386 packages
+  ansible.builtin.apt:
+    name: "{{item}}"
+    update_cache: true
+  when: dpkg_arch is changed
+  with_items:
+  - 'libc6:i386'
+  - 'libstdc++6:i386'
+  - 'zlib1g:i386'
+
+- name: Install SteamCMD
+  ansible.builtin.apt:
+    name: steamcmd
+    state: present
+
+# - name: Update Palworld server
+#   ansible.builtin.command: |
+#     steamcmd +login anonymous +app_update 2394010 validate +quit
+#   become: true
+#   become_user: steam
+
+# - name: Create .steam dir
+#   ansible.builtin.file:
+#     dest: /home/steam/.steam
+#     owner: steam
+#     group: steam
+#     state: directory
+#     mode: 0755
+
+# - name: Create steam sdk symlinks
+#   ansible.builtin.file:
+#     src: /home/steam/.local/share/Steam/steamcmd/linux{{item}}
+#     dest: /home/steam/.steam/sdk{{item}}
+#     owner: steam
+#     group: steam
+#     state: link
+#     force: true
+#   with_items:
+#   - '32'
+#   - '64'
+
+- ansible.builtin.file:
+    dest: /tmp/dumps
+    owner: steam
+    group: steam
+    state: directory
+    mode: '0755'
+
+- ansible.builtin.copy:
+    dest: /etc/systemd/system/palworld.service
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      [Unit]
+      Description=Palworld Dedicated Server
+      Wants=network-online.target
+      After=syslog.target network.target nss-lookup.target network-online.target
+
+      [Service]
+      Type=simple
+      Environment="LD_LIBRARY_PATH=./linux64"
+      ExecStartPre=/usr/games/steamcmd +login anonymous +app_update 2394010 validate +quit
+      ExecStart=/home/steam/Steam/steamapps/common/PalServer/Pal/Binaries/Linux/PalServer-Linux-Test -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS
+      User=steam
+      Group=steam
+      StandardOutput=journal
+      Restart=on-failure
+      WorkingDirectory=/home/steam/Steam/steamapps/common/PalServer/Pal/Binaries/Linux/
+
+      [Install]
+      WantedBy=multi-user.target
+
+- ansible.builtin.service:
+    name: palworld
+    state: started
+    enabled: true

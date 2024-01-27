@@ -10,3 +10,6 @@ infra:
 truenas:
   nas1.lga1.radoncanyon.com:
   nas2.lga1.radoncanyon.com:
+palworld:
+  hosts:
+    palworld.desertbluffs.com:
