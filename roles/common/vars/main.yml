@@ -14,6 +14,7 @@ common_packages:
   - iperf3
   - jdupes
   - lsof
+  - moreutils
   - mosh
   - mosh
   - mtr-tiny
