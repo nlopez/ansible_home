@@ -1,21 +1,12 @@
 ---
-- name: Add Kubic package signing key
+- name: Add cri-o package signing key
   apt_key:
-    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key
+    url: https://pkgs.k8s.io/core:/stable:/{{ crio_kubernetes_version }}/deb/Release.key
 
-- name: Add Kubic apt repo
+- name: Add cri-o apt repo
   apt_repository:
-    repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
-    filename: kubic
-
-- name: Add Kubic cri-o package signing key
-  apt_key:
-    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key
-
-- name: Add Kubic cri-o apt repo
-  apt_repository:
-    repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_version }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
-    filename: kubic-cri-o
+    repo: deb https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_kubernetes_version }}/deb/ /
+    filename: cri-o
 
 - name: Install CRI-O packages
   package:
@@ -42,13 +33,13 @@
     owner: root
     group: root
 
-- name: Configure CRI-O bridge
-  template:
-    src: crio-bridge.conf.j2
-    dest: /etc/cni/net.d/100-crio-bridge.conf
-    owner: root
-    group: root
-    mode: '0644'
+# - name: Configure CRI-O bridge
+#   template:
+#     src: crio-bridge.conf.j2
+#     dest: /etc/cni/net.d/100-crio-bridge.conf
+#     owner: root
+#     group: root
+#     mode: '0644'
 
 - name: Start and enable CRI-O
   service:

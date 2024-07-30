@@ -12,15 +12,20 @@
 
 - name: Install Google Cloud Packages Automatic Signing Key
   ansible.builtin.apt_key:
+    # The same signing key is used for all repositories, so you can disregard the version in the URL
     url: 'https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key'
     keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     state: present
 
 - name: Install Kubernetes apt repo
   ansible.builtin.apt_repository:
-    repo: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /'
+    repo: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /'
     filename: kubernetes
     state: present
+    update_cache: false
+
+- name: Update apt cache
+  ansible.builtin.apt:
     update_cache: true
 
 - name: Pin versions on Kubernetes packages
