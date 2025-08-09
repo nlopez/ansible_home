@@ -12,15 +12,15 @@
   loop: "{{ nfs_mounts }}"
   when: nfs_mounts is defined
 
-- name: Mount NFS shares
-  ansible.posix.mount:
-    path: "{{ item.dest }}"
-    src: "{{ item.src }}"
-    opts: "{{ item.opts | default(omit) }}"
-    fstype: nfs4
-    state: mounted
-  loop: "{{ nfs_mounts }}"
-  when: nfs_mounts is defined
+# - name: Mount NFS shares
+#   ansible.posix.mount:
+#     path: "{{ item.dest }}"
+#     src: "{{ item.src }}"
+#     opts: "{{ item.opts | default(omit) }}"
+#     fstype: nfs4
+#     state: mounted
+#   loop: "{{ nfs_mounts }}"
+#   when: nfs_mounts is defined
 
 - name: Start and enable rpcbind
   ansible.builtin.service:

@@ -1,8 +1,8 @@
 ---
 kubernetes:
   hosts:
-    knode1.lga1.radoncanyon.com:
-    knode2.lga1.radoncanyon.com:
+    192.168.222.143:
+    192.168.222.144:
 infra:
   hosts:
     odroid.lga1.radoncanyon.com:

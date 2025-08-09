@@ -46,22 +46,22 @@
     exclusive: true
     validate_certs: true
 
-- name: Bare clone Nick's dotfiles
-  ansible.builtin.git:
-    repo: https://github.com/nlopez/dotfiles
-    bare: true
-    dest: /home/nlopez/dotfiles
-    version: unstable
-    update: true
-  become: true
-  become_user: nlopez
+# - name: Bare clone Nick's dotfiles
+#   ansible.builtin.git:
+#     repo: https://github.com/nlopez/dotfiles
+#     bare: true
+#     dest: /home/nlopez/dotfiles
+#     version: unstable
+#     update: true
+#   become: true
+#   become_user: nlopez
 
-- name: Don't show untracked files in dotfiles repo
-  community.general.git_config:
-    name: status.showUntrackedFiles
-    value: "no"
-    repo: /home/nlopez/dotfiles
-    scope: local
+# - name: Don't show untracked files in dotfiles repo
+#   community.general.git_config:
+#     name: status.showUntrackedFiles
+#     value: "no"
+#     repo: /home/nlopez/dotfiles
+#     scope: local
 
 - name: Checkout dotfiles
   ansible.builtin.command:

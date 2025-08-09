@@ -5,7 +5,9 @@
 
 - name: Add cri-o apt repo
   apt_repository:
-    repo: deb https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_kubernetes_version }}/deb/ /
+    # repo: deb https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_kubernetes_version }}/deb/ /
+    repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_kubernetes_version }}/deb/ /
+
     filename: cri-o
 
 - name: Install CRI-O packages
