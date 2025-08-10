@@ -1,13 +1,13 @@
 ---
 - name: Add cri-o package signing key
-  apt_key:
-    url: https://pkgs.k8s.io/core:/stable:/{{ crio_kubernetes_version }}/deb/Release.key
+  ansible.builtin.apt_key:
+    url: https://download.opensuse.org/repositories/isv:/cri-o:/stable:/{{ crio_kubernetes_version }}/deb/Release.key
+    keyring: /etc/apt/keyrings/cri-o-apt-keyring.gpg
+    state: present
 
 - name: Add cri-o apt repo
-  apt_repository:
-    # repo: deb https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_kubernetes_version }}/deb/ /
-    repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_kubernetes_version }}/deb/ /
-
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://download.opensuse.org/repositories/isv:/cri-o:/stable:/{{ crio_kubernetes_version }}/deb/ /
     filename: cri-o
 
 - name: Install CRI-O packages
@@ -17,7 +17,7 @@
   vars:
     packages:
       - cri-o
-      - cri-o-runc
+      - conmon
 
 - name: Configure CRI-O
   template:
