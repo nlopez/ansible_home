@@ -1,4 +1,7 @@
 ---
+all:
+  vars:
+    ansible_user: nlopez
 kubernetes:
   hosts:
     knode1.macaroni-pirate.ts.net:
