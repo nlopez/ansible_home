@@ -20,7 +20,7 @@ common_packages:
   - mtr-tiny
   - ncdu
   - pv
-  - rng-tools
+  - rclone
   - rsync
   - screen
   - sudo

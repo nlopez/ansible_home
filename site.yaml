@@ -5,6 +5,7 @@
     - name: Group by operating system
       ansible.builtin.group_by:
         key: "os_{{ ansible_os_family }}"
+      changed_when: false
   roles:
     - common
     - networkd
