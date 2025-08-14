@@ -1,0 +1,9 @@
+---
+kubernetes:
+  hosts:
+    knode1.macaroni-pirate.ts.net:
+    knode2.macaroni-pirate.ts.net:
+infra:
+  hosts:
+    odroid-lga1.macaroni-pirate.ts.net:
+    odroid-lga2.macaroni-pirate.ts.net:

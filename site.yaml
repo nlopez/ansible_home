@@ -1,6 +1,6 @@
 ---
-- name: Apply common role to all but TrueNAS hosts
-  hosts: all:!truenas
+- name: Apply common role to all hosts
+  hosts: all
   pre_tasks:
     - name: Group by operating system
       ansible.builtin.group_by:
@@ -21,15 +21,3 @@
   hosts: infra
   roles:
     - pihole
-
-- name: Configure TrueNAS hosts
-  hosts: truenas
-  gather_facts: false
-  become: false
-  roles:
-    - truenas
-
-- name: Configure Palworld hosts
-  hosts: palworld
-  roles:
-    - palworld

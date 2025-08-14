@@ -1,3 +1,0 @@
----
-- name: Reload systemd manager configuration
-  shell: systemctl daemon-reload
