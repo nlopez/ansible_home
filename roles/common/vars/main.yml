@@ -79,3 +79,4 @@ net_sysctls:
   net.ipv4.tcp_sack: 0
   # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=19f92a030ca6d772ab44b22ee6a01378a8cb32d4
   net.core.somaxconn: 4096
+  kernel.sysctl: 1
