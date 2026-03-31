@@ -63,11 +63,11 @@
 #     repo: /home/nlopez/dotfiles
 #     scope: local
 
-- name: Checkout dotfiles
-  ansible.builtin.command:
-    cmd: /usr/bin/git --git-dir=/home/nlopez/dotfiles --work-tree=/home/nlopez checkout --force
-  become: true
-  become_user: nlopez
+# - name: Checkout dotfiles
+#   ansible.builtin.command:
+#     cmd: /usr/bin/git --git-dir=/home/nlopez/dotfiles --work-tree=/home/nlopez checkout --force
+#   become: true
+#   become_user: nlopez
 
 - name: Allow members of sudoers group to run all commands without a password
   ansible.builtin.template:
