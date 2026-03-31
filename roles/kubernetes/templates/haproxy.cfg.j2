@@ -13,7 +13,7 @@ defaults
     timeout server  50000
 
 frontend kubernetes-apiserver
-    bind *:6443
+    bind *:8443
     default_backend kubernetes-apiserver
 
 backend kubernetes-apiserver
