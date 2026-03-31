@@ -13,13 +13,13 @@
 - name: Install Google Cloud Packages Automatic Signing Key
   ansible.builtin.apt_key:
     # The same signing key is used for all repositories, so you can disregard the version in the URL
-    url: 'https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key'
+    url: 'https://pkgs.k8s.io/core:/stable:/v1.35/deb/Release.key'
     keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     state: present
 
 - name: Install Kubernetes apt repo
   ansible.builtin.apt_repository:
-    repo: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /'
+    repo: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.35/deb/ /'
     filename: kubernetes
     state: present
     update_cache: false
@@ -47,7 +47,7 @@
     name: "{{ kubernetes_other_packages }}"
     state: present
 
-- name: Configure kubelet for CRI-O
+- name: Configure kubelet for containerd
   ansible.builtin.template:
     src: etc_default_kubelet
     dest: /etc/default/kubelet

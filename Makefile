@@ -1,8 +1,5 @@
-shell: install
-	poetry shell
-
 install:
-	poetry install
+	uv sync
 
 clean:
-	poetry env remove python
+	rm -rf .venv

@@ -1,0 +1,28 @@
+---
+- name: Install containerd
+  ansible.builtin.package:
+    name: containerd
+    state: present
+
+- name: Create containerd config directory
+  ansible.builtin.file:
+    dest: /etc/containerd
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Configure containerd
+  ansible.builtin.template:
+    src: config.toml.j2
+    dest: /etc/containerd/config.toml
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Start and enable containerd
+  ansible.builtin.service:
+    name: containerd
+    enabled: true
+    state: started
+    daemon_reload: true
