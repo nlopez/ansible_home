@@ -8,6 +8,9 @@ kubernetes_packages:
 kubernetes_other_packages:
   - ipset  # needed for ipvs
 
+kubernetes_vip: 192.168.222.245
+
 kubernetes_sysctls:
   fs.inotify.max_user_watches: 1048576
   fs.inotify.max_user_instances: 8192
+  net.ipv4.ip_nonlocal_bind: 1

@@ -1,0 +1,24 @@
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    daemon
+
+defaults
+    mode    tcp
+    log     global
+    option  tcplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+frontend kubernetes-apiserver
+    bind *:6443
+    default_backend kubernetes-apiserver
+
+backend kubernetes-apiserver
+    balance roundrobin
+    option tcp-check
+{% for host in groups['kubernetes'] %}
+    server {{ host.split('.')[0] }} {{ hostvars[host]['ansible_default_ipv4']['address'] }}:6443 check fall 3 rise 2
+{% endfor %}

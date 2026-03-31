@@ -4,15 +4,17 @@
     name: keepalived
     state: present
 
-- name: Configured keepalived
+- name: Configure keepalived
   ansible.builtin.template:
     src: keepalived.conf.j2
     dest: /etc/keepalived/keepalived.conf
     owner: root
     group: root
     mode: '0644'
+  notify: Restart keepalived
 
-- name: Start keepalived
+- name: Enable and start keepalived
   ansible.builtin.service:
     name: keepalived
+    enabled: true
     state: started

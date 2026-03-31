@@ -59,5 +59,8 @@
     enabled: true
     state: started
 
+- name: Configure haproxy in front of kube-apiserver
+  ansible.builtin.include_tasks: haproxy.yaml
+
 - name: Configure keepalived vrrp for stacked Kubernetes masters
   ansible.builtin.include_tasks: keepalived.yaml

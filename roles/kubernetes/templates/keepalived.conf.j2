@@ -1,11 +1,24 @@
+global_defs {
+    enable_script_security
+}
+
+vrrp_script check_haproxy {
+    script "killall -0 haproxy"
+    interval 2
+    weight 2
+}
+
 vrrp_instance vips {
-  state BACKUP
-  interface eno1
-  virtual_router_id 1
-  priority 100
-  advert_int 1
-  nopreempt
-  virtual_ipaddress {
-    192.168.222.245
-  }
+    state BACKUP
+    interface eno1
+    virtual_router_id 1
+    priority 100
+    advert_int 1
+    nopreempt
+    virtual_ipaddress {
+        {{ kubernetes_vip }}
+    }
+    track_script {
+        check_haproxy
+    }
 }
