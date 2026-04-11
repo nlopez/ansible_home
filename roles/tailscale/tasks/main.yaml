@@ -1,0 +1,24 @@
+---
+- name: Install Tailscale apt key
+  ansible.builtin.apt_key:
+    url: "https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}.noarmor.gpg"
+    keyring: /etc/apt/keyrings/tailscale.gpg
+    state: present
+
+- name: Install Tailscale apt repo
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/tailscale.gpg] https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+    filename: tailscale
+    state: present
+    update_cache: true
+
+- name: Install tailscale
+  ansible.builtin.package:
+    name: tailscale
+    state: present
+
+- name: Enable and start tailscaled
+  ansible.builtin.service:
+    name: tailscaled
+    enabled: true
+    state: started

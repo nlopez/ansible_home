@@ -17,6 +17,7 @@
     - nfs
     - containerd
     - kubernetes
+    - tailscale
 
 - name: Configure infra hosts
   hosts: infra
