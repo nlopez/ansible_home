@@ -10,16 +10,30 @@
     ignoreerrors: true # ignores unknown key errors
   loop: "{{ lookup('dict', kubernetes_sysctls, wantlist=true) }}"
 
+- name: Configure Cilium sysctl overrides
+  ansible.builtin.copy:
+    content: |
+      # Disable rp_filter on Cilium interfaces since it may cause mangled packets to be dropped
+      -net.ipv4.conf.lxc*.rp_filter = 0
+      -net.ipv4.conf.cilium_*.rp_filter = 0
+      # The kernel uses max(conf.all, conf.{dev}) as its value, so we need to set .all. to 0 as well.
+      # Otherwise it would overrule the device specific settings.
+      net.ipv4.conf.all.rp_filter = 0
+    dest: /etc/sysctl.d/99-zzz-override_cilium.conf
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Install Google Cloud Packages Automatic Signing Key
   ansible.builtin.apt_key:
     # The same signing key is used for all repositories, so you can disregard the version in the URL
-    url: 'https://pkgs.k8s.io/core:/stable:/v1.35/deb/Release.key'
+    url: 'https://pkgs.k8s.io/core:/stable:/v1.36/deb/Release.key'
     keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     state: present
 
 - name: Install Kubernetes apt repo
   ansible.builtin.apt_repository:
-    repo: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.35/deb/ /'
+    repo: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.36/deb/ /'
     filename: kubernetes
     state: present
     update_cache: false
