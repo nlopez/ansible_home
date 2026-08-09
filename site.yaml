@@ -17,7 +17,6 @@
     - nfs
     - containerd
     - kubernetes
-    - k9s
     - tailscale
 
 - name: Configure infra hosts
