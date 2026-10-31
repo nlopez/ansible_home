@@ -1,20 +1,17 @@
 ---
+kubernetes_repo_version: v1.36
+
 kubernetes_packages:
   - kubelet=1.36.3-1.1
   - kubeadm=1.36.3-1.1
   - kubectl=1.36.3-1.1
   - kubernetes-cni=1.4.0-1.1
 
-kubernetes_stale_repo_versions:
-  - v1.33
-  - v1.34
-  - v1.35
-
 kubernetes_other_packages:
-kubernetes_keepalived_interface: eno1
   - ipset  # needed for ipvs
 
 kubernetes_vip: 192.168.222.245
+kubernetes_keepalived_interface: eno1
 
 kubernetes_sysctls:
   fs.inotify.max_user_watches: 1048576

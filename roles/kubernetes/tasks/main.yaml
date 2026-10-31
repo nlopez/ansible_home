@@ -25,27 +25,22 @@
     mode: '0644'
   notify: Reload sysctl
 
-- name: Install Google Cloud Packages Automatic Signing Key
-  ansible.builtin.apt_key:
-    # The same signing key is used for all repositories, so you can disregard the version in the URL
-    url: 'https://pkgs.k8s.io/core:/stable:/v1.36/deb/Release.key'
-    keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-    state: present
+- name: Remove legacy Kubernetes apt repo and key
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/sources.list.d/kubernetes.list
+    - /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 - name: Install Kubernetes apt repo
-  ansible.builtin.apt_repository:
-    repo: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.36/deb/ /'
-    filename: kubernetes
+  ansible.builtin.deb822_repository:
+    name: kubernetes
+    types: deb
+    uris: "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_repo_version }}/deb/"
+    suites: /
+    signed_by: "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_repo_version }}/deb/Release.key"
     state: present
-    update_cache: false
-
-- name: Remove stale Kubernetes apt repos
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ item }}/deb/ /"
-    filename: kubernetes
-    state: absent
-    update_cache: false
-  loop: "{{ kubernetes_stale_repo_versions }}"
 
 - name: Update apt cache
   ansible.builtin.apt:
@@ -70,12 +65,12 @@
     name: "{{ kubernetes_other_packages }}"
     state: present
 
-  notify: Restart kubelet
 - name: Configure kubelet for containerd
   ansible.builtin.template:
     src: etc_default_kubelet
     dest: /etc/default/kubelet
     mode: '0640'
+  notify: Restart kubelet
 
 - name: Start and enable Kubelet
   ansible.builtin.service:
