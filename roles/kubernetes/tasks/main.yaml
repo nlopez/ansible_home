@@ -38,6 +38,14 @@
     state: present
     update_cache: false
 
+- name: Remove stale Kubernetes apt repos
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ item }}/deb/ /"
+    filename: kubernetes
+    state: absent
+    update_cache: false
+  loop: "{{ kubernetes_stale_repo_versions }}"
+
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true

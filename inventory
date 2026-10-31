@@ -4,9 +4,9 @@ all:
     ansible_user: nlopez
 kubernetes:
   hosts:
-    knode1.macaroni-pirate.ts.net:
-    knode2.macaroni-pirate.ts.net:
+    knode1.lga1.radoncanyon.com:
+    knode2.lga1.radoncanyon.com:
 infra:
   hosts:
-    odroid-lga1.macaroni-pirate.ts.net:
-    odroid-lga2.macaroni-pirate.ts.net:
+    odroid.lga1.radoncanyon.com:
+    odroid.lga2.radoncanyon.com:
