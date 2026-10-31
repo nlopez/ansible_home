@@ -1,3 +1,4 @@
+---
 - name: Remove systemd-timesyncd
   ansible.builtin.package:
     name: systemd-timesyncd
@@ -6,7 +7,7 @@
 - name: Install chrony
   ansible.builtin.package:
     name: chrony
-    state: latest
+    state: present
 
 - name: Enable chrony
   ansible.builtin.service:

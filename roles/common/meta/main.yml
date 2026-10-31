@@ -1,3 +1,4 @@
+---
 dependencies:
-- { role: hosts }
-- { role: systemd-timesyncd }
+  - role: hosts
+  - role: chrony
