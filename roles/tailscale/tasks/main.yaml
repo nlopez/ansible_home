@@ -27,3 +27,14 @@
     name: tailscaled
     enabled: true
     state: started
+
+- name: Get Tailscale prefs
+  ansible.builtin.command: tailscale debug prefs
+  register: tailscale_prefs
+  changed_when: false
+  check_mode: false
+
+- name: Allow Tailscale operator to manage tailscale without root
+  ansible.builtin.command: "tailscale set --operator={{ tailscale_operator }}"
+  changed_when: true
+  when: (tailscale_prefs.stdout | from_json).OperatorUser | default('') != tailscale_operator
