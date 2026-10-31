@@ -5,9 +5,9 @@ description = ""
 authors = [
     {name = "Nick Lopez", email = "nlopez@gmail.com"}
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
-    "ansible>=10,<11",
+    "ansible>=14,<15",
     "ansible-lint>=25",
     "jmespath>=1.0.1,<2",
 ]
