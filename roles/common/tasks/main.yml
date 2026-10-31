@@ -28,16 +28,21 @@
     name: nlopez
     shell: /usr/bin/zsh
     group: nlopez
-    groups: "{{ sudo_group }}"
+    groups: "{{ common_sudo_group }}"
     createhome: true
     uid: 1000
+
+- name: Get group database
+  ansible.builtin.getent:
+    database: group
+  changed_when: false
 
 - name: Add Nick to docker group
   ansible.builtin.user:
     name: nlopez
     groups: docker
     append: true
-  when: "'docker' in  lookup('pipe', 'cut -d: -f1 /etc/group')"
+  when: "'docker' in getent_group"
 
 - name: Setup Nick's keys
   ansible.posix.authorized_key:
@@ -76,6 +81,12 @@
     validate: "visudo -cf %s"
     mode: "0600"
 
+- name: Load and persist tcp_bbr module
+  community.general.modprobe:
+    name: tcp_bbr
+    state: present
+    persistent: present
+
 - name: Sysctls
   ansible.posix.sysctl:
     name: "{{ item.key }}"
@@ -85,4 +96,4 @@
     reload: true
     sysctl_file: /etc/sysctl.d/60-net.conf
     ignoreerrors: true # ignores unknown key errors
-  loop: "{{ lookup('dict', net_sysctls) }}"
+  loop: "{{ common_net_sysctls | dict2items }}"

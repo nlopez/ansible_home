@@ -1,7 +1,7 @@
 ---
 ansible_python_interpreter: python3
 dig: bind-tools
-sudo_group: wheel
+common_sudo_group: wheel
 sudoers: /etc/sudoers
 system_certificates: ca-certificates
 vim: vim

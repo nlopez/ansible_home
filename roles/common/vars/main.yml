@@ -1,8 +1,8 @@
+---
 common_packages:
   - "{{ dig }}"
   - "{{ system_certificates }}"
   - "{{ vim }}"
-  - apt-transport-https
   - arping
   - bash
   - bwm-ng
@@ -16,7 +16,6 @@ common_packages:
   - lsof
   - moreutils
   - mosh
-  - mosh
   - mtr-tiny
   - ncdu
   - pv
@@ -29,9 +28,8 @@ common_packages:
   - wget
   - zsh
 
-net_sysctls:
+common_net_sysctls:
   vm.swappiness: 10
-  net.ipv4.ip_local_port_range: 10000 65000
   # http://www.nateware.com/linux-network-tuning-for-2013.html
   # Increase Linux autotuning TCP buffer limits
   # Set max to 16MB for 1GE and 32M (33554432) or 54M (56623104) for 10GE
@@ -44,8 +42,8 @@ net_sysctls:
   # cloudflare uses this for balancing latency and throughput
   # https://blog.cloudflare.com/the-story-of-one-latency-spike/
   # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency/
-  net.ipv4.tcp_rmem: 8192 262144 536870912
-  net.ipv4.tcp_wmem: 4096 16384 536870912
+  net.ipv4.tcp_rmem: 8192 262144 16777216
+  net.ipv4.tcp_wmem: 4096 16384 16777216
   # Also increase the max packet backlog
   net.core.netdev_max_backlog: 100000
   net.core.netdev_budget: 50000
@@ -73,11 +71,6 @@ net_sysctls:
   net.ipv4.tcp_congestion_control: bbr
   net.ipv4.tcp_notsent_lowat: 16384
   net.ipv4.tcp_adv_win_scale: -2
-  net.ipv4.tcp_collapse_max_bytes: 6291456
-  # TCP SACK PANIC
-  # https://access.redhat.com/security/vulnerabilities/tcpsack
-  net.ipv4.tcp_sack: 0
   # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=19f92a030ca6d772ab44b22ee6a01378a8cb32d4
   net.core.somaxconn: 4096
-  kernel.sysctl: 1
   fs.file-max: 1048576
