@@ -3,10 +3,11 @@ AllowUsers nlopez
 PubkeyAuthentication yes
 PasswordAuthentication no
 KbdInteractiveAuthentication no
-UsePAM no
+UsePAM yes
 AllowAgentForwarding no
 AllowTcpForwarding no
 GatewayPorts no
 X11Forwarding no
 PrintMotd no
+AcceptEnv LANG LC_*
 Subsystem sftp internal-sftp

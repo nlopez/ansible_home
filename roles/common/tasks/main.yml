@@ -11,7 +11,7 @@
     owner: root
     group: root
     mode: "0644"
-  when: ansible_os_family == "Debian"
+  when: ansible_facts["os_family"] == "Debian"
 
 - name: Generate locales
   ansible.builtin.command: "{{ generate_locales }}"
@@ -42,7 +42,7 @@
     name: nlopez
     groups: docker
     append: true
-  when: "'docker' in getent_group"
+  when: "'docker' in ansible_facts['getent_group']"
 
 - name: Setup Nick's keys
   ansible.posix.authorized_key:

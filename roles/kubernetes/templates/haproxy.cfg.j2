@@ -20,5 +20,5 @@ backend kubernetes-apiserver
     balance roundrobin
     option tcp-check
 {% for host in groups['kubernetes'] %}
-    server {{ host.split('.')[0] }} {{ hostvars[host]['ansible_default_ipv4']['address'] }}:6443 check fall 3 rise 2
+    server {{ host.split('.')[0] }} {{ hostvars[host]['ansible_facts']['default_ipv4']['address'] }}:6443 check fall 3 rise 2
 {% endfor %}

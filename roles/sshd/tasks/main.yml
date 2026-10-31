@@ -9,8 +9,7 @@
     validate: sshd -T -f %s
   notify: Reload sshd
 
-- name: Ensure the SSH daemon is started and enabled
+- name: Ensure the SSH daemon is started
   ansible.builtin.service:
-    name: sshd
+    name: "{{ sshd_service }}"
     state: started
-    enabled: true
