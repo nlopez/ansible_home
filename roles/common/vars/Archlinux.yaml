@@ -1,3 +1,0 @@
----
-generate_locales: '/usr/bin/locale-gen --purge en_US.UTF-8'
-makepkg_nonroot_user: nobody

@@ -1,4 +1,0 @@
----
-dig: dnsutils
-sudo_group: sudo
-generate_locales: '/usr/sbin/locale-gen --purge en_US.UTF-8'
