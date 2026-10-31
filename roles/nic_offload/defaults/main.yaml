@@ -1,0 +1,6 @@
+---
+nic_offload_interface: eno1
+nic_offload_disabled_features:
+  - gro
+  - gso
+  - tso

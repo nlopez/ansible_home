@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Disable NIC offloads on {{ nic_offload_interface }}
+BindsTo=sys-subsystem-net-devices-{{ nic_offload_interface }}.device
+After=sys-subsystem-net-devices-{{ nic_offload_interface }}.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/ethtool -K {{ nic_offload_interface }}{% for feature in nic_offload_disabled_features %} {{ feature }} off{% endfor %}
+
+
+[Install]
+WantedBy=sys-subsystem-net-devices-{{ nic_offload_interface }}.device

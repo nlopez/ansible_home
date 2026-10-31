@@ -1,0 +1,23 @@
+---
+- name: Install ethtool
+  ansible.builtin.package:
+    name: ethtool
+    state: present
+
+- name: Install NIC offload systemd unit
+  ansible.builtin.template:
+    src: nic-offload.service.j2
+    dest: /etc/systemd/system/nic-offload.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart nic-offload
+
+- name: Enable and start NIC offload unit
+  ansible.builtin.systemd_service:
+    name: nic-offload.service
+    enabled: true
+    state: started
+    daemon_reload: true
+  # The unit file doesn't exist yet when this runs in check mode on a new host
+  ignore_errors: "{{ ansible_check_mode }}"

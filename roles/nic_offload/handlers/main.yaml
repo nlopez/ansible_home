@@ -1,0 +1,8 @@
+---
+- name: Restart nic-offload
+  ansible.builtin.systemd_service:
+    name: nic-offload.service
+    state: restarted
+    daemon_reload: true
+  # The unit file doesn't exist yet when this runs in check mode on a new host
+  ignore_errors: "{{ ansible_check_mode }}"

@@ -19,6 +19,7 @@
     - kubernetes
     - tailscale
     - sshd
+    - nic_offload
 
 - name: Configure infra hosts
   hosts: infra
