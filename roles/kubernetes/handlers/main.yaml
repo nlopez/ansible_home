@@ -1,4 +1,13 @@
 ---
+- name: Reload sysctl
+  ansible.builtin.command: sysctl --system
+  changed_when: true
+
+- name: Restart kubelet
+  ansible.builtin.service:
+    name: kubelet
+    state: restarted
+
 - name: Restart haproxy
   ansible.builtin.service:
     name: haproxy

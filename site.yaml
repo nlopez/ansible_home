@@ -18,6 +18,7 @@
     - containerd
     - kubernetes
     - tailscale
+    - sshd
 
 - name: Configure infra hosts
   hosts: infra

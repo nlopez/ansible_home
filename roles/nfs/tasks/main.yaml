@@ -1,6 +1,6 @@
 ---
 - name: Install NFS utils
-  package:
+  ansible.builtin.package:
     name: '{{ nfs_utils }}'
     state: present
 
@@ -8,9 +8,8 @@
   ansible.builtin.file:
     path: "{{ item.dest }}"
     state: directory
-    mode: 0755
-  loop: "{{ nfs_mounts }}"
-  when: nfs_mounts is defined
+    mode: "0755"
+  loop: "{{ nfs_mounts | default([]) }}"
 
 # - name: Mount NFS shares
 #   ansible.posix.mount:

@@ -1,7 +1,16 @@
 ---
 - name: Configure sshd
-  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config validate='sshd -T -f %s'
-  notify: reload sshd
+  ansible.builtin.template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: "0644"
+    validate: sshd -T -f %s
+  notify: Reload sshd
 
 - name: Ensure the SSH daemon is started and enabled
-  service: name=sshd state=started enabled=yes
+  ansible.builtin.service:
+    name: sshd
+    state: started
+    enabled: true

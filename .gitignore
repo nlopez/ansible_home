@@ -3,3 +3,4 @@ vault_password.txt
 site.retry
 .DS_Store
 *.pyc
+.ansible_fact_cache

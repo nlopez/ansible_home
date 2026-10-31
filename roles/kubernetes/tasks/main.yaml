@@ -23,6 +23,7 @@
     owner: root
     group: root
     mode: '0644'
+  notify: Reload sysctl
 
 - name: Install Google Cloud Packages Automatic Signing Key
   ansible.builtin.apt_key:
@@ -69,6 +70,7 @@
     name: "{{ kubernetes_other_packages }}"
     state: present
 
+  notify: Restart kubelet
 - name: Configure kubelet for containerd
   ansible.builtin.template:
     src: etc_default_kubelet

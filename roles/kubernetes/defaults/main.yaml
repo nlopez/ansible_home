@@ -11,6 +11,7 @@ kubernetes_stale_repo_versions:
   - v1.35
 
 kubernetes_other_packages:
+kubernetes_keepalived_interface: eno1
   - ipset  # needed for ipvs
 
 kubernetes_vip: 192.168.222.245
