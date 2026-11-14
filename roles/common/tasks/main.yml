@@ -88,12 +88,8 @@
     persistent: present
 
 - name: Sysctls
-  ansible.posix.sysctl:
-    name: "{{ item.key }}"
-    value: "{{ item.value }}"
-    state: present
-    sysctl_set: true
-    reload: true
-    sysctl_file: /etc/sysctl.d/60-net.conf
-    ignoreerrors: true # ignores unknown key errors
-  loop: "{{ common_net_sysctls | dict2items }}"
+  ansible.builtin.template:
+    src: 60-net.conf.j2
+    dest: /etc/sysctl.d/60-net.conf
+    mode: "0644"
+  notify: Reload sysctl
