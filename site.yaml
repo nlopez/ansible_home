@@ -24,4 +24,5 @@
 - name: Configure infra hosts
   hosts: infra
   roles:
+    - static_ula
     - pihole

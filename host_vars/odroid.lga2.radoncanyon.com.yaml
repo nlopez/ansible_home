@@ -1,0 +1,5 @@
+---
+static_ula_connection: Wired connection 1
+static_ula_interface: end0
+static_ula_addresses:
+  - fd72:ce7b:d4a9:9511::2/64

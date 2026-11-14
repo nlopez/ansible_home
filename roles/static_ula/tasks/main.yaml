@@ -1,0 +1,10 @@
+---
+- name: Add static IPv6 addresses to the NetworkManager connection
+  community.general.nmcli:
+    conn_name: "{{ static_ula_connection }}"
+    ifname: "{{ static_ula_interface }}"
+    type: ethernet
+    state: present
+    ip6: "{{ static_ula_addresses }}"
+    method6: auto
+  when: static_ula_addresses | length > 0
