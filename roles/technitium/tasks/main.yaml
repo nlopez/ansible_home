@@ -1,0 +1,166 @@
+---
+- name: Check for a dotnet install outside the package manager
+  ansible.builtin.stat:
+    path: /usr/bin/dotnet
+  register: technitium_dotnet_bin
+
+- name: Remove the dotnet-install symlink so the package can own /usr/bin/dotnet
+  ansible.builtin.file:
+    path: /usr/bin/dotnet
+    state: absent
+  when:
+    - technitium_dotnet_bin.stat.islnk | default(false)
+    - technitium_dotnet_bin.stat.lnk_source | default('') == '/opt/dotnet/dotnet'
+
+- name: Install the ASP.NET Core runtime
+  ansible.builtin.apt:
+    name: aspnetcore-runtime-10.0
+    state: present
+
+- name: Create the service group
+  ansible.builtin.group:
+    name: "{{ technitium_user }}"
+    system: true
+
+- name: Create the service user
+  ansible.builtin.user:
+    name: "{{ technitium_user }}"
+    group: "{{ technitium_user }}"
+    system: true
+    create_home: false
+    shell: /usr/sbin/nologin
+
+- name: Create Technitium directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ technitium_user }}"
+    group: "{{ technitium_user }}"
+    mode: "0755"
+  loop:
+    - "{{ technitium_install_dir }}"
+    - "{{ technitium_config_dir }}"
+    - "{{ technitium_log_dir }}"
+
+- name: Download the Technitium release
+  ansible.builtin.get_url:
+    url: "https://download.technitium.com/dns/archive/{{ technitium_version }}/DnsServerPortable.tar.gz"
+    dest: "/usr/local/src/technitium-{{ technitium_version }}.tar.gz"
+    checksum: "{{ technitium_checksum }}"
+    mode: "0644"
+
+- name: Extract the Technitium release
+  ansible.builtin.unarchive:
+    src: "/usr/local/src/technitium-{{ technitium_version }}.tar.gz"
+    dest: "{{ technitium_install_dir }}"
+    remote_src: true
+    owner: "{{ technitium_user }}"
+    group: "{{ technitium_user }}"
+    creates: "{{ technitium_install_dir }}/.version-{{ technitium_version }}"
+  register: technitium_extracted
+  notify: Restart technitium
+
+- name: Record the installed version
+  ansible.builtin.copy:
+    dest: "{{ technitium_install_dir }}/.version-{{ technitium_version }}"
+    content: ""
+    force: false
+    owner: "{{ technitium_user }}"
+    group: "{{ technitium_user }}"
+    mode: "0644"
+
+- name: Install the Technitium service unit
+  ansible.builtin.template:
+    src: dns.service.j2
+    dest: /etc/systemd/system/dns.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload systemd for technitium
+    - Restart technitium
+
+- name: Install the web socket permissions script
+  ansible.builtin.template:
+    src: technitium-web-socket-perms.sh.j2
+    dest: /usr/local/sbin/technitium-web-socket-perms
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install the web socket permissions units
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - technitium-web-socket-perms.service
+    - technitium-web-socket-perms.path
+  notify: Reload systemd for technitium
+
+- name: Apply service changes now
+  ansible.builtin.meta: flush_handlers
+
+- name: Enable and start Technitium
+  ansible.builtin.service:
+    name: dns
+    enabled: true
+    state: started
+
+- name: Enable the web socket permissions watcher
+  ansible.builtin.systemd_service:
+    name: technitium-web-socket-perms.path
+    enabled: true
+    state: started
+
+- name: Wait for the Technitium API
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: 5380
+    timeout: 60
+
+- name: Read the web service settings
+  ansible.builtin.uri:
+    url: "{{ technitium_api_url }}/api/settings/get"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      token: "{{ technitium_api_token }}"
+    return_content: true
+  register: technitium_settings
+  changed_when: false
+  check_mode: false
+  no_log: true
+
+- name: Assert the API token was accepted
+  ansible.builtin.assert:
+    that: technitium_settings.json.status == 'ok'
+    fail_msg: "Technitium API rejected the token: {{ technitium_settings.json.status }}"
+  no_log: true
+
+- name: Configure the web service socket and listen addresses
+  ansible.builtin.uri:
+    url: "{{ technitium_api_url }}/api/settings/set"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      token: "{{ technitium_api_token }}"
+      webServiceEnableHttpUnixSocket: "true"
+      webServiceHttpUnixSocket: "{{ technitium_web_socket }}"
+      webServiceLocalAddresses: "{{ technitium_web_local_addresses | join(',') }}"
+    return_content: true
+  register: technitium_set
+  failed_when: technitium_set.json.status | default('') != 'ok'
+  when: >-
+    not (technitium_settings.json.response.webServiceEnableHttpUnixSocket | default(false))
+    or technitium_settings.json.response.webServiceHttpUnixSocket | default('') != technitium_web_socket
+    or (technitium_settings.json.response.webServiceLocalAddresses | default([]) | sort)
+    != (technitium_web_local_addresses | sort)
+  no_log: true
+
+- name: Wait for the web socket
+  ansible.builtin.wait_for:
+    path: "{{ technitium_web_socket }}"
+    timeout: 30

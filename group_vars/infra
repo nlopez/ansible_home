@@ -1,3 +1,4 @@
 ---
 tailscale_accept_dns: false
 technitium_proxy_acme_email: letsencrypt@aethertrail.com
+technitium_proxy_upstream: "http://unix:{{ technitium_web_socket }}:"

@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch the Technitium web socket
+
+[Path]
+PathChanged=/run/{{ technitium_runtime_directory }}
+Unit=technitium-web-socket-perms.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,9 @@
+---
+- name: Reload systemd for technitium
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Restart technitium
+  ansible.builtin.service:
+    name: dns
+    state: restarted

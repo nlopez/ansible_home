@@ -1,0 +1,9 @@
+#!/bin/sh
+# Kestrel creates the socket owner-only under the service umask and recreates
+# it whenever the web service restarts. Give the reverse proxy's group access.
+# Only touch the socket when it is wrong: chmod itself raises another path event.
+sock={{ technitium_web_socket }}
+[ -S "$sock" ] || exit 0
+[ "$(stat -c %a:%G "$sock")" = "660:{{ technitium_web_socket_group }}" ] && exit 0
+chgrp {{ technitium_web_socket_group }} "$sock"
+chmod 0660 "$sock"

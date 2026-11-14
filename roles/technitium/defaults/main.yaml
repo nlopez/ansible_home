@@ -1,0 +1,27 @@
+---
+technitium_version: "15.6.2"
+# The release archive ships no published checksum; this is the sha256 of the
+# archive for technitium_version.
+technitium_checksum: sha256:51f2d4ebaf156a85035e820afde5e1d428f1920a37d7f0c65203fb1766917e08
+
+technitium_user: dns-server
+technitium_install_dir: /opt/technitium/dns
+technitium_config_dir: /etc/dns
+technitium_log_dir: /var/log/technitium/dns
+
+# The web console is served on a unix socket under systemd's RuntimeDirectory
+# and made reachable to the reverse proxy's group.
+technitium_runtime_directory: technitium
+technitium_web_socket: "/run/{{ technitium_runtime_directory }}/web.sock"
+technitium_web_socket_group: www-data
+# Technitium always listens on TCP too; keep it on loopback.
+technitium_web_local_addresses:
+  - 127.0.0.1
+  - "::1"
+technitium_api_url: http://127.0.0.1:5380
+
+# API token with settings access, read from 1Password on the controller.
+technitium_api_token_item: "technitium-api-token-{{ inventory_hostname }}"
+technitium_api_token: >-
+  {{ lookup('ansible.builtin.pipe',
+  'op read op://Automation/' ~ technitium_api_token_item ~ '/credential --account my.1password.com') }}

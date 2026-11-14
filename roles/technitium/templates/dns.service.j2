@@ -1,0 +1,46 @@
+[Unit]
+Description=Technitium DNS Server
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User={{ technitium_user }}
+Group={{ technitium_user }}
+SyslogIdentifier=dns-server
+
+WorkingDirectory={{ technitium_install_dir }}
+ReadWritePaths={{ technitium_config_dir }} {{ technitium_log_dir }}
+RuntimeDirectory={{ technitium_runtime_directory }}
+RuntimeDirectoryMode=0755
+
+Environment="OPENSSL_ENABLE_SHA1_SIGNATURES=1"
+
+ExecStart=/usr/bin/dotnet {{ technitium_install_dir }}/DnsServerApp.dll {{ technitium_config_dir }}
+
+Restart=always
+RestartSec=10
+
+LockPersonality=true
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+RemoveIPC=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
