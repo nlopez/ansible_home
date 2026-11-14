@@ -1,11 +1,8 @@
 ---
-- name: Remove legacy Tailscale apt repo and key
+- name: Remove legacy Tailscale apt repo
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: /etc/apt/sources.list.d/tailscale.list
     state: absent
-  loop:
-    - /etc/apt/sources.list.d/tailscale.list
-    - /etc/apt/keyrings/tailscale.gpg
 
 - name: Install Tailscale apt repo
   ansible.builtin.deb822_repository:
