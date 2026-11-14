@@ -1,0 +1,3 @@
+{% for key, value in kubernetes_sysctls.items() %}
+{{ key }} = {{ value }}
+{% endfor %}

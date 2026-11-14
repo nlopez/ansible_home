@@ -1,14 +1,12 @@
 ---
 - name: Set Kubernetes sysctls
-  ansible.posix.sysctl:
-    name: "{{ item.key }}"
-    value: "{{ item.value }}"
-    state: present
-    sysctl_set: true
-    reload: true
-    sysctl_file: /etc/sysctl.d/70-k8s.conf
-    ignoreerrors: true # ignores unknown key errors
-  loop: "{{ lookup('dict', kubernetes_sysctls, wantlist=true) }}"
+  ansible.builtin.template:
+    src: 70-k8s.conf.j2
+    dest: /etc/sysctl.d/70-k8s.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reload sysctl
 
 - name: Configure Cilium sysctl overrides
   ansible.builtin.copy:
@@ -41,10 +39,12 @@
     suites: /
     signed_by: "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_repo_version }}/deb/Release.key"
     state: present
+  register: kubernetes_apt_repo
 
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true
+  when: kubernetes_apt_repo is changed
 
 - name: Pin versions on Kubernetes packages
   ansible.builtin.template:
