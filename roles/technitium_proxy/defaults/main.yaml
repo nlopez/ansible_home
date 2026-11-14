@@ -7,10 +7,12 @@ technitium_proxy_acme_email: ""
 technitium_proxy_acme_server: https://acme-v02.api.letsencrypt.org/directory
 # Let's Encrypt "shortlived" profile issues 6-day certificates.
 technitium_proxy_acme_profile: shortlived
-# Fixed wait after publishing the DNS-01 TXT record, in place of lego's
-# resolver polling. The gateway redirects all LAN port-53 traffic to Technitium,
-# whose negative cache hides new records, so polling never succeeds.
-technitium_proxy_dns_propagation_wait: 30s
+# Public resolvers lego uses to confirm the DNS-01 TXT record. The gateway
+# redirects other LAN hosts' port-53 traffic to Technitium, whose negative cache
+# hides new records, so this relies on the Technitium hosts being exempt.
+technitium_proxy_dns_resolvers:
+  - 1.1.1.1:53
+  - 1.0.0.1:53
 # Renew when this many days of validity remain (certs live 6 days).
 technitium_proxy_renew_days: 2
 technitium_proxy_renew_schedule: "*-*-* 00/6:00:00"

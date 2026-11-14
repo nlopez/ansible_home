@@ -13,7 +13,9 @@ ExecStart=/usr/local/bin/lego run \
     --accept-tos \
     --domains {{ technitium_proxy_hostname }} \
     --dns cloudflare \
-    --dns.propagation.wait {{ technitium_proxy_dns_propagation_wait }} \
+{% for resolver in technitium_proxy_dns_resolvers %}
+    --dns.resolvers {{ resolver }} \
+{% endfor %}
     --profile {{ technitium_proxy_acme_profile }} \
     --renew-days {{ technitium_proxy_renew_days }} \
     --deploy-hook "/usr/bin/systemctl reload-or-try-restart nginx.service"
