@@ -3,7 +3,6 @@ tailscale_operator: nlopez
 # Hosts that run their own resolver set this to false so tailscaled does not
 # replace /etc/resolv.conf with a resolver that has no upstream.
 tailscale_accept_dns: true
-# Written to /etc/resolv.conf when tailscale_accept_dns is false and tailscaled
-# had previously pointed it at its own resolver.
+# Written to /etc/resolv.conf when tailscale_accept_dns is false.
 tailscale_nameservers: []
 tailscale_search_domains: []

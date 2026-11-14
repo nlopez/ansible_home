@@ -1,4 +1,8 @@
 ---
 tailscale_accept_dns: false
+tailscale_nameservers:
+  - 127.0.0.1
+  - 1.1.1.1
+  - 2606:4700:4700::1111
 technitium_proxy_acme_email: letsencrypt@aethertrail.com
 technitium_proxy_upstream: "http://unix:{{ technitium_web_socket }}:"

@@ -6,8 +6,5 @@ static_ula_addresses:
 
 technitium_proxy_hostname: dns.lga2.radoncanyon.com
 
-tailscale_nameservers:
-  - 192.168.239.254
-  - fd72:ce7b:d4a9:9511::2
 tailscale_search_domains:
   - lga2.radoncanyon.com

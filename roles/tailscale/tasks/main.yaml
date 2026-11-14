@@ -42,13 +42,7 @@
   changed_when: true
   when: (tailscale_prefs.stdout | from_json).CorpDNS | default(true) != tailscale_accept_dns
 
-- name: Read resolv.conf
-  ansible.builtin.slurp:
-    src: /etc/resolv.conf
-  register: tailscale_resolv_conf_current
-  when: not tailscale_accept_dns
-
-- name: Replace the Tailscale-written resolv.conf
+- name: Write resolv.conf when Tailscale does not manage DNS
   ansible.builtin.copy:
     dest: /etc/resolv.conf
     content: |
@@ -64,4 +58,3 @@
   when:
     - not tailscale_accept_dns
     - tailscale_nameservers | length > 0
-    - "'100.100.100.100' in (tailscale_resolv_conf_current.content | b64decode)"
