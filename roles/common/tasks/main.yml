@@ -29,6 +29,7 @@
     shell: /usr/bin/zsh
     group: nlopez
     groups: "{{ common_sudo_group }}"
+    append: true
     createhome: true
     uid: 1000
 
