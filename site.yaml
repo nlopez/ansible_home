@@ -24,5 +24,7 @@
 - name: Configure infra hosts
   hosts: infra
   roles:
+    - tailscale
     - static_ula
     - pihole
+    - technitium_proxy

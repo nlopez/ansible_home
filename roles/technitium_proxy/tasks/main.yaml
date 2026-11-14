@@ -1,0 +1,108 @@
+---
+- name: Reverse proxy and ACME certificate for Technitium
+  when: technitium_proxy_hostname | length > 0
+  block:
+    - name: Validate required variables
+      ansible.builtin.assert:
+        that:
+          - technitium_proxy_acme_email | length > 0
+          - technitium_proxy_cloudflare_token | length > 0
+        fail_msg: Set technitium_proxy_acme_email and ensure the Cloudflare token is readable from 1Password
+      no_log: true
+
+    - name: Install nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Download lego
+      ansible.builtin.get_url:
+        url: >-
+          https://github.com/go-acme/lego/releases/download/v{{ technitium_proxy_lego_version }}/lego_v{{ technitium_proxy_lego_version }}_linux_arm64.tar.gz
+        dest: "/usr/local/src/lego-{{ technitium_proxy_lego_version }}.tar.gz"
+        checksum: "{{ technitium_proxy_lego_checksum }}"
+        mode: "0644"
+
+    - name: Create lego versioned directory
+      ansible.builtin.file:
+        path: "/opt/lego-{{ technitium_proxy_lego_version }}"
+        state: directory
+        mode: "0755"
+
+    - name: Extract lego
+      ansible.builtin.unarchive:
+        src: "/usr/local/src/lego-{{ technitium_proxy_lego_version }}.tar.gz"
+        dest: "/opt/lego-{{ technitium_proxy_lego_version }}"
+        remote_src: true
+        include: lego
+        creates: "/opt/lego-{{ technitium_proxy_lego_version }}/lego"
+
+    - name: Link lego into PATH
+      ansible.builtin.file:
+        src: "/opt/lego-{{ technitium_proxy_lego_version }}/lego"
+        dest: /usr/local/bin/lego
+        state: link
+
+    - name: Create lego state directory
+      ansible.builtin.file:
+        path: "{{ technitium_proxy_lego_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0700"
+
+    - name: Install lego environment file
+      ansible.builtin.copy:
+        dest: /etc/lego.env
+        content: "CLOUDFLARE_DNS_API_TOKEN={{ technitium_proxy_cloudflare_token }}\n"
+        owner: root
+        group: root
+        mode: "0600"
+      no_log: true
+
+    - name: Install lego renewal service and timer
+      ansible.builtin.template:
+        src: "{{ item }}.j2"
+        dest: "/etc/systemd/system/{{ item }}"
+        owner: root
+        group: root
+        mode: "0644"
+      loop:
+        - lego-renew.service
+        - lego-renew.timer
+      notify: Reload systemd
+
+    - name: Flush handlers so systemd knows about lego-renew
+      ansible.builtin.meta: flush_handlers
+
+    - name: Obtain the initial certificate  # noqa: command-instead-of-module
+      ansible.builtin.command: systemctl start lego-renew.service
+      args:
+        creates: "{{ technitium_proxy_lego_dir }}/certificates/{{ technitium_proxy_hostname }}.crt"
+
+    - name: Enable the renewal timer
+      ansible.builtin.systemd_service:
+        name: lego-renew.timer
+        enabled: true
+        state: started
+
+    - name: Remove the default nginx site
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: Reload nginx
+
+    - name: Install nginx site for Technitium
+      ansible.builtin.template:
+        src: technitium.conf.j2
+        dest: /etc/nginx/conf.d/technitium.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Reload nginx
+
+    - name: Enable and start nginx
+      ansible.builtin.service:
+        name: nginx
+        enabled: true
+        state: started

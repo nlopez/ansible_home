@@ -15,6 +15,7 @@
     suites: "{{ ansible_facts['distribution_release'] }}"
     components: main
     signed_by: "https://pkgs.tailscale.com/stable/{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_release'] }}.noarmor.gpg"
+    install_python_debian: true
     state: present
 
 - name: Install tailscale
@@ -38,3 +39,32 @@
   ansible.builtin.command: "tailscale set --operator={{ tailscale_operator }}"
   changed_when: true
   when: (tailscale_prefs.stdout | from_json).OperatorUser | default('') != tailscale_operator
+
+- name: Set whether Tailscale manages DNS
+  ansible.builtin.command: "tailscale set --accept-dns={{ tailscale_accept_dns | lower }}"
+  changed_when: true
+  when: (tailscale_prefs.stdout | from_json).CorpDNS | default(true) != tailscale_accept_dns
+
+- name: Read resolv.conf
+  ansible.builtin.slurp:
+    src: /etc/resolv.conf
+  register: tailscale_resolv_conf_current
+  when: not tailscale_accept_dns
+
+- name: Replace the Tailscale-written resolv.conf
+  ansible.builtin.copy:
+    dest: /etc/resolv.conf
+    content: |
+      {% for server in tailscale_nameservers %}
+      nameserver {{ server }}
+      {% endfor %}
+      {% if tailscale_search_domains | length > 0 %}
+      search {{ tailscale_search_domains | join(' ') }}
+      {% endif %}
+    owner: root
+    group: root
+    mode: "0644"
+  when:
+    - not tailscale_accept_dns
+    - tailscale_nameservers | length > 0
+    - "'100.100.100.100' in (tailscale_resolv_conf_current.content | b64decode)"

@@ -1,0 +1,10 @@
+[Unit]
+Description=Renew the {{ technitium_proxy_hostname }} certificate
+
+[Timer]
+OnCalendar={{ technitium_proxy_renew_schedule }}
+RandomizedDelaySec=15min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
