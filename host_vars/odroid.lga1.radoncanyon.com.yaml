@@ -1,0 +1,8 @@
+---
+technitium_proxy_hostname: dns.lga1.radoncanyon.com
+
+tailscale_nameservers:
+  - 192.168.222.1
+  - fd54:571b:560a:2::2
+tailscale_search_domains:
+  - lga1.radoncanyon.com

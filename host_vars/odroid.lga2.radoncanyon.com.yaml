@@ -5,7 +5,6 @@ static_ula_addresses:
   - fd72:ce7b:d4a9:9511::2/64
 
 technitium_proxy_hostname: dns.lga2.radoncanyon.com
-technitium_proxy_acme_email: letsencrypt@aethertrail.com
 
 tailscale_nameservers:
   - 192.168.239.254
