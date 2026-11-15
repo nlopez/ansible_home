@@ -12,3 +12,5 @@ tailscale_advertise_routes: []
 # on each advertised subnet must then route 100.64.0.0/10 back to this host.
 tailscale_snat_subnet_routes: true
 tailscale_accept_routes: true
+# Offer this host as an exit node for internet traffic from the tailnet.
+tailscale_advertise_exit_node: false

@@ -74,12 +74,15 @@
   ansible.builtin.command: >-
     tailscale set
     --advertise-routes={{ tailscale_advertise_routes | join(',') }}
+    --advertise-exit-node={{ tailscale_advertise_exit_node | lower }}
     --snat-subnet-routes={{ tailscale_snat_subnet_routes | lower }}
     --accept-routes={{ tailscale_accept_routes | lower }}
   changed_when: true
+  vars:
+    tailscale_exit_routes: "{{ ['0.0.0.0/0', '::/0'] if tailscale_advertise_exit_node else [] }}"
   when: >-
     ((tailscale_prefs.stdout | from_json).AdvertiseRoutes | default([], true) | sort)
-    != (tailscale_advertise_routes | sort)
+    != ((tailscale_advertise_routes + tailscale_exit_routes) | sort)
     or (not (tailscale_prefs.stdout | from_json).NoSNAT | default(false))
     != tailscale_snat_subnet_routes
     or (tailscale_prefs.stdout | from_json).RouteAll | default(false)

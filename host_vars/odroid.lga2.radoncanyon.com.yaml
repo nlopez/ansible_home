@@ -11,4 +11,3 @@ tailscale_search_domains:
 
 tailscale_advertise_routes:
   - 192.168.239.0/24
-tailscale_snat_subnet_routes: false
