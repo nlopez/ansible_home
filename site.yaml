@@ -13,6 +13,7 @@
 - name: Configure Kubernetes hosts
   hosts: kubernetes
   roles:
+    - resolved
     - iscsi
     - nfs
     - containerd

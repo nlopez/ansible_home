@@ -1,0 +1,45 @@
+---
+- name: Create resolved.conf.d
+  ansible.builtin.file:
+    dest: /etc/systemd/resolved.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Set global DNS servers
+  ansible.builtin.copy:
+    dest: /etc/systemd/resolved.conf.d/10-dns.conf
+    content: |
+      [Resolve]
+      DNS={{ resolved_dns_servers | join(' ') }}
+      Domains=~.
+    owner: root
+    group: root
+    mode: "0644"
+  when: resolved_dns_servers | length > 0
+  notify: Restart systemd-resolved
+
+- name: Create networkd drop-in directories
+  ansible.builtin.file:
+    dest: "/etc/systemd/network/10-netplan-{{ item }}.network.d"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop: "{{ resolved_ignore_link_dns }}"
+
+- name: Drop per-link DNS servers
+  ansible.builtin.copy:
+    dest: "/etc/systemd/network/10-netplan-{{ item }}.network.d/10-no-link-dns.conf"
+    content: |
+      [Network]
+      DNS=
+
+      [IPv6AcceptRA]
+      UseDNS=no
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ resolved_ignore_link_dns }}"
+  notify: Reload networkd

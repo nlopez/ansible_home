@@ -1,0 +1,5 @@
+---
+resolved_dns_servers: []
+# Netplan-rendered links whose own DNS servers (static and RA) are dropped so
+# that only resolved_dns_servers are used.
+resolved_ignore_link_dns: []

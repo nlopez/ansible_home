@@ -1,0 +1,9 @@
+---
+- name: Restart systemd-resolved
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: restarted
+
+- name: Reload networkd
+  ansible.builtin.command: networkctl reload
+  changed_when: true
