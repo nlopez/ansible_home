@@ -10,6 +10,6 @@ tailscale_advertise_routes:
   - 192.168.222.0/24
   - 192.168.223.0/24
 tailscale_snat_subnet_routes: false
-# gw-lga1 advertises the same routes; accepting them here would send this
-# router's own subnet traffic out over the tailnet.
+# Accepting routes would send this router's own subnet traffic out over the
+# tailnet whenever another node advertises the same subnets.
 tailscale_accept_routes: false
