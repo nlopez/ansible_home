@@ -58,3 +58,29 @@
   when:
     - not tailscale_accept_dns
     - tailscale_nameservers | length > 0
+
+- name: Enable IP forwarding for subnet routing
+  ansible.posix.sysctl:
+    name: "{{ item }}"
+    value: "1"
+    sysctl_file: /etc/sysctl.d/99-tailscale-subnet-router.conf
+    reload: true
+  loop:
+    - net.ipv4.ip_forward
+    - net.ipv6.conf.all.forwarding
+  when: tailscale_advertise_routes | length > 0
+
+- name: Configure Tailscale subnet routing
+  ansible.builtin.command: >-
+    tailscale set
+    --advertise-routes={{ tailscale_advertise_routes | join(',') }}
+    --snat-subnet-routes={{ tailscale_snat_subnet_routes | lower }}
+    --accept-routes={{ tailscale_accept_routes | lower }}
+  changed_when: true
+  when: >-
+    ((tailscale_prefs.stdout | from_json).AdvertiseRoutes | default([], true) | sort)
+    != (tailscale_advertise_routes | sort)
+    or (not (tailscale_prefs.stdout | from_json).NoSNAT | default(false))
+    != tailscale_snat_subnet_routes
+    or (tailscale_prefs.stdout | from_json).RouteAll | default(false)
+    != tailscale_accept_routes

@@ -6,3 +6,9 @@ tailscale_accept_dns: true
 # Written to /etc/resolv.conf when tailscale_accept_dns is false.
 tailscale_nameservers: []
 tailscale_search_domains: []
+# Subnets this host advertises to the tailnet. Empty means not a subnet router.
+tailscale_advertise_routes: []
+# When false, forwarded traffic keeps its tailnet source address. The next hop
+# on each advertised subnet must then route 100.64.0.0/10 back to this host.
+tailscale_snat_subnet_routes: true
+tailscale_accept_routes: true

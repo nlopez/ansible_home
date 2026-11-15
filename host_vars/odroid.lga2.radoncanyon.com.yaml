@@ -8,3 +8,6 @@ technitium_proxy_hostname: dns.lga2.radoncanyon.com
 
 tailscale_search_domains:
   - lga2.radoncanyon.com
+
+tailscale_advertise_routes:
+  - 192.168.239.0/24
