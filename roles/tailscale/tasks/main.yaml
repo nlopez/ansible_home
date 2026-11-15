@@ -84,3 +84,28 @@
     != tailscale_snat_subnet_routes
     or (tailscale_prefs.stdout | from_json).RouteAll | default(false)
     != tailscale_accept_routes
+
+- name: Install iptables for MSS clamping
+  ansible.builtin.package:
+    name: iptables
+    state: present
+  when: tailscale_advertise_routes | length > 0
+
+- name: Install MSS clamp unit for forwarded tailnet traffic
+  ansible.builtin.template:
+    src: tailscale-mss-clamp.service.j2
+    dest: /etc/systemd/system/tailscale-mss-clamp.service
+    owner: root
+    group: root
+    mode: "0644"
+  when: tailscale_advertise_routes | length > 0
+
+- name: Enable and start MSS clamp unit
+  ansible.builtin.systemd_service:
+    name: tailscale-mss-clamp.service
+    enabled: true
+    state: started
+    daemon_reload: true
+  when: tailscale_advertise_routes | length > 0
+  # The unit file doesn't exist yet when this runs in check mode on a new host
+  ignore_errors: "{{ ansible_check_mode }}"

@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Clamp TCP MSS on tailscale0 for forwarded traffic
+After=tailscaled.service
+Wants=tailscaled.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c 'for dir in -i -o; do iptables -t mangle -C FORWARD $dir tailscale0 -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu 2>/dev/null || iptables -t mangle -A FORWARD $dir tailscale0 -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu; done'
+ExecStop=/bin/sh -c 'for dir in -i -o; do iptables -t mangle -D FORWARD $dir tailscale0 -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu 2>/dev/null || true; done'
+
+[Install]
+WantedBy=multi-user.target
