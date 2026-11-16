@@ -47,10 +47,11 @@
     state: present
   register: kubernetes_apt_repo
 
+# Must run before the package installs below, so it cannot be a handler.
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true
-  when: kubernetes_apt_repo is changed
+  when: kubernetes_apt_repo is changed # noqa: no-handler
 
 - name: Pin versions on Kubernetes packages
   ansible.builtin.template:
