@@ -68,6 +68,8 @@ common_net_sysctls:
   net.ipv6.conf.default.accept_source_route: 0
   # Log packets with impossible addresses for security
   net.ipv4.conf.all.log_martians: 1
+  # SYN flood protection; set explicitly so a stale override cannot leave it off
+  net.ipv4.tcp_syncookies: 1
   # Drop RST packets for sockets in TIME_WAIT (RFC 1337)
   net.ipv4.tcp_rfc1337: 1
   # Kernel info-leak and attack-surface hardening
