@@ -4,6 +4,14 @@
     name: haproxy
     state: present
 
+- name: Gather network facts from every control-plane node
+  ansible.builtin.setup:
+    gather_subset: network
+  delegate_to: "{{ item }}"
+  delegate_facts: true
+  loop: "{{ groups['kubernetes'] }}"
+  run_once: true
+
 - name: Configure haproxy
   ansible.builtin.template:
     src: haproxy.cfg.j2
