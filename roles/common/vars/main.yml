@@ -36,8 +36,6 @@ common_net_sysctls:
   # Don't set tcp_mem itself! Let the kernel scale it based on RAM.
   net.core.rmem_max: 16777216
   net.core.wmem_max: 16777216
-  net.core.rmem_default: 16777216
-  net.core.wmem_default: 16777216
   net.core.optmem_max: 40960
   # cloudflare uses this for balancing latency and throughput
   # https://blog.cloudflare.com/the-story-of-one-latency-spike/
@@ -45,8 +43,7 @@ common_net_sysctls:
   net.ipv4.tcp_rmem: 8192 262144 16777216
   net.ipv4.tcp_wmem: 4096 16384 16777216
   # Also increase the max packet backlog
-  net.core.netdev_max_backlog: 100000
-  net.core.netdev_budget: 50000
+  net.core.netdev_max_backlog: 10000
   # Make room for more TIME_WAIT sockets due to more clients,
   # and allow them to be reused if we run out of sockets
   net.ipv4.tcp_max_syn_backlog: 30000
@@ -60,17 +57,27 @@ common_net_sysctls:
   net.ipv4.udp_wmem_min: 8192
   # Disable source routing and redirects
   net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.conf.default.send_redirects: 0
   net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.default.accept_redirects: 0
   net.ipv4.conf.all.accept_source_route: 0
+  net.ipv4.conf.default.accept_source_route: 0
+  net.ipv6.conf.all.accept_redirects: 0
+  net.ipv6.conf.default.accept_redirects: 0
+  net.ipv6.conf.all.accept_source_route: 0
+  net.ipv6.conf.default.accept_source_route: 0
   # Log packets with impossible addresses for security
   net.ipv4.conf.all.log_martians: 1
-  # Actual fix for high softirq in 4.13
-  net.core.netdev_budget_usecs: 8000
+  # Drop RST packets for sockets in TIME_WAIT (RFC 1337)
+  net.ipv4.tcp_rfc1337: 1
+  # Kernel info-leak and attack-surface hardening
+  kernel.kptr_restrict: 2
+  kernel.dmesg_restrict: 1
+  kernel.unprivileged_bpf_disabled: 1
   # https://blog.cloudflare.com/http-2-prioritization-with-nginx/
   net.core.default_qdisc: fq
   net.ipv4.tcp_congestion_control: bbr
   net.ipv4.tcp_notsent_lowat: 16384
-  net.ipv4.tcp_adv_win_scale: -2
   # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=19f92a030ca6d772ab44b22ee6a01378a8cb32d4
   net.core.somaxconn: 4096
   fs.file-max: 1048576
