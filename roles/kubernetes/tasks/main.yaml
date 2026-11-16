@@ -8,6 +8,12 @@
     mode: '0644'
   notify: Reload sysctl
 
+- name: Remove stale Docker-era sysctl file
+  ansible.builtin.file:
+    path: /etc/sysctl.d/60-docker.conf
+    state: absent
+  notify: Reload sysctl
+
 - name: Configure Cilium sysctl overrides
   ansible.builtin.copy:
     content: |
