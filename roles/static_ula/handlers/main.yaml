@@ -1,0 +1,5 @@
+---
+- name: Reactivate static_ula connection
+  ansible.builtin.command:
+    argv: [nmcli, device, reapply, "{{ static_ula_interface }}"]
+  changed_when: true

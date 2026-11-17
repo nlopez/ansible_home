@@ -2,3 +2,8 @@
 static_ula_addresses: []
 static_ula_interface: end0
 static_ula_connection: Wired connection 1
+# EUI-64 SLAAC without temporary addresses keeps the global IPv6 source
+# address derived from the MAC, so gateways can match it with a
+# dynamic IPv6 host alias across prefix changes.
+static_ula_addr_gen_mode6: eui64
+static_ula_ip_privacy6: disabled

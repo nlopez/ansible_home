@@ -1,5 +1,5 @@
 ---
-- name: Add static IPv6 addresses to the NetworkManager connection
+- name: Configure IPv6 on the NetworkManager connection
   community.general.nmcli:
     conn_name: "{{ static_ula_connection }}"
     ifname: "{{ static_ula_interface }}"
@@ -7,4 +7,7 @@
     state: present
     ip6: "{{ static_ula_addresses }}"
     method6: auto
+    addr_gen_mode6: "{{ static_ula_addr_gen_mode6 }}"
+    ip_privacy6: "{{ static_ula_ip_privacy6 }}"
   when: static_ula_addresses | length > 0
+  notify: Reactivate static_ula connection
