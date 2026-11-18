@@ -6,3 +6,63 @@ tailscale_nameservers:
   - 2606:4700:4700::1111
 technitium_proxy_acme_email: letsencrypt@aethertrail.com
 technitium_proxy_upstream: "http://unix:{{ technitium_web_socket }}:"
+
+# Datadog Agent (datadog.dd.agent). The odroids collect for their site,
+# including the gateway's syslog and NetFlow.
+# API key read from 1Password on the controller so it never lands in the repo.
+datadog_api_key: >-
+  {{ lookup('ansible.builtin.pipe',
+  'op read op://Automation/datadog-api-key/credential --account my.1password.com') }}
+datadog_site: datadoghq.com
+# Read access to the journal for the journald log check.
+datadog_additional_groups: systemd-journal
+# The listener ports below (syslog 5514, NetFlow 2055) are above 1024, so the
+# agent needs no extra capabilities to bind them.
+datadog_config:
+  logs_enabled: true
+  logs_config:
+    use_sourcehost_tag: true
+  # Keep the footprint small on a 2G board.
+  apm_config:
+    enabled: false
+  process_config:
+    enabled: "disabled"
+  network_devices:
+    netflow:
+      enabled: true
+      listeners:
+        - flow_type: netflow9
+          port: 2055
+datadog_checks:
+  journald:
+    logs:
+      - type: journald
+  syslog:
+    logs:
+      - type: udp
+        port: 5514
+        source: syslog
+        service: gateway
+  tcp_check:
+    init_config:
+    instances:
+      - name: gateway ssh
+        host: "{{ datadog_gateway_address }}"
+        port: 22
+        collect_response_time: true
+        tags:
+          - "target:gateway"
+      - name: internet https
+        host: 1.1.1.1
+        port: 443
+        collect_response_time: true
+        tags:
+          - "target:internet"
+  dns_check:
+    init_config:
+    instances:
+      - name: technitium
+        hostname: example.com
+        nameserver: 127.0.0.1
+        tags:
+          - "target:technitium"

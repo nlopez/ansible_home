@@ -8,6 +8,9 @@ technitium_user: dns-server
 technitium_install_dir: /opt/technitium/dns
 technitium_config_dir: /etc/dns
 technitium_log_dir: /var/log/technitium/dns
+# /var/log is a small zram disk on Armbian. A busy day of logs runs about 17M,
+# so keep only a few days.
+technitium_log_max_days: 3
 
 # The web console is served on a unix socket under systemd's RuntimeDirectory
 # and made reachable to the reverse proxy's group.

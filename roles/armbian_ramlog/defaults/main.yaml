@@ -1,0 +1,9 @@
+---
+# Size of the zram disk Armbian mounts on /var/log. The 50M default filled up
+# and broke the boot-time sync of logs from /var/log.hdd. zram stores logs
+# compressed, so most of this is never backed by RAM.
+armbian_ramlog_size: 192M
+# sysstat ships disabled on Armbian, so its cleanup never runs. Its leftover
+# data had filled most of the 50M zram disk. Datadog now collects the same
+# metrics.
+armbian_ramlog_purge_sysstat: true

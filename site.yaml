@@ -26,8 +26,11 @@
 - name: Configure infra hosts
   hosts: infra
   roles:
+    - armbian_ramlog
     - tailscale
     - static_ula
     - pihole
     - technitium
     - technitium_proxy
+    - role: datadog.dd.agent
+      tags: datadog

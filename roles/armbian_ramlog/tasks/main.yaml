@@ -1,0 +1,30 @@
+---
+- name: Check for armbian-ramlog
+  ansible.builtin.stat:
+    path: /etc/default/armbian-ramlog
+  register: armbian_ramlog_defaults
+
+- name: Size the /var/log zram disk
+  ansible.builtin.lineinfile:
+    path: /etc/default/armbian-ramlog
+    regexp: "^SIZE="
+    line: "SIZE={{ armbian_ramlog_size }}"
+  when: armbian_ramlog_defaults.stat.exists
+  # The zram disk is sized when it is created at boot, so the new size takes
+  # effect on the next reboot.
+
+- name: Purge sysstat
+  ansible.builtin.apt:
+    name: sysstat
+    state: absent
+    purge: true
+  when: armbian_ramlog_purge_sysstat
+
+- name: Remove leftover sysstat data
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/log/sysstat
+    - /var/log.hdd/sysstat
+  when: armbian_ramlog_purge_sysstat

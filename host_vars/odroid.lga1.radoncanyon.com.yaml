@@ -16,3 +16,5 @@ tailscale_advertise_routes:
   - 192.168.223.0/24
   - fd7a:115c:a1e0:b1a:0:1:a2b:4000/120
 tailscale_snat_subnet_routes: false
+
+datadog_gateway_address: 192.168.222.1

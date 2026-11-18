@@ -140,6 +140,24 @@
     fail_msg: "Technitium API rejected the token: {{ technitium_settings.json.status }}"
   no_log: true
 
+- name: Configure the log folder and retention
+  ansible.builtin.uri:
+    url: "{{ technitium_api_url }}/api/settings/set"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      token: "{{ technitium_api_token }}"
+      logFolder: "{{ technitium_log_dir }}"
+      maxLogFileDays: "{{ technitium_log_max_days }}"
+    return_content: true
+  register: technitium_set_logging
+  failed_when: technitium_set_logging.json.status | default('') != 'ok'
+  changed_when: true
+  when: >-
+    technitium_settings.json.response.logFolder | default('') != technitium_log_dir
+    or (technitium_settings.json.response.maxLogFileDays | default(0) | int) != (technitium_log_max_days | int)
+  no_log: true
+
 - name: Configure the web service socket and listen addresses
   ansible.builtin.uri:
     url: "{{ technitium_api_url }}/api/settings/set"
