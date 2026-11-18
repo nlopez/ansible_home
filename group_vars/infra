@@ -12,7 +12,7 @@ technitium_proxy_upstream: "http://unix:{{ technitium_web_socket }}:"
 # API key read from 1Password on the controller so it never lands in the repo.
 datadog_api_key: >-
   {{ lookup('ansible.builtin.pipe',
-  'op read op://Automation/datadog-api-key/credential --account my.1password.com') }}
+  'op read op://evjh25ux2mnoufaut6qhvm2pdi/mpxer65frsgr6ugf7o7ebgas24/credential --account my.1password.com') }}
 datadog_site: datadoghq.com
 # Read access to the journal for the journald log check.
 datadog_additional_groups: systemd-journal
