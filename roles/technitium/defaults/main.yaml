@@ -24,7 +24,7 @@ technitium_web_local_addresses:
 technitium_api_url: http://127.0.0.1:5380
 
 # API token with settings access, read from 1Password on the controller.
-technitium_api_token_item: "technitium-api-token-{{ inventory_hostname }}"
+# technitium_api_token_item_id is the per-host 1Password item UUID.
 technitium_api_token: >-
   {{ lookup('ansible.builtin.pipe',
-  'op read op://Automation/' ~ technitium_api_token_item ~ '/credential --account my.1password.com') }}
+  'op read op://evjh25ux2mnoufaut6qhvm2pdi/' ~ technitium_api_token_item_id ~ '/credential --account my.1password.com') }}

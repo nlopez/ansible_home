@@ -21,7 +21,7 @@ technitium_proxy_renew_schedule: "*-*-* 00/6:00:00"
 # 1Password on the controller so it never lands in the repo.
 technitium_proxy_cloudflare_token: >-
   {{ lookup('ansible.builtin.pipe',
-  'op read op://Automation/lego-cloudflare-dns-token/credential --account my.1password.com') }}
+  'op read op://evjh25ux2mnoufaut6qhvm2pdi/hhavah2oykbdagc7krfb3kjdsq/credential --account my.1password.com') }}
 
 technitium_proxy_lego_version: 5.6.0
 technitium_proxy_lego_checksum: sha256:34d87a6552d69390c4a4560237045c47713a8e148d899e16db0e97040894ed1f

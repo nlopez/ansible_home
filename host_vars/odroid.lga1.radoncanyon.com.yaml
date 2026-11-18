@@ -4,6 +4,7 @@ static_ula_interface: end0
 static_ula_addresses:
   - fd54:571b:560a:2::2/64
 
+technitium_api_token_item_id: hdiuh6avqno64itbsu2h5nea2a
 technitium_proxy_hostname: dns.lga1.radoncanyon.com
 
 tailscale_search_domains:
