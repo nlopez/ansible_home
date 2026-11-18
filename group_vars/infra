@@ -19,6 +19,9 @@ datadog_additional_groups: systemd-journal
 # The listener ports below (syslog 5514, NetFlow 2055) are above 1024, so the
 # agent needs no extra capabilities to bind them.
 datadog_config:
+  # The odroids share the short hostname "odroid", so the agent's default
+  # hostname would merge them into a single Datadog host.
+  hostname: "{{ inventory_hostname }}"
   logs_enabled: true
   logs_config:
     use_sourcehost_tag: true
