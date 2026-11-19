@@ -22,6 +22,9 @@ datadog_config:
   # The odroids share the short hostname "odroid", so the agent's default
   # hostname would merge them into a single Datadog host.
   hostname: "{{ inventory_hostname }}"
+  # Same site name as the NetFlow namespace below.
+  tags:
+    - "site:{{ inventory_hostname.split('.')[1] }}"
   logs_enabled: true
   logs_config:
     use_sourcehost_tag: true
