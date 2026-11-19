@@ -29,13 +29,24 @@ datadog_config:
   apm_config:
     enabled: false
   process_config:
-    enabled: "disabled"
+    process_collection:
+      enabled: true
+  # Cloud Security misconfigurations (CIS host benchmarks). The security agent
+  # reads the same block from security-agent.yaml (compliance_config below).
+  compliance_config:
+    enabled: true
+    host_benchmarks:
+      enabled: true
   network_devices:
     netflow:
       enabled: true
       listeners:
         - flow_type: netflow9
           port: 2055
+compliance_config:
+  enabled: true
+  host_benchmarks:
+    enabled: true
 datadog_checks:
   journald:
     logs:
