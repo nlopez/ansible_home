@@ -182,3 +182,36 @@
   ansible.builtin.wait_for:
     path: "{{ technitium_web_socket }}"
     timeout: 30
+
+- name: List the DNS zones
+  ansible.builtin.uri:
+    url: "{{ technitium_api_url }}/api/zones/list"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      token: "{{ technitium_api_token }}"
+    return_content: true
+  register: technitium_zones
+  changed_when: false
+  check_mode: false
+  no_log: true
+
+- name: Create the conditional forwarder zones
+  ansible.builtin.uri:
+    url: "{{ technitium_api_url }}/api/zones/create"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      token: "{{ technitium_api_token }}"
+      zone: "{{ item.zone }}"
+      type: Forwarder
+      forwarder: "{{ item.forwarder }}"
+      protocol: Udp
+      dnssecValidation: "false"
+    return_content: true
+  register: technitium_forwarder_zone
+  failed_when: technitium_forwarder_zone.json.status | default('') != 'ok'
+  changed_when: true
+  loop: "{{ technitium_forwarders }}"
+  when: item.zone not in (technitium_zones.json.response.zones | map(attribute='name') | list)
+  no_log: true

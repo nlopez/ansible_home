@@ -28,3 +28,8 @@ technitium_api_url: http://127.0.0.1:5380
 technitium_api_token: >-
   {{ lookup('ansible.builtin.pipe',
   'op read op://evjh25ux2mnoufaut6qhvm2pdi/' ~ technitium_api_token_item_id ~ '/credential --account my.1password.com') }}
+
+# Zones answered by forwarding to another DNS server, for example reverse zones
+# served from a gateway's DHCP lease names. Each item has a zone and a
+# forwarder (address[:port]).
+technitium_forwarders: []
