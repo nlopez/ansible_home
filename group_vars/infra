@@ -1,7 +1,9 @@
 ---
 tailscale_accept_dns: false
+# The site gateway's Unbound resolves the internal zones; Cloudflare covers
+# public names if the gateway is unreachable.
 tailscale_nameservers:
-  - 127.0.0.1
+  - "{{ datadog_gateway_address }}"
   - 1.1.1.1
   - 2606:4700:4700::1111
 technitium_proxy_acme_email: letsencrypt@aethertrail.com
