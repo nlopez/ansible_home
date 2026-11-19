@@ -38,8 +38,13 @@ datadog_config:
     host_benchmarks:
       enabled: true
   network_devices:
+    # Site name (lga1, lga2) from the FQDN, so flows from sites that reuse
+    # private ranges are not merged.
+    namespace: "{{ inventory_hostname.split('.')[1] }}"
     netflow:
       enabled: true
+      # Resolve private IPs to names through the local Technitium server.
+      reverse_dns_enrichment_enabled: true
       listeners:
         - flow_type: netflow9
           port: 2055
