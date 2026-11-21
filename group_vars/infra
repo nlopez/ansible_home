@@ -74,6 +74,7 @@ datadog_checks:
         service: gateway
   snmp:
     init_config:
+      use_remote_config_profiles: true
     instances:
       - ip_address: "{{ datadog_gateway_address }}"
         snmp_version: 2
@@ -82,6 +83,7 @@ datadog_checks:
           'op read op://evjh25ux2mnoufaut6qhvm2pdi/' ~ snmp_community_item_id ~ '/credential --account my.1password.com') }}
         tags:
           - "target:gateway"
+          - "geolocation:{{ inventory_hostname.split('.')[1] }}"
   tcp_check:
     init_config:
     instances:
