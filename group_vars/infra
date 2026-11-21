@@ -77,10 +77,16 @@ datadog_checks:
       use_remote_config_profiles: true
     instances:
       - ip_address: "{{ datadog_gateway_address }}"
-        snmp_version: 2
-        community_string: >-
+        snmp_version: 3
+        user: datadog
+        authProtocol: SHA
+        authKey: >-
           {{ lookup('ansible.builtin.pipe',
-          'op read op://evjh25ux2mnoufaut6qhvm2pdi/' ~ snmp_community_item_id ~ '/credential --account my.1password.com') }}
+          'op read op://evjh25ux2mnoufaut6qhvm2pdi/' ~ snmp_v3_item_id ~ '/password --account my.1password.com') }}
+        privProtocol: AES
+        privKey: >-
+          {{ lookup('ansible.builtin.pipe',
+          'op read op://evjh25ux2mnoufaut6qhvm2pdi/' ~ snmp_v3_item_id ~ '/privkey --account my.1password.com') }}
         tags:
           - "target:gateway"
           - "geolocation:{{ inventory_hostname.split('.')[1] }}"
