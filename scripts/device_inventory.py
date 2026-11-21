@@ -14,19 +14,16 @@ Uploading an enrichment CSV replaces the previous one, so always upload the
 full file. The OPNsense API credentials come from 1Password via `op`.
 """
 import argparse
-import base64
 import csv
 import json
-import ssl
 import subprocess
-import urllib.request
 from pathlib import Path
 
 VAULT = "evjh25ux2mnoufaut6qhvm2pdi"
 ACCOUNT = "my.1password.com"
 SITES = {
-    "lga1": {"gateway": "192.168.222.1", "api_item": "bf3fyn3ojaajnozdbobkhtboli"},
-    "lga2": {"gateway": "192.168.239.254", "api_item": "whuw4bp5c3lbzv2hmq4nja7qvq"},
+    "lga1": {"gateway": "gw.lga1.radoncanyon.com", "api_item": "bf3fyn3ojaajnozdbobkhtboli"},
+    "lga2": {"gateway": "gw.lga2.radoncanyon.com", "api_item": "whuw4bp5c3lbzv2hmq4nja7qvq"},
 }
 OUI_URL = "https://standards-oui.ieee.org/oui/oui.csv"
 OUI_CACHE = Path.home() / ".cache" / "ieee-oui.csv"
@@ -40,18 +37,17 @@ def op(field, item):
 
 def api(site, path):
     cfg = SITES[site]
-    auth = base64.b64encode(f"{op('key', cfg['api_item'])}:{op('credential', cfg['api_item'])}".encode()).decode()
-    req = urllib.request.Request(f"https://{cfg['gateway']}{path}", headers={"Authorization": f"Basic {auth}"})
-    ctx = ssl.create_default_context()
-    ctx.check_hostname, ctx.verify_mode = False, ssl.CERT_NONE  # the gateways use self-signed certificates
-    with urllib.request.urlopen(req, timeout=30, context=ctx) as r:
-        return json.load(r)["rows"]
+    creds = f"{op('key', cfg['api_item'])}:{op('credential', cfg['api_item'])}"
+    # curl verifies against the system trust store, which uv's bundled Python lacks.
+    # The credentials go in on stdin to keep them out of the process list.
+    out = subprocess.run(["curl", "-fsS", "--max-time", "30", "--config", "-", f"https://{cfg['gateway']}{path}"],
+                         input=f'user = "{creds}"\n', check=True, capture_output=True, text=True).stdout
+    return json.loads(out)["rows"]
 
 
 def load_oui():
     if not OUI_CACHE.exists():
         OUI_CACHE.parent.mkdir(parents=True, exist_ok=True)
-        # curl uses the system trust store, which uv's bundled Python lacks.
         subprocess.run(["curl", "-fsSL", "-o", OUI_CACHE, OUI_URL], check=True)
     with open(OUI_CACHE, encoding="utf-8") as f:
         return {r["Assignment"].upper(): r["Organization Name"] for r in csv.DictReader(f)}
