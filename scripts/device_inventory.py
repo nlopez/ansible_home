@@ -1,6 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.11"
+# dependencies = ["requests>=2.32"]
 # ///
 """Inventory the devices on both sites and write two CSVs.
 
@@ -15,9 +16,10 @@ full file. The OPNsense API credentials come from 1Password via `op`.
 """
 import argparse
 import csv
-import json
 import subprocess
 from pathlib import Path
+
+import requests
 
 VAULT = "evjh25ux2mnoufaut6qhvm2pdi"
 ACCOUNT = "my.1password.com"
@@ -37,18 +39,19 @@ def op(field, item):
 
 def api(site, path):
     cfg = SITES[site]
-    creds = f"{op('key', cfg['api_item'])}:{op('credential', cfg['api_item'])}"
-    # curl verifies against the system trust store, which uv's bundled Python lacks.
-    # The credentials go in on stdin to keep them out of the process list.
-    out = subprocess.run(["curl", "-fsS", "--max-time", "30", "--config", "-", f"https://{cfg['gateway']}{path}"],
-                         input=f'user = "{creds}"\n', check=True, capture_output=True, text=True).stdout
-    return json.loads(out)["rows"]
+    auth = (op("key", cfg["api_item"]), op("credential", cfg["api_item"]))
+    r = requests.get(f"https://{cfg['gateway']}{path}", auth=auth, timeout=30)
+    r.raise_for_status()
+    return r.json()["rows"]
 
 
 def load_oui():
     if not OUI_CACHE.exists():
         OUI_CACHE.parent.mkdir(parents=True, exist_ok=True)
-        subprocess.run(["curl", "-fsSL", "-o", OUI_CACHE, OUI_URL], check=True)
+        # The IEEE site answers 418 to some user agents.
+        r = requests.get(OUI_URL, headers={"User-Agent": "device-inventory/1.0"}, timeout=60)
+        r.raise_for_status()
+        OUI_CACHE.write_bytes(r.content)
     with open(OUI_CACHE, encoding="utf-8") as f:
         return {r["Assignment"].upper(): r["Organization Name"] for r in csv.DictReader(f)}
 
