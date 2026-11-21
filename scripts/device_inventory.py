@@ -16,6 +16,7 @@ full file. The OPNsense API credentials come from 1Password via `op`.
 """
 import argparse
 import csv
+import re
 import socket
 import subprocess
 from pathlib import Path
@@ -77,6 +78,15 @@ def vendor(mac, oui):
     return oui.get(mac.replace(":", "")[:6].upper(), "(unknown OUI)")
 
 
+LEGAL_SUFFIXES = {"inc", "ltd", "llc", "co", "corp", "corporation", "company", "limited", "gmbh", "sa", "ag", "bv", "plc", "dba"}
+
+
+def vendor_tag(name):
+    """A Datadog-safe tag value: lowercase words joined by underscores, legal suffixes dropped."""
+    words = [w for w in re.findall(r"[a-z0-9]+", name.lower()) if w not in LEGAL_SUFFIXES]
+    return "_".join(words)[:40]
+
+
 def collect(site, oui):
     gw = socket.gethostbyname(SITES[site]["gateway"])
     leases = {l["address"]: l for l in api(site, "/api/dnsmasq/leases/search")}
@@ -112,6 +122,10 @@ def main():
         w.writerow(["ip", "tags"])
         for r in rows:
             tags = [f"site:{r['site']}"]
+            if r["vendor"] == "(private MAC)":
+                tags.append("mac_type:private")
+            elif r["vendor"] != "(unknown OUI)":
+                tags.append(f"vendor:{vendor_tag(r['vendor'])}")
             if r["name"]:
                 tags.append(f"hostname:{r['name']}")
             if r["network"] != "lease only":
