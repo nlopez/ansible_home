@@ -72,6 +72,16 @@ datadog_checks:
         port: 5514
         source: syslog
         service: gateway
+  snmp:
+    init_config:
+    instances:
+      - ip_address: "{{ datadog_gateway_address }}"
+        snmp_version: 2
+        community_string: >-
+          {{ lookup('ansible.builtin.pipe',
+          'op read op://evjh25ux2mnoufaut6qhvm2pdi/' ~ snmp_community_item_id ~ '/credential --account my.1password.com') }}
+        tags:
+          - "target:gateway"
   tcp_check:
     init_config:
     instances:

@@ -14,6 +14,7 @@ tailscale_advertise_routes:
   - 192.168.239.0/24
 tailscale_snat_subnet_routes: false
 
+snmp_community_item_id: jvktnc3ncnwckkvv4lyeeso4ku
 datadog_gateway_address: 192.168.239.254
 
 # Reverse lookups for local addresses come from the gateway's dnsmasq
