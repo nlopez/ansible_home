@@ -1,0 +1,15 @@
+[Unit]
+Description=Relay NetFlow v9 to the Datadog agent with OUT_* counters hidden
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/bin/netflow9_fixup.py {{ netflow9_fixup_listen_port }} {{ netflow9_fixup_forward_address }} {{ netflow9_fixup_forward_port }}
+DynamicUser=yes
+AmbientCapabilities=CAP_NET_RAW
+CapabilityBoundingSet=CAP_NET_RAW
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

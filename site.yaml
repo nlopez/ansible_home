@@ -36,5 +36,7 @@
     - technitium_proxy
     - role: unattended_upgrades
       tags: unattended_upgrades
+    - role: netflow9_fixup
+      tags: datadog
     - role: datadog.dd.agent
       tags: datadog

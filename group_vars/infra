@@ -52,7 +52,7 @@ datadog_config:
       reverse_dns_enrichment_enabled: true
       listeners:
         - flow_type: netflow9
-          port: 2055
+          port: 2057
 # The role only writes security-agent.yaml (which starts the security agent)
 # when runtime_security_config is non-empty, so set it explicitly. Runtime
 # threat detection stays off: it needs system-probe.

@@ -1,0 +1,5 @@
+---
+netflow9_fixup_listen_port: 2055
+# The agent's netflow9 listener port (see group_vars/infra).
+netflow9_fixup_forward_port: 2057
+netflow9_fixup_forward_address: "{{ ansible_facts['default_ipv4']['address'] }}"
