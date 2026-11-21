@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["requests>=2.32"]
+# dependencies = ["dnspython>=2.7", "requests>=2.32"]
 # ///
 """Inventory the devices on both sites and write two CSVs.
 
@@ -16,9 +16,13 @@ full file. The OPNsense API credentials come from 1Password via `op`.
 """
 import argparse
 import csv
+import socket
 import subprocess
 from pathlib import Path
 
+import dns.exception
+import dns.resolver
+import dns.reversename
 import requests
 
 VAULT = "evjh25ux2mnoufaut6qhvm2pdi"
@@ -56,10 +60,15 @@ def load_oui():
         return {r["Assignment"].upper(): r["Organization Name"] for r in csv.DictReader(f)}
 
 
-def ptr(ip, gateway):
-    out = subprocess.run(["dig", "+short", "+time=2", "+tries=1", "-x", ip, f"@{gateway}"],
-                         capture_output=True, text=True).stdout.split()
-    return out[0].rstrip(".").split(".")[0] if out else ""
+def ptr(ip, nameserver):
+    resolver = dns.resolver.Resolver(configure=False)
+    resolver.nameservers = [nameserver]
+    resolver.lifetime = 2
+    try:
+        answer = resolver.resolve(dns.reversename.from_address(ip), "PTR")
+    except dns.exception.DNSException:
+        return ""
+    return str(answer[0]).rstrip(".").split(".")[0]
 
 
 def vendor(mac, oui):
@@ -69,7 +78,7 @@ def vendor(mac, oui):
 
 
 def collect(site, oui):
-    gw = SITES[site]["gateway"]
+    gw = socket.gethostbyname(SITES[site]["gateway"])
     leases = {l["address"]: l for l in api(site, "/api/dnsmasq/leases/search")}
     reserved = {h["hwaddr"].lower(): h["host"] for h in api(site, "/api/dnsmasq/settings/search_host") if h["hwaddr"]}
     devices = {}
